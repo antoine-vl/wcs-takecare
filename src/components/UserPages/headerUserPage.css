@@ -1,0 +1,24 @@
+table {
+    border: medium solid #6495ed;
+    border-collapse: collapse;
+    width: 70vw;
+    }
+    th {
+    font-family: monospace;
+    border: thin solid #6495ed;
+    width: 50vw;
+    padding: 5px;
+    background-color: #D0E3FA;
+    /* background-image: url(sky.jpg); */
+    }
+    td {
+    font-family: sans-serif;
+    border: thin solid #6495ed;
+    width: 3vw;
+    padding: 5px;
+    text-align: center;
+    background-color: #ffffff;
+    }
+    caption {
+    font-family: sans-serif;
+    }

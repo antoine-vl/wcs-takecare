@@ -1,0 +1,11 @@
+form{
+    display: flex;
+    flex-direction: column;
+
+    border: solid black 1px;
+    border-radius: 15px;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-left:10px;
+}
