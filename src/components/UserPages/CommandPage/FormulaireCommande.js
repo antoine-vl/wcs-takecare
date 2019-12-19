@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import PermanentDrawerLeft from '../PermanentDrawerLeft';
 
 
 export class FormulaireCommande extends Component {
@@ -8,7 +9,7 @@ export class FormulaireCommande extends Component {
 
         this.state = {
             name: '',
-            surName: '',
+            surname: '',
             email: '',
             gsm: '',
             rue : '',
@@ -55,183 +56,194 @@ export class FormulaireCommande extends Component {
     render(){
         // const {commandes} = this.state
         return(
-            <div>
+            <>
+            < PermanentDrawerLeft />
+            <div className="headerForm">
                 <form onSubmit={this.handleSubmit}>
-                    <label>Nom</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="name"
-                    value={this.state.name}
-                    ></input>
+                    <fieldset className="formInfoClient">
+                        <legend>Information client</legend>
+                        <div><label>Nom
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="name"
+                        value={this.state.name}
+                        ></input></label></div>
 
-                    <label>Prénom</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="surName"
-                    value={this.state.surName}
-                    ></input>
+                        <div><label>Prénom
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="surname"
+                        value={this.state.surname}
+                        ></input></label></div>
 
-                    <label>Mail</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="email"
-                    value={this.state.email}
-                    ></input>
+                        <div><label>Mail
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="email"
+                        value={this.state.email}
+                        ></input></label></div>
 
-                    <label>GSM</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="gsm"
-                    value={this.state.gsm}
-                    ></input>
+                        <div><label>GSM
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="gsm"
+                        value={this.state.gsm}
+                        ></input></label></div>
 
-                    <label>Rue</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="rue"
-                    value={this.state.rue}
-                    ></input>
+                        <div><label>Rue
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="rue"
+                        value={this.state.rue}
+                        ></input></label></div>
 
-                    <label>Numéros</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="numero"
-                    value={this.state.numero}
-                    ></input>
+                        <div><label>Numéros
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="numero"
+                        value={this.state.numero}
+                        ></input></label></div>
 
-                    <label>Code postal</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="codePostal"
-                    value={this.state.codePostal}
-                    ></input>
+                        <div><label>Code postal
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="codePostal"
+                        value={this.state.codePostal}
+                        ></input></label></div>
 
-                    <label>Ville</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="ville"
-                    value={this.state.ville}
-                    ></input>
+                        <div><label>Ville
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="ville"
+                        value={this.state.ville}
+                        ></input></label></div>
+                    </fieldset>
+                    <fieldset className="formMedicament">
+                        <legend>Médicament</legend>
+                        <div><label>Nom du mécidament
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="nameMedicament"
+                        value={this.state.nameMedicament}
+                        ></input></label></div>
 
-                    <label>Nom du mécidament</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="nameMedicament"
-                    value={this.state.nameMedicament}
-                    ></input>
+                        <div><label>Id du médicament
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="idMedicament"
+                        value={this.state.idMedicament}
+                        ></input></label></div>
 
-                    <label>Id du médicament</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="idMedicament"
-                    value={this.state.idMedicament}
-                    ></input>
+                        <div><label>Commentaire au client
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="commentaireClient"
+                        value={this.state.commentaireClient}
+                        ></input></label></div>
 
-                    <label>Commentaire au client</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="commentaireClient"
-                    value={this.state.commentaireClient}
-                    ></input>
+                        <div><label>Quantité
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="quantite"
+                        value={this.state.quantite}
+                        ></input></label></div>
 
-                    <label>Quantité</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="quantite"
-                    value={this.state.quantite}
-                    ></input>
+                        <div><label>Taille
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="taille"
+                        value={this.state.taille}
+                        ></input></label></div>
 
-                    <label>Taille</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="taille"
-                    value={this.state.taille}
-                    ></input>
+                        <div><label>Poids
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="poids"
+                        value={this.state.poids}
+                        ></input></label></div>
 
-                    <label>Poids</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="poids"
-                    value={this.state.poids}
-                    ></input>
+                        <div><label>Prix
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="prix"
+                        value={this.state.prix}
+                        ></input></label></div>
+                    </fieldset>
+                    <fieldset className="formInfoPharmacien">
+                        <legend>Information pharmacie</legend>
+                        <div><label>Nom de la pharmacie
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="namePharmacie"
+                        value={this.state.namePharmacie}
+                        ></input></label></div>
 
-                    <label>Prix</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="prix"
-                    value={this.state.prix}
-                    ></input>
+                        <div><label>Rue de la pharmacie
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="ruePharmacie"
+                        value={this.state.ruePharmacie}
+                        ></input></label></div>
 
-                    <label>Nom de la pharmacie</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="namePharmacie"
-                    value={this.state.namePharmacie}
-                    ></input>
+                        <div><label>Numéro de la pharmacie
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="numeroPharmacie"
+                        value={this.state.numberPharmacie}
+                        ></input></label></div>
 
-                    <label>Rue de la pharmacie</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="ruePharmacie"
-                    value={this.state.ruePharmacie}
-                    ></input>
+                        <div><label>Code postal de la pharmacie
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="codePostalPharmacie"
+                        value={this.state.codePostalPharmacie}
+                        ></input></label></div>
 
-                    <label>Numéro de la pharmacie</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="numeroPharmacie"
-                    value={this.state.numberPharmacie}
-                    ></input>
+                        <div><label>Ville de la pharmacie
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="villePharmacie"
+                        value={this.state.villePharmacie}
+                        ></input></label></div>
 
-                    <label>Code postal de la pharmacie</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="codePostalPharmacie"
-                    value={this.state.codePostalPharmacie}
-                    ></input>
+                        <div><label>GSM de la pharmacie
+                        <input
+                        type=""
+                        onChange={this.updateForm}
+                        name="gsmPharmacie"
+                        value={this.gsmPharmacie}
+                        ></input></label></div>
 
-                    <label>Ville de la pharmacie</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="villePharmacie"
-                    value={this.state.villePharmacie}
-                    ></input>
-
-                    <label>GSM de la pharmacie</label>
-                    <input
-                    type=""
-                    onChange={this.updateForm}
-                    name="gsmPharmacie"
-                    value={this.gsmPharmacie}
-                    ></input>
-
-                    <button>Submit</button>
-
+                    </fieldset>
+                    
+                        <button>Submit</button>
                 </form>
             </div>
-
+            </>
 
         )}
 }
 
 export default FormulaireCommande;
+
+

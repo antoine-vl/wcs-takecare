@@ -1,34 +1,19 @@
 import React, { Component } from 'react'
 import './formulairePage.css'
-import FormulaireCommande from './FormulaireCommande';
 import PermanentDrawerLeft from '../PermanentDrawerLeft';
 import {NavLink} from 'react-router-dom';
 import TableContact from '../TableContact'
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EnhancedTable from './EnhancedTable';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 export class CommandPage extends Component {
     constructor(props) {
         super(props)
     
-        this.state = {
-            users : [{
-                name : 'Antoine', 
-                age : '24', 
-                city : 'Tubize'
-            },
-            {
-                name : 'Charly', 
-                age : '30', 
-                city : 'Bruxelles'
-            },
-            {
-                name : 'Benoit', 
-                age : '26', 
-                city : 'Louvain-la-neuve'
-            }
-        ]
-    }}
+        this.state = {}
+    }
     
     render() {
         const {users} = this.state
@@ -40,13 +25,14 @@ export class CommandPage extends Component {
                  <NavLink  
                         activeClassName="active" 
                         to='FormulaireCommande' >
-                Play
+                < AddCircleOutlineIcon />
               </NavLink>
               
             </div>
             
             <div>
-            <table>
+                < EnhancedTable />
+            {/* <table>
                 <tr>
                     <th colSpan='2'>Action</th>
                     <th>Number</th>
@@ -66,7 +52,7 @@ export class CommandPage extends Component {
                         <td>+</td>
                     </tr>
                     )}
-            </table>
+            </table> */}
             </div>
             </>
         )      

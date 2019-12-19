@@ -1,7 +1,6 @@
 import React from 'react';
 import './headerUserPage.css';
 import {NavLink} from 'react-router-dom';
-import TableContact from './TableContact';
 import PeopleIcon from '@material-ui/icons/People';
 import DescriptionIcon from '@material-ui/icons/Description';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,7 +14,8 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
+import Avatar from '@material-ui/core/Avatar';
+
 
 const drawerWidth = 240;
 
@@ -42,6 +42,12 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
   },
+  avatarImg: {
+    width: '100px',
+    height: '100px',
+    fontSize: '3em',
+    margin: '-40px -40px -10px -40px',
+  },
 }));
 
 export default function PermanentDrawerLeft() {
@@ -66,6 +72,11 @@ export default function PermanentDrawerLeft() {
         anchor="left"
       >
         <div className={classes.toolbar} />
+        <div className="avatarContent">
+          <Avatar className={classes.avatarImg} alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+          <h1 className="avatarSurname">Antoine</h1>
+          <h5 className="avatarName">Van Laethem</h5>
+        </div>
         <Divider />
         <List>
             <ListItem button key ="Client">
