@@ -23,7 +23,7 @@
 }*/
 
 .hero-header{
-    background-image: url('../img/background1.jpg');
+    background-image: url('../../img/background1.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -55,7 +55,7 @@
     outline: none;
 }*/
 .logo{
-    background-image: url('../img/logo.png');
+    background-image: url('../../img/logo.png');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -71,7 +71,7 @@
 
 @media screen and (max-width: 500px){
 .logo{
-    background-image: url('../img/logo.png');
+    background-image: url('../../img/logo.png');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -86,7 +86,7 @@
     margin-top: 25%;
 }
 .hero-header{
-    background-image: url('../img/background1.jpg');
+    background-image: url('../../img/background1.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
