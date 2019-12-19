@@ -1,0 +1,11 @@
+input{
+    border-radius: 50px;
+    width: 270px;
+    height: 50px;
+    font-size: 30px;
+    text-align: center;
+
+}
+input:focus{
+    outline: none;
+}
