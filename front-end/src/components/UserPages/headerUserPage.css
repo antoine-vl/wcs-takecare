@@ -1,0 +1,19 @@
+.avatarContent{
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatarSurname{
+    font-size: 1em;
+    margin-bottom: -20px;
+    font-weight: normal;
+}
+
+.avatarName{
+    font-size: 0.7em;
+    font-weight: normal;
+}

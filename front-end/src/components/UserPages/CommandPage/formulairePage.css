@@ -1,0 +1,33 @@
+.headerForm{
+    margin-left: 240px;
+    margin-top: 100px;
+    width: 60vw;
+
+    border: 2px solid black;
+    background-color: rgba(128, 128, 128, 0.158);
+}
+
+input{
+    margin-top: 30px; 
+    margin-left: 10px;
+    border: none;
+    height: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px black;
+}
+
+input:hover{
+    box-shadow: 0px 0px 15px gray;
+}
+
+.formInfoClient {
+    background-color: rgba(105, 105, 105, 0.295);
+}
+
+.formMedicament{
+    background-color: rgba(105, 105, 105, 0.295);
+}
+
+.formInfoPharmacien{
+    background-color: rgba(105, 105, 105, 0.295);
+}
