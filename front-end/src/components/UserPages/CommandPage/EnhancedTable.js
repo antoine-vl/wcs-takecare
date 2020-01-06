@@ -239,11 +239,11 @@ export default function EnhancedTable() {
   useEffect(() => {
     console.log('Je suis dans un DiDMont');
 
-      // axios
-      //     .get('http://localhost:5000/pharmacist')
-      //     .then(res => {
-      //         console.log('Res ?', res.data)
-      //     })
+     axios
+         .get('http://localhost:5000/pharmacist')
+         .then(res => {
+             console.log('Res ?', res.data)
+         })
 
     //fetch("http://localhost:5000/pharmacist")
     //  {
