@@ -1,26 +1,30 @@
 import React from 'react';
 import './App.css';
 import { Switch, Route } from 'react-router-dom';
-import HeaderUserPage from './components/UserPages/HeaderUserPage';
-import CommandPage from './components/UserPages/CommandPage/CommandPage';
-import FormulaireCommande from './components/UserPages/CommandPage/FormulaireCommande';
+import Dashboard from './components/PharmacistSide/Dashboard';
+import HeroHeader from './components/HomeSide/HeroHeader';
+import FormulaireClient from './components/PharmacistSide/ClientPages/FormulaireClient';
+import FormulaireCommande from './components/PharmacistSide/CommandPages/FormulaireCommande';
 
 
 function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <Switch>
+                <Switch>   
                     <Route
                         exact path='/'
-                        render ={(props) => < HeaderUserPage />}
+                        render ={(props) => < HeroHeader />}
                     />
-                    <Route path='/FormulaireCommande' 
-                        component={FormulaireCommande}/>
-
-                    <Route path='/CommandPage' 
-                        component={CommandPage}></Route>
-                </Switch>    
+                    <Route 
+                        path='/dashboard' 
+                        render ={(props) => < Dashboard />} 
+                    />
+                    <Route 
+                        exact path='/FormulaireCommande' 
+                        render ={(props) => < FormulaireCommande />} 
+                    />
+                </Switch>
             </header>
         </div>
     );

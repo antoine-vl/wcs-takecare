@@ -24,13 +24,14 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import EditIcon from '@material-ui/icons/Edit';
 import AlertDialog from'./AlertDialogDelete';
 import axios from 'axios';
+import './commandPage.css';
 
-function createData(idCommantaire, name, surname, date, status) {
-  return { idCommantaire, name, surname, date, status };
+function createData(idCommantaire, name, surname, date, status, action) {
+  return { idCommantaire, name, surname, date, status, action };
 }
 
 const rows = [
-  createData( 1,'Adrien', 'Bichon', '2019/12/01', 'livré'),
+  createData( 1,'Adrien', 'Bichon', '2019/12/01', 'livré', 'test'),
   createData( 2,'Gauthier', 'Dupuis', '2019/10/15', 'en livraison'),
   createData( 3,'Benoit', 'Moëns', '2019/09/20', 'en préparation'),
   createData( 4,'Greg', 'Rasco', '2019/11/24', 'livré'),
@@ -69,12 +70,14 @@ function getSorting(order, orderBy) {
   return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
 
+
 const headCells = [
   { id: 'idCommantaire', numeric: false, disablePadding: true, label: 'N° commande' },
-  { id: 'name', numeric: true, disablePadding: false, label: 'name' },
-  { id: 'surname', numeric: true, disablePadding: false, label: 'lastname' },
-  { id: 'date', numeric: true, disablePadding: false, label: 'date' },
-  { id: 'status', numeric: true, disablePadding: false, label: 'status' },
+  { id: 'name', numeric: true, disablePadding: false, label: 'Name' },
+  { id: 'surname', numeric: true, disablePadding: false, label: 'Lastname' },
+  { id: 'date', numeric: true, disablePadding: false, label: 'Date' },
+  { id: 'status', numeric: true, disablePadding: false, label: 'Status' },
+  { id: 'action', numeric: true, disablePadding: false, label: 'Action' },
 ];
 
 function EnhancedTableHead(props) {
@@ -86,14 +89,14 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        {/* <TableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{ 'aria-label': 'select all desserts' }}
           />
-        </TableCell>
+        </TableCell> */}
         {headCells.map(headCell => (
           <TableCell
             key={headCell.id}
@@ -155,22 +158,22 @@ const EnhancedTableToolbar = props => {
   const { numSelected } = props;
 
   return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      {numSelected > 0 ? (
-        <Typography className={classes.title} color="inherit" variant="subtitle1">
-          {numSelected} selected
-        </Typography>
-      ) : (
+    // <Toolbar
+    //   className={clsx(classes.root, {
+    //     [classes.highlight]: numSelected > 0,
+    //   })}
+    // >
+    //   {numSelected > 0 ? (
+    //     <Typography className={classes.title} color="inherit" variant="subtitle1">
+    //       {numSelected} selected
+    //     </Typography>
+    //   ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle">
           Mes Commandes
         </Typography>
-      )}
+      // )}
 
-      {numSelected > 0 ? (
+      /* {numSelected > 0 ? (
             <>
                 <Tooltip title="Delete">
                 <IconButton aria-label="delete">
@@ -188,14 +191,14 @@ const EnhancedTableToolbar = props => {
                 </IconButton>
                 </Tooltip>
             </>
-            ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
+            ) : (*/
+        // <Tooltip title="Filter list">
+        //   <IconButton aria-label="filter list">
+        //     <FilterListIcon />
+        //   </IconButton>
+        // </Tooltip>
+      // )} 
+    // </Toolbar>
   );
 };
 
@@ -314,6 +317,7 @@ export default function EnhancedTable() {
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
+            stickyHeader
             className={classes.table}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
@@ -338,26 +342,44 @@ export default function EnhancedTable() {
                   return (
                     <TableRow
                       hover
+                      // \/ Clique de la ligne dans le tableau \/
                       onClick={event => handleClick(event, row.name)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.name}
-                      selected={isItemSelected}
+                      // selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
+                      {/* <TableCell padding="checkbox">
                         <Checkbox
                           checked={isItemSelected}
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
+                      </TableCell> */}
+                      <TableCell align="left">  {row.idCommantaire} </TableCell>
+                      <TableCell align="center">{row.name}          </TableCell>
+                      <TableCell align="center">{row.surname}       </TableCell>
+                      <TableCell align="center">{row.date}          </TableCell>
+                      <TableCell align="center">{row.status}        </TableCell>
+                      <TableCell align="center">
+                        <>
+                          <Tooltip title="Delete">
+                          <IconButton aria-label="delete">
+                          < AlertDialog />
+                          </IconButton>        
+                          </Tooltip>
+                          <Tooltip title="Détails">
+                          <IconButton aria-label="details">
+                              < VisibilityIcon />
+                          </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Modifier">
+                          <IconButton aria-label="modifier">
+                              <EditIcon />
+                          </IconButton>
+                          </Tooltip>
+                        </>   
                       </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.idCommantaire}
-                      </TableCell>
-                      <TableCell align="right">{row.name}</TableCell>
-                      <TableCell align="right">{row.surname}</TableCell>
-                      <TableCell align="right">{row.date}</TableCell>
-                      <TableCell align="right">{row.status}</TableCell>
                     </TableRow>
                   );
                 })}
