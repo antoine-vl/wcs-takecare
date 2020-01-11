@@ -24,6 +24,10 @@ function App() {
                         exact path='/FormulaireCommande' 
                         render ={(props) => < FormulaireCommande />} 
                     />
+                    <Route 
+                        exact path='/FormulaireClient' 
+                        render ={(props) => < FormulaireClient />} 
+                    />
                 </Switch>
             </header>
         </div>

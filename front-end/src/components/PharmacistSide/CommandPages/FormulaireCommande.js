@@ -247,7 +247,7 @@
 // export default FormulaireCommande;
 
 
-import React from 'react';
+import React, { Component } from 'react'
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -266,7 +266,15 @@ function getStepContent(stepIndex) {
   switch (stepIndex) {
     case 0:
       return <div><form className="formClient" noValidate autoComplete="on">
-                <TextField id="lastName-basic" label="Nom" variant="outlined" />
+                <TextField id="nameMedicament" label="Nom" variant="outlined" />
+                <TextField id="idMedicament" label="Nom" variant="outlined" />
+                <TextField id="commentaireClient" label="Nom" variant="outlined" />
+                <TextField id="quantite" label="Nom" variant="outlined" />
+                <TextField id="taille" label="Nom" variant="outlined" />
+                <TextField id="poids" label="Nom" variant="outlined" />
+                <TextField id="prix" label="Nom" variant="outlined" />
+                <TextField id="prescription" label="Nom" variant="outlined" />
+
                 
             </form></div>;
     case 1:
@@ -274,29 +282,63 @@ function getStepContent(stepIndex) {
       return 'Unknown stepIndex';
   }
 }
+class HorizontalLabelPositionBelowStepper extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      activePage: {
+        activeStep : 0,
+      },
+      commandes:{
+        medicament: {
+          nameMedicament: '',
+          idMedicament: '',
+          commentaireClient: '',
+          quantite: '',
+          taille : '',
+          poids: '',
+          prix: '',
+          prescription: false,
+        },
+        name: '',
+        surname: '',
+        email: '',
+        gsm: '',
+        rue : '',
+        numero: '',
+        codePostal: '',
+        ville: '',
+        namePharmacie: '',
+        ruePharmacie: '',
+        numeroPharmacie: '',
+        codePostalPharmacie: '',
+        villePharmacie: '',
+        gsmPharmacie: '',
+      }
+    }
+  }
 
-export default function HorizontalLabelPositionBelowStepper() {
+  render() { 
 
-  const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
 
   const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+    this.setState({activePage:{ activeStep: this.state.activePage.activeStep + 1}})
   };
 
   const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
+    this.setState({activePage:{ activeStep: this.state.activePage.activeStep - 1 }})
   };
 
   const handleReset = () => {
-    setActiveStep(0);
+    this.setState({activePage:{  activeStep: this.state.activePage.activeStep - 2}})
   };
 
-
+  
   return (
 
     <div className="f">
-                    <Stepper activeStep={activeStep} alternativeLabel>
+                    <Stepper activeStep={this.state.activePage.activeStep} alternativeLabel>
                     {steps.map(label => (
                     <Step key={label}>
                         <StepLabel>{label}</StepLabel>
@@ -304,24 +346,24 @@ export default function HorizontalLabelPositionBelowStepper() {
                     ))}
                     </Stepper>
                 <div>
-                    {activeStep === steps.length ? (
+                    {this.state.activePage.activeStep === steps.length ? (
                     <div>
                         <Typography className="r">All steps completed</Typography>
                         <Button onClick={handleReset}>Reset</Button>
                     </div>
                     ) : (
                     <div>
-                        <Typography className="d">{getStepContent(activeStep)}</Typography>
+                        <Typography className="d">{getStepContent(this.state.activePage.activeStep)}</Typography>
                         <div>
                         <Button
-                            disabled={activeStep === 0}
+                            disabled={this.state.activePage.activeStep === 0}
                             onClick={handleBack}
                             className="v"
                         >
                             Back
                         </Button>
                         <Button variant="contained" color="primary" onClick={handleNext}>
-                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                            {this.state.activePage.activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                         </Button>
                         </div>
                     </div>
@@ -329,4 +371,8 @@ export default function HorizontalLabelPositionBelowStepper() {
        </div>
     </div>
   );
+  }
 }
+
+
+export default HorizontalLabelPositionBelowStepper;
