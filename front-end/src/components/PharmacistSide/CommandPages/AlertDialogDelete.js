@@ -33,7 +33,7 @@ export default function AlertDialog() {
         <DialogTitle id="alert-dialog-title">{"Suppression de commande"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Etes-vous sur de vouloir supprimer cette commande ?
+            Etes-vous sur de vouloir supprimer la commande  ?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
