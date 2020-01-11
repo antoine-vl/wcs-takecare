@@ -8,6 +8,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EnhancedTable from './EnhancedTable';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
+import TableCommandOk from './TableCommandOk'
+
 export class CommandPage extends Component {
     constructor(props) {
         super(props)
@@ -31,7 +33,8 @@ export class CommandPage extends Component {
             </div>
             
             <div>
-                < EnhancedTable />
+                < TableCommandOk />
+                {/* < EnhancedTable /> */}
             {/* <table>
                 <tr>
                     <th colSpan='2'>Action</th>
