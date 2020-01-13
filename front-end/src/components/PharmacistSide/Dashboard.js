@@ -23,6 +23,7 @@ import Avatar from '@material-ui/core/Avatar';
 // COMPONENTS
 import CommandPage from './CommandPages/CommandPage';
 import FormulaireClient from './ClientPages/FormulaireClient';
+import FormulaireCommande from './CommandPages/FormulaireCommande';
 
 
 /* ============================== */
@@ -71,11 +72,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Dashboard({match}) {
   const classes = useStyles();
-
-  //console.log('Props: ', props.match);
-  console.log('Props match: ', match);
-  //console.log('Props history: ', history);
-  //console.log('Props location: ', location);
 
   return (
     <div className={classes.root}>
@@ -158,7 +154,7 @@ export default function Dashboard({match}) {
 
           <Route 
             path={`${match.path}/test-comp`}
-            render={props => <FormulaireClient {...props} />}
+            render={props => <FormulaireCommande {...props} />}
           />
 
         </Switch>

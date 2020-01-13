@@ -32,10 +32,6 @@ function App() {
                         path='/test-comp' 
                         render ={props => < FormulaireCommande {...props} />} 
                     />
-                    <Route 
-                        exact path='/FormulaireClient' 
-                        render ={(props) => < FormulaireClient />} 
-                    />
                 </Switch>
             </header>
         </div>
