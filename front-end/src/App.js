@@ -1,29 +1,36 @@
 import React from 'react';
 import './App.css';
+
+// ROUTER
 import { Switch, Route } from 'react-router-dom';
+
+// COMPONENTS
 import Dashboard from './components/PharmacistSide/Dashboard';
 import HeroHeader from './components/HomeSide/HeroHeader';
-import FormulaireClient from './components/PharmacistSide/ClientPages/FormulaireClient';
 import FormulaireCommande from './components/PharmacistSide/CommandPages/FormulaireCommande';
-import EnhancedTable from './components/PharmacistSide/CommandPages/EnhancedTable'
+
+
+/* ============================== */
 
 
 function App() {
+
+
     return (
         <div className="App">
             <header className="App-header">
-                <Switch>   
+                <Switch>
                     <Route
                         exact path='/'
-                        render ={(props) => < HeroHeader />}
+                        render ={props => < HeroHeader {...props} />}
                     />
                     <Route 
                         path='/dashboard' 
-                        render ={(props) => < Dashboard />} 
+                        render ={props => < Dashboard {...props} />} 
                     />
                     <Route 
-                        exact path='/FormulaireCommande' 
-                        render ={(props) => < FormulaireCommande />} 
+                        path='/test-comp' 
+                        render ={props => < FormulaireCommande {...props} />} 
                     />
                 </Switch>
             </header>

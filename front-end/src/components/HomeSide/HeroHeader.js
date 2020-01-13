@@ -1,7 +1,15 @@
 import React from 'react';
 import './HeroHeader.css';
+
+// ROUTER
+import { Link } from 'react-router-dom';
+
+// COMPONENTS
 import SimpleSelect from './SimpleSelect';
 import ButtonPhone from './ButtonPhone';
+
+
+/* ============================== */
 
 
 const HeroHeader = () => {
@@ -22,6 +30,9 @@ const HeroHeader = () => {
                 </div>
             </div>
             <ButtonPhone/>
+            
+            <button><Link to='/test-comp' >TEST-COMP</Link></button>
+            <button><Link to='/dashboard' >DASHBOARD</Link></button>
         </div>
     )
 }

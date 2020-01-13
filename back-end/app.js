@@ -10,6 +10,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended:  false }));
 app.use(bodyParser.json());
 
+
+
 app.get("/pharmacist", (req,res) => {
     console.log('GET pharmacist');
     connection.query('SELECT * FROM Orders', (err, results) => {

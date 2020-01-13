@@ -1,6 +1,10 @@
 import React from 'react';
 import './headerUserPage.css';
-import { NavLink, Switch, Route, useParams } from 'react-router-dom';
+
+// ROUTER
+import { NavLink, Switch, Route } from 'react-router-dom';
+
+// MATERIAL UI
 import PeopleIcon from '@material-ui/icons/People';
 import DescriptionIcon from '@material-ui/icons/Description';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,10 +19,16 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
+
+// COMPONENTS
 import CommandPage from './CommandPages/CommandPage';
 import FormulaireClient from './ClientPages/FormulaireClient';
 
 
+/* ============================== */
+
+
+// MATERIAL-UI STYLES
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -54,10 +64,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function PermanentDrawerLeft() {
+
+
+// ROUTING OPTIONS
+
+
+export default function Dashboard({match}) {
   const classes = useStyles();
 
-  let {souspartie} = useParams();
+  //console.log('Props: ', props.match);
+  console.log('Props match: ', match);
+  //console.log('Props history: ', history);
+  //console.log('Props location: ', location);
 
   return (
     <div className={classes.root}>
@@ -88,7 +106,7 @@ export default function PermanentDrawerLeft() {
 
         <Divider />
         <List>
-          <NavLink  activeClassName="active" to="/dashboard/formulaireClient" >
+          <NavLink  activeClassName="active" to={`${match.url}/client`} >
             <ListItem button key ="Client">
                 <ListItemIcon><PeopleIcon /></ListItemIcon>
                 <ListItemText primary="Client"/>
@@ -99,35 +117,52 @@ export default function PermanentDrawerLeft() {
         <Divider />
 
         <List>
-          <NavLink  activeClassName="active" to="/dashboard/orders" > 
+          <NavLink  activeClassName="active" to={`${match.url}/orders`} > 
             <ListItem button>
               <ListItemIcon><DescriptionIcon /></ListItemIcon>
               <ListItemText primary="Commande"/>
             </ListItem>
           </NavLink>
         </List>
+
         <Divider />
 
-      </Drawer>
-      <div className={classes.content}>
-      < CommandPage />
-      </div>
-      {/* <div className={classes.content}>
-        < CommandPage />
-
-        < FormulaireClient />
-      </div> */}
+        <List>
+          <NavLink  activeClassName="active" to={`${match.url}/test-comp`} > 
+            <ListItem button>
+              <ListItemIcon><DescriptionIcon /></ListItemIcon>
+              <ListItemText primary="test-comp"/>
+            </ListItem>
+          </NavLink>
+        </List>
         
-      {/* <Switch>  
-        <Route
-            path='/orders'
-            render ={(props) => < CommandPage />}
-        />
-        <Route 
-            path='/dashboard' 
-            render ={(props) => < Dashboard />} 
-        />
-      </Switch> */}
+
+      </Drawer>
+
+      <div className={classes.content}>
+        <Switch>
+          {/* <Route 
+            path='/dashboard'
+            component={CommandPage} 
+          s/> */}
+
+          <Route 
+            path={`${match.path}/orders`}
+            render={props => <CommandPage {...props} />}
+          />
+
+          <Route 
+            path={`${match.path}/client`}
+            render={props => <FormulaireClient {...props} />}
+          />
+
+          <Route 
+            path={`${match.path}/test-comp`}
+            render={props => <FormulaireClient {...props} />}
+          />
+
+        </Switch>
+      </div>  
     </div>
   );
 }

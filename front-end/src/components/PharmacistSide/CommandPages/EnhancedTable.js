@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import axios from 'axios';
+import './commandPage.css';
+
+// MATERIAL UI
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -22,9 +26,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import EditIcon from '@material-ui/icons/Edit';
+
+// COMPONENTS
 import AlertDialog from'./AlertDialogDelete';
-import axios from 'axios';
-import './commandPage.css';
+
+/* ============================== */
 
 function createData(idCommantaire, name, surname, date, status, action) {
   return { idCommantaire, name, surname, date, status, action };
