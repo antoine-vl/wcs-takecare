@@ -1,332 +1,166 @@
-// import React, { Component } from 'react';
-// import axios from 'axios';
-// import PermanentDrawerLeft from '../PermanentDrawerLeft';
-
-
-// export class FormulaireCommande extends Component {
-//     constructor(props) {
-//         super(props)
-
-//         this.state = {
-//             name: '',
-//             surname: '',
-//             email: '',
-//             gsm: '',
-//             rue : '',
-//             numero: '',
-//             codePostal: '',
-//             ville: '',
-//             nameMedicament: '',
-//             idMedicament: '',
-//             commentaireClient: '',
-//             quantite: '',
-//             taille : '',
-//             poids: '',
-//             prix: '',
-//             namePharmacie: '',
-//             ruePharmacie: '',
-//             numeroPharmacie: '',
-//             codePostalPharmacie: '',
-//             villePharmacie: '',
-//             gsmPharmacie: '',
-//             }
-    
-//     }
-
-
-//     updateForm = (event) => {
-//         this.setState(
-//             {[event.target.name] : event.target.value}
-//         ) 
-//     }
-
-//     handleSubmit = (event) => {
-//         event.preventDefault()
-//         axios.post('/commandes/user',this.state)
-//           .then(function (response) {
-//             console.log(`The response is : ${response}`);
-//           })
-//           .catch(function (error) {
-//             console.log(`this is a error : ${error}`);
-//           });
-//           console.log(this.state)
-//     }
-
-
-//     render(){
-//         // const {commandes} = this.state
-//         return(
-//             <>
-//             < PermanentDrawerLeft />
-//             <div className="headerForm">
-//                 <form onSubmit={this.handleSubmit}>
-//                     <fieldset className="formInfoClient">
-//                         <legend>Information client</legend>
-//                         <div><label>Nom
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="name"
-//                         value={this.state.name}
-//                         ></input></label></div>
-
-//                         <div><label>Prénom
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="surname"
-//                         value={this.state.surname}
-//                         ></input></label></div>
-
-//                         <div><label>Mail
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="email"
-//                         value={this.state.email}
-//                         ></input></label></div>
-
-//                         <div><label>GSM
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="gsm"
-//                         value={this.state.gsm}
-//                         ></input></label></div>
-
-//                         <div><label>Rue
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="rue"
-//                         value={this.state.rue}
-//                         ></input></label></div>
-
-//                         <div><label>Numéros
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="numero"
-//                         value={this.state.numero}
-//                         ></input></label></div>
-
-//                         <div><label>Code postal
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="codePostal"
-//                         value={this.state.codePostal}
-//                         ></input></label></div>
-
-//                         <div><label>Ville
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="ville"
-//                         value={this.state.ville}
-//                         ></input></label></div>
-//                     </fieldset>
-//                     <fieldset className="formMedicament">
-//                         <legend>Médicament</legend>
-//                         <div><label>Nom du mécidament
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="nameMedicament"
-//                         value={this.state.nameMedicament}
-//                         ></input></label></div>
-
-//                         <div><label>Id du médicament
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="idMedicament"
-//                         value={this.state.idMedicament}
-//                         ></input></label></div>
-
-//                         <div><label>Commentaire au client
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="commentaireClient"
-//                         value={this.state.commentaireClient}
-//                         ></input></label></div>
-
-//                         <div><label>Quantité
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="quantite"
-//                         value={this.state.quantite}
-//                         ></input></label></div>
-
-//                         <div><label>Taille
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="taille"
-//                         value={this.state.taille}
-//                         ></input></label></div>
-
-//                         <div><label>Poids
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="poids"
-//                         value={this.state.poids}
-//                         ></input></label></div>
-
-//                         <div><label>Prix
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="prix"
-//                         value={this.state.prix}
-//                         ></input></label></div>
-//                     </fieldset>
-//                     <fieldset className="formInfoPharmacien">
-//                         <legend>Information pharmacie</legend>
-//                         <div><label>Nom de la pharmacie
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="namePharmacie"
-//                         value={this.state.namePharmacie}
-//                         ></input></label></div>
-
-//                         <div><label>Rue de la pharmacie
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="ruePharmacie"
-//                         value={this.state.ruePharmacie}
-//                         ></input></label></div>
-
-//                         <div><label>Numéro de la pharmacie
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="numeroPharmacie"
-//                         value={this.state.numberPharmacie}
-//                         ></input></label></div>
-
-//                         <div><label>Code postal de la pharmacie
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="codePostalPharmacie"
-//                         value={this.state.codePostalPharmacie}
-//                         ></input></label></div>
-
-//                         <div><label>Ville de la pharmacie
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="villePharmacie"
-//                         value={this.state.villePharmacie}
-//                         ></input></label></div>
-
-//                         <div><label>GSM de la pharmacie
-//                         <input
-//                         type=""
-//                         onChange={this.updateForm}
-//                         name="gsmPharmacie"
-//                         value={this.gsmPharmacie}
-//                         ></input></label></div>
-
-//                     </fieldset>
-                    
-//                         <button>Submit</button>
-//                 </form>
-//             </div>
-//             </>
-
-//         )}
-// }
-
-// export default FormulaireCommande;
-
-
-import React from 'react';
+import React, { Component } from 'react'
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
-import Dashboard from '../Dashboard';
+import Checkbox from '@material-ui/core/Checkbox';
 
 
-function getSteps() {
-  return ['Select master blaster campaign settings', 'Create an ad group',];
-}
-
-function getStepContent(stepIndex) {
-  switch (stepIndex) {
-    case 0:
-      return <div><form className="formClient" noValidate autoComplete="on">
-                <TextField id="lastName-basic" label="Nom" variant="outlined" />
-                
-            </form></div>;
-    case 1:
-      return <TextField id="lastName-basic" label="Prénom" variant="outlined" />;
-      return 'Unknown stepIndex';
+class HorizontalLabelPositionBelowStepper extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      activePage: {
+        activeStep : 0,
+      },
+      commande:{
+        medicament: {
+          nameMedicament: '',
+          idMedicament: '',
+          commentaireClient: '',
+          quantite: '',
+          taille : '',
+          poids: '',
+          prix: '',
+          prescription: false,
+        },
+        lastName: '',
+        firstName: '',
+        email: '',
+        gsm: '',
+        rue : '',
+        numero: '',
+        codePostal: '',
+        ville: '',
+        namePharmacie: '',
+        ruePharmacie: '',
+        numeroPharmacie: '',
+        codePostalPharmacie: '',
+        villePharmacie: '',
+        gsmPharmacie: '',
+      }
+    }
   }
-}
 
-export default function HorizontalLabelPositionBelowStepper() {
+  render() { 
 
-  const [activeStep, setActiveStep] = React.useState(0);
+// const handleChangeCheckbox = () => {
+//   this.state.commande.medicament.prescription === false ?
+//   this.setState({commande:{ medicament:{prescription: true}}})
+//   :
+//   this.setState({commande:{ medicament:{prescription: false}}})
+// };
+
+const updateForm = (event) => {
+  event.preventDefault();
+  this.setState({commande: {medicament:{ [event.target.id]: event.target.value}}})
+  console.log(event.target)
+};
+
+const updateFormContact = (event) => {
+  event.preventDefault();
+  this.setState({commande: { [event.target.id]: event.target.value}})
+  console.log(event.target)
+};
+
+    function getStepContent(stepIndex, state) {
+      switch (stepIndex) {
+        case 0:
+          return <div><form className="formulaireMedicamant" noValidate autoComplete="on">
+                  <TextField value={state.commande.medicament.nameMedicament} onChange={updateForm} id="nameMedicament" label="Nom du médicament" variant="outlined" />
+                  <TextField value={state.commande.medicament.idMedicament} onChange={updateForm} id="idMedicament" label="Id du médicament" variant="outlined" />
+                  <TextField value={state.commande.medicament.commentaireClient} onChange={updateForm} id="commentaireClient" label="Commentaire" variant="outlined" />
+                  <TextField value={state.commande.medicament.quantite} onChange={updateForm} id="quantite" label="Quantité" variant="outlined" />
+                  <TextField value={state.commande.medicament.taille} onChange={updateForm} id="taille" label="Taille" variant="outlined" />
+                  <TextField value={state.commande.medicament.poids} onChange={updateForm} id="poids" label="Poids" variant="outlined" />
+                  <TextField value={state.commande.medicament.prix} onChange={updateForm} id="prix" label="Prix" variant="outlined" />
+                  {/* <Checkbox onChange={handleChangeCheckbox} value="secondary" color="primary" /> */}
+                  <button>Submit</button>
+                </form>
+                
+                </div>;
+        case 1:
+          return <div><form className="formulaireClient" noValidate autoComplete="on">
+                  <TextField value={state.commande.lastName} onChange={updateFormContact} id="lastName" label="Nom" variant="outlined" />
+                  <TextField value={state.commande.firstName} onChange={updateFormContact} id="firstName" label="Prénom" variant="outlined" />
+                  <TextField value={state.commande.email} onChange={updateFormContact} id="email" label="E-mail" variant="outlined" />
+                  <TextField value={state.commande.gsm} onChange={updateFormContact} id="gsm" label="Numéro de téléphone" variant="outlined" />
+                  <TextField value={state.commande.rue} onChange={updateFormContact} id="rue" label="Rue" variant="outlined" />
+                  <TextField value={state.commande.numero} onChange={updateFormContact} id="numero" label="Numéro" variant="outlined" />
+                  <TextField value={state.commande.codePostal} onChange={updateFormContact} id="codePostal" label="Code postal" variant="outlined" />
+                  <TextField value={state.commande.ville} onChange={updateFormContact} id="ville" label="Ville" variant="outlined" />
+                </form></div>;
+        case 2:
+          return <div><form className="formulairePharmacie" noValidate autoComplete="on">
+                  <TextField value={state.commande.namePharmacie} onChange={updateFormContact} id="namePharmacie" label="Nom" variant="outlined" />
+                  <TextField value={state.commande.gsmPharmacie} onChange={updateFormContact} id="gsmPharmacie" label="Rue" variant="outlined" />
+                  <TextField value={state.commande.ruePharmacie} onChange={updateFormContact} id="ruePharmacie" label="Prénom" variant="outlined" />
+                  <TextField value={state.commande.numeroPharmacie} onChange={updateFormContact} id="numeroPharmacie" label="E-mail" variant="outlined" />
+                  <TextField value={state.commande.codePostalPharmacie} onChange={updateFormContact} id="codePostalPharmacie" label="Numéro de téléphone" variant="outlined" />
+                </form></div>;
+          return 'Unknown stepIndex';
+      }
+    }
+
   const steps = getSteps();
 
+  function getSteps() {
+    return ['Veillez entrer les information de médiaments', 'Entrer les informations du client', 'Entrer les informations de la pharmacie'];
+  }
+
   const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+    this.setState({activePage:{ activeStep: this.state.activePage.activeStep + 1}})
   };
 
   const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
+    this.setState({activePage:{ activeStep: this.state.activePage.activeStep - 1 }})
   };
 
   const handleReset = () => {
-    setActiveStep(0);
+    this.setState({activePage:{  activeStep: 0}})
   };
 
-
+  
   return (
 
     <div className="f">
-                    <Stepper activeStep={activeStep} alternativeLabel>
-                    {steps.map(label => (
-                    <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                    </Step>
-                    ))}
-                    </Stepper>
-                <div>
-                    {activeStep === steps.length ? (
-                    <div>
-                        <Typography className="r">All steps completed</Typography>
-                        <Button onClick={handleReset}>Reset</Button>
-                    </div>
-                    ) : (
-                    <div>
-                        <Typography className="d">{getStepContent(activeStep)}</Typography>
-                        <div>
-                        <Button
-                            disabled={activeStep === 0}
-                            onClick={handleBack}
-                            className="v"
-                        >
-                            Back
-                        </Button>
-                        <Button variant="contained" color="primary" onClick={handleNext}>
-                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                        </Button>
-                        </div>
-                    </div>
-                    )}
+        <Stepper activeStep={this.state.activePage.activeStep} alternativeLabel>
+        {steps.map(label => (
+        <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+        </Step>
+        ))}
+        </Stepper>
+        <div>
+        {this.state.activePage.activeStep === steps.length ? (
+        <div>
+            <Typography className="r">All steps completed</Typography>
+            <Button onClick={handleReset}>Reset</Button>
+        </div>
+        ) : (
+        <div>
+  <Typography className="d">{getStepContent(this.state.activePage.activeStep, this.state)}</Typography>
+            <div>
+            <Button
+                disabled={this.state.activePage.activeStep === 0}
+                onClick={handleBack}
+                className="v"
+            >
+                Back
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleNext}>
+                {this.state.activePage.activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+            </Button>
+            </div>
+        </div>
+        )}
        </div>
     </div>
   );
+  }
 }
+
+
+export default HorizontalLabelPositionBelowStepper;
