@@ -9,18 +9,10 @@ import TextField from '@material-ui/core/TextField';
 
 
 
-class FormulaireClient extends Component {
+class OrderSummary extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            lastName: '',
-            firstname: '',
-            email: '',
-            gsm: '',
-            rue : '',
-            numero: '',
-            codePostal: '',
-            ville: '', 
         }
     }
 
@@ -43,7 +35,7 @@ class FormulaireClient extends Component {
     }
 }
 
-export default FormulaireClient
+export default OrderSummary
 
 // -----------------------------------------------------------------------------------------------------------------------------
 

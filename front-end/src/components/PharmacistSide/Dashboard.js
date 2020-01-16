@@ -21,9 +21,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 
 // COMPONENTS
-import CommandPage from './CommandPages/CommandPage';
+//import CommandPage from './CommandPages/CommandPage';
 import FormulaireClient from './ClientPages/FormulaireClient';
 import FormulaireCommande from './CommandPages/FormulaireCommande';
+import AfficheCommande from './CommandPages/AfficheCommande';
 
 
 /* ============================== */
@@ -144,7 +145,7 @@ export default function Dashboard({match}) {
 
           <Route 
             path={`${match.path}/orders`}
-            render={props => <CommandPage {...props} />}
+            render={props => <AfficheCommande {...props} />}
           />
 
           <Route 

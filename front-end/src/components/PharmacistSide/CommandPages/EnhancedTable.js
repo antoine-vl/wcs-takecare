@@ -249,7 +249,7 @@ export default function EnhancedTable() {
     console.log('Je suis dans un DiDMont');
 
      axios
-         .get('http://localhost:5000/pharmacist')
+         .get('http://localhost:5000/dashboard/orders')
          .then(res => {
              console.log('Res ?', res.data)
          })

@@ -12,12 +12,13 @@ app.use(bodyParser.json());
 
 
 
-app.get("/pharmacist", (req,res) => {
+app.get('/dashboard/orders', (req,res) => {
     console.log('GET pharmacist');
-    connection.query('SELECT * FROM Orders', (err, results) => {
+    connection.query("SELECT od.order_number AS 'Numéro de commande', us.firstname AS 'Prénom', us.lastname AS 'Nom', DATE(ohs.date_status) AS 'Date de création', st.name AS 'Status' FROM Users AS us JOIN Orders AS od ON od.client_id=us.id JOIN Orders_has_Status AS ohs ON ohs.orders_order_number = od.order_number JOIN Status AS st ON st.id=ohs.status_id", (err, results) => {
         if (err) {
             res.status(500).send(`Error retrieving orders! err: ${err}`);
           } else {
+            console.log('RESULT: ', results);
             res.json(results);
           }
     });
