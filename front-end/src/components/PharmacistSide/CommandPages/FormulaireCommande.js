@@ -5,7 +5,8 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
+
+
 
 
 class HorizontalLabelPositionBelowStepper extends Component {
@@ -68,18 +69,8 @@ const updateFormContact = (event) => {
     function getStepContent(stepIndex, state) {
       switch (stepIndex) {
         case 0:
-          return <div><form className="formulaireMedicamant" noValidate autoComplete="on">
-                  <TextField value={state.commande.medicament.nameMedicament} onChange={updateForm} id="nameMedicament" label="Nom du médicament" variant="outlined" />
-                  <TextField value={state.commande.medicament.idMedicament} onChange={updateForm} id="idMedicament" label="Id du médicament" variant="outlined" />
-                  <TextField value={state.commande.medicament.commentaireClient} onChange={updateForm} id="commentaireClient" label="Commentaire" variant="outlined" />
-                  <TextField value={state.commande.medicament.quantite} onChange={updateForm} id="quantite" label="Quantité" variant="outlined" />
-                  <TextField value={state.commande.medicament.taille} onChange={updateForm} id="taille" label="Taille" variant="outlined" />
-                  <TextField value={state.commande.medicament.poids} onChange={updateForm} id="poids" label="Poids" variant="outlined" />
-                  <TextField value={state.commande.medicament.prix} onChange={updateForm} id="prix" label="Prix" variant="outlined" />
-                  {/* <Checkbox onChange={handleChangeCheckbox} value="secondary" color="primary" /> */}
-                  <button>Submit</button>
-                </form>
-                
+          return <div>
+                  
                 </div>;
         case 1:
           return <div><form className="formulaireClient" noValidate autoComplete="on">

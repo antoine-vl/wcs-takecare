@@ -24,6 +24,7 @@ import Avatar from '@material-ui/core/Avatar';
 import CommandPage from './CommandPages/CommandPage';
 import FormulaireClient from './ClientPages/FormulaireClient';
 import FormulaireCommande from './CommandPages/FormulaireCommande';
+import FormulaireMedicament from './CommandPages/FormulaireMedicament';
 
 
 /* ============================== */
@@ -154,7 +155,7 @@ export default function Dashboard({match}) {
 
           <Route 
             path={`${match.path}/test-comp`}
-            render={props => <FormulaireCommande {...props} />}
+            render={props => <FormulaireMedicament {...props} />}
           />
 
         </Switch>
