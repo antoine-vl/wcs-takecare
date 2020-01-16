@@ -11,8 +11,12 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 // COMPONENTS
-import FormulaireClient from '../ClientPages/FormulaireClient';
+//import FormulaireClient from '../ClientPages/FormulaireClient';
 import FormulaireMedicament from './FormulaireMedicament';
+import FormulaireClient from './FormulaireClient.js'
+import FormulairePharmacien from './FormulairePharmacien';
+import FormulaireRecap from './FormulaireRecap';
+
 
 
 /* ============================== */
@@ -150,7 +154,7 @@ class FormulaireCommande extends Component {
               />
               <Route 
                 path={`${match.path}/pharmacien`}
-                render={props => <FormulaireClient {...props} />}
+                render={props => <FormulairePharmacien {...props} />}
               />
               <Route 
                 path={`${match.path}/autre`}
@@ -158,7 +162,7 @@ class FormulaireCommande extends Component {
               />
               <Route 
                 path={`${match.path}/recapitulatif`}
-                render={props => <FormulaireClient {...props} />}
+                render={props => <FormulaireRecap {...props} />}
               />
             </Switch>
 

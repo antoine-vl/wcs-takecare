@@ -22,11 +22,11 @@ import Avatar from '@material-ui/core/Avatar';
 
 // COMPONENTS
 //import CommandPage from './CommandPages/CommandPage';
-import FormulaireClient from './ClientPages/FormulaireClient';
+//import FormulaireClient from './ClientPages/FormulaireClient';
 import FormulaireCommande from './CommandPages/FormulaireCommande';
 import AfficheCommande from './CommandPages/AfficheCommande';
 import FormulaireMedicament from './CommandPages/FormulaireMedicament';
-
+import FormulaireClient from './CommandPages/FormulaireClient'
 
 /* ============================== */
 
