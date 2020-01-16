@@ -7,20 +7,7 @@
     background-color: rgba(128, 128, 128, 0.158);
 }
 
-/* input{
-    margin-top: 30px; 
-    margin-left: 10px;
-    border: none;
-    height: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px black;
-} */
-
-/* input:hover{
-    box-shadow: 0px 0px 15px gray;
-} */
-
-.formInfoClient {
+/* .formInfoClient {
     background-color: rgba(105, 105, 105, 0.295);
 }
 
@@ -30,4 +17,115 @@
 
 .formInfoPharmacien{
     background-color: rgba(105, 105, 105, 0.295);
+}
+
+.formulaireMedicament{
+    border: 1px solid rgba(128, 128, 128, 0.459);
+    box-shadow: gray 0px 0px 20px;
+
+    display: flex;
+
+    width: 75vw;
+    height: 100%;
+
+}
+
+.inputsMedicament{
+    border: 1px solid black; 
+
+    width: 50%;
+    margin-right: 20px;
+}
+
+.formulaireResumeMedicament{
+    border: 1px solid black; 
+
+    width: 50%;
+    margin-left: 20px;
+}
+
+.formulaireMed{
+     border: 1px solid black; 
+
+    display: flex;
+    flex-direction: column;
+
+    margin: 20px;
+}
+
+.formulaireMed .inputs{
+     border: 1px solid black; 
+
+    margin: 20px
+}*/
+.contentResumeMedicament{
+    height: 45vh;
+    overflow: auto;
+}
+
+.resumeMedicament{
+    border: 1px solid rgba(128, 128, 128, 0.26);
+    box-shadow: gray 0px 0px 1px;
+    border-radius: 5px;
+    background-color: rgba(175, 162, 162, 0.274);
+
+    display: flex;
+    justify-content: space-around;
+
+    width: 38vw;
+    height: 5vh;
+    margin: 20px;
+}  
+
+.checkboxContent{
+    font-size: 0.45em;
+}
+
+/*.idQuantity{
+   
+    display: flex;
+}
+
+.checkboxButton{
+    display: flex;
+    justify-content: space-around;
+}*/
+
+.titleResumeMedicament{
+    /* border: 2px solid black; */
+    display: flex;
+    
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    margin: 20px;
+
+    font-size: 0.4em;
+    text-align: center;
+}
+
+.titleResumeMedicament h1{
+    font-weight: normal;
+}
+
+.resumeMedicamentName{
+    font-size: 1.2rem;
+    margin-left: 20px;
+}
+
+.resumeMedicamentQuantity{
+    font-size: 1.2rem;
+}
+
+.resumeMedicamentAction button{
+    border: none;
+    margin: 5px;
+}
+
+.resumeMedicamentAction button:hover{
+    box-shadow: grey 0px 0px 10px;
+    border-radius: 50%;
+} 
+.resumeMedicamentAction button:focus{
+    border: none;
 }

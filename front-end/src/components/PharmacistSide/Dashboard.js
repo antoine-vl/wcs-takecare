@@ -25,6 +25,7 @@ import Avatar from '@material-ui/core/Avatar';
 import FormulaireClient from './ClientPages/FormulaireClient';
 import FormulaireCommande from './CommandPages/FormulaireCommande';
 import AfficheCommande from './CommandPages/AfficheCommande';
+import FormulaireMedicament from './CommandPages/FormulaireMedicament';
 
 
 /* ============================== */
@@ -125,6 +126,15 @@ export default function Dashboard({match}) {
         <Divider />
 
         <List>
+          <NavLink  activeClassName="active" to={`${match.url}/new-order`} > 
+            <ListItem button>
+              <ListItemIcon><DescriptionIcon /></ListItemIcon>
+              <ListItemText primary="new-order"/>
+            </ListItem>
+          </NavLink>
+        </List>
+
+        <List>
           <NavLink  activeClassName="active" to={`${match.url}/test-comp`} > 
             <ListItem button>
               <ListItemIcon><DescriptionIcon /></ListItemIcon>
@@ -154,8 +164,13 @@ export default function Dashboard({match}) {
           />
 
           <Route 
-            path={`${match.path}/test-comp`}
+            path={`${match.path}/new-order`}
             render={props => <FormulaireCommande {...props} />}
+          />
+
+          <Route 
+            path={`${match.path}/test-comp`}
+            render={props => <FormulaireMedicament {...props} />}
           />
 
         </Switch>

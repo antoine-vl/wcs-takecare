@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 
 // COMPONENTS
 import FormulaireClient from '../ClientPages/FormulaireClient';
+import FormulaireMedicament from './FormulaireMedicament';
 
 
 /* ============================== */
@@ -141,7 +142,7 @@ class FormulaireCommande extends Component {
             <Switch>
               <Route 
                 path={`${match.path}/medicaments`}
-                render={props =>  <FormulaireClient {...props} />}
+                render={props =>  <FormulaireMedicament {...props} />}
               />
               <Route 
                 path={`${match.path}/client`}
