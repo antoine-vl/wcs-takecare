@@ -95,9 +95,9 @@ export default function Dashboard({match}) {
       >
         <div className={classes.toolbar} />
         <div className="avatarContent">
-          <Avatar className={classes.avatarImg} alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-          <h1 className="avatarSurname">Antoine</h1>
-          <h5 className="avatarName">Van Laethem</h5>
+          <Avatar className={classes.avatarImg} alt="Travis Howard" src="https://www.walhain.be/ma-commune/informations-utiles/sante/pharmacies/media/pharmacie-site.png/@@images/cd2d2ca9-237a-4721-8da2-d5592c9aaf51.png" />
+          <h1 className="avatarSurname">Georges</h1>
+          <h5 className="avatarName">Reine Pharma Bvba-Sprl</h5>
         </div>
 
         <Divider />
