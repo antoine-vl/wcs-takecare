@@ -16,6 +16,7 @@ import FormulaireMedicament from './FormulaireMedicament';
 import FormulaireClient from './FormulaireClient.js'
 import FormulairePharmacien from './FormulairePharmacien';
 import FormulaireRecap from './FormulaireRecap';
+import FormulaireSupplementaire from './FormulaireSupplementaire';
 
 
 
@@ -158,7 +159,7 @@ class FormulaireCommande extends Component {
               />
               <Route 
                 path={`${match.path}/autre`}
-                render={props => <FormulaireClient {...props} />}
+                render={props => <FormulaireSupplementaire {...props} />}
               />
               <Route 
                 path={`${match.path}/recapitulatif`}

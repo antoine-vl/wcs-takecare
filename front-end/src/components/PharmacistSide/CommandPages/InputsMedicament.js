@@ -8,10 +8,10 @@ class InputsMedicament extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            name: '',
-            idMedicament: '',
-            comment: '',
-            quantity: '',
+            // name: '',
+            // idMedicament: '',
+            // comment: '',
+            // quantity: '',
             prescription: false,
         }
     }
@@ -38,22 +38,72 @@ class InputsMedicament extends Component {
                 <form className="formulaireMed" onSubmit={this.handleSubmit} Validate autoComplete="on">
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
-                            <TextField fullWidth className="inputs" value={this.state.name} onChange={this.updateForm} id="name" label="Nom du médicament"  required />
+                            <TextField 
+                                fullWidth 
+                                className="inputs" 
+                                value={this.state.name} 
+                                onChange={this.updateForm} 
+                                id="name" label="Nom du médicament"  
+                                required inputProps={{style: { textAlign: 'left', paddingLeft: '3px'}}} 
+                            />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextField fullWidth className="inputs" value={this.state.idMedicament} onChange={this.updateForm} id="idMedicament" label="Id"  required />
+                            <TextField 
+                                fullWidth 
+                                className="inputs" 
+                                value={this.state.idMedicament} 
+                                onChange={this.updateForm} 
+                                id="idMedicament" 
+                                label="Id"  
+                                required 
+                                inputProps={{style: { textAlign: 'left', paddingLeft: '3px'}}}
+                            />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextField fullWidth className="inputs" value={this.state.quantity} onChange={this.updateForm} id="quantity" label="Quantité"  required type='number' />
+                            <TextField 
+                                fullWidth 
+                                className="inputs" 
+                                value={this.state.quantity} 
+                                onChange={this.updateForm} 
+                                id="quantity" 
+                                label="Quantité"  
+                                required 
+                                type='number' 
+                                inputProps={{style: { textAlign: 'left', paddingLeft: '3px'}}} 
+                            />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField fullWidth multiline={true} rows="7" rowsMax="5" className="inputs" value={this.state.comment} onChange={this.updateForm} id="comment" label="Commentaire" variant="outlined" />   
+                            <TextField 
+                                fullWidth 
+                                multiline={true} 
+                                rows="7" 
+                                rowsMax="5" 
+                                className="inputs" 
+                                value={this.state.comment} 
+                                onChange={this.updateForm} 
+                                id="comment" 
+                                label="Commentaire" 
+                                variant="outlined" 
+                                inputProps={{style: { textAlign: 'left', paddingLeft: '3px'}}} 
+                            />   
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <div className="checkboxContent"><Checkbox className="checkbox" value="secondary" onChange={this.handleChangeCheckbox} color="secondary" />Ce médicament à-t-il besoin d'une prescription ?</div>
+                            <div className="checkboxContent">
+                                <Checkbox 
+                                    className="checkbox" 
+                                    value="secondary" 
+                                    onChange={this.handleChangeCheckbox} 
+                                    color="secondary" 
+                                />
+                                <p>Ce médicament à-t-il besoin d'une prescription ?</p>
+                            </div>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <button className="button" type="submit" >Sauvegarder</button>
+                            <button 
+                                className="button" 
+                                type="submit" 
+                            >Sauvegarder
+                            </button>
                         </Grid>
                     </Grid>
                 </form>

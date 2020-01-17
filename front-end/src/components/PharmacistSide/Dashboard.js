@@ -27,6 +27,9 @@ import FormulaireCommande from './CommandPages/FormulaireCommande';
 import AfficheCommande from './CommandPages/AfficheCommande';
 import FormulaireMedicament from './CommandPages/FormulaireMedicament';
 import FormulaireClient from './CommandPages/FormulaireClient'
+import FormulaireSupplementaire from './CommandPages/FormulaireSupplementaire';
+
+import TESTFormulaireMedicament from './CommandPages/TESTFormulaireMedicament';
 
 /* ============================== */
 
@@ -170,7 +173,7 @@ export default function Dashboard({match}) {
 
           <Route 
             path={`${match.path}/test-comp`}
-            render={props => <FormulaireMedicament {...props} />}
+            render={props => <TESTFormulaireMedicament {...props} />}
           />
 
         </Switch>
