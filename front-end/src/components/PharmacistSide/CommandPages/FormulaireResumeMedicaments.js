@@ -49,10 +49,9 @@ class FormulaireResumeMedicaments extends Component {
                                 <div className="resumeMedicamentQuantity">{item.quantity}</div>
 
                                 {recap ? null : (
-                                    <div className="resumeMedicamentAction">
-                                        <Button variant="contained" color="secondary" onClick={() => deleteMedicament(id)}>< DeleteOutlineIcon /></Button>
-                                            
-                                        <Button variant="contained" color="secondary" onClick={() => editMedicament(id)}>< CreateIcon /></Button>
+                                    <div>
+                                        <Button variant="contained" style={{backgroundColor: 'rgb(32,173,143)', color:'#fff', marginRight:'5px'}} onClick={() => deleteMedicament(id)}>< DeleteOutlineIcon /></Button>  
+                                        <Button variant="contained" style={{backgroundColor: 'rgb(32,173,143)', color:'#fff'}} onClick={() => editMedicament(id)}>< CreateIcon /></Button>
                                     </div>
                                 )}
 
