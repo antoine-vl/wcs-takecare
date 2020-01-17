@@ -13,9 +13,10 @@ import Typography from '@material-ui/core/Typography';
 // COMPONENTS
 //import FormulaireClient from '../ClientPages/FormulaireClient';
 import FormulaireMedicament from './FormulaireMedicament';
-import FormulaireClient from './FormulaireClient.js'
+import FormulaireClient from './FormulaireClient.js';
 import FormulairePharmacien from './FormulairePharmacien';
 import FormulaireRecap from './FormulaireRecap';
+import TitleComponent from './TitleComponent';
 
 
 
@@ -320,8 +321,12 @@ class FormulaireCommande extends Component {
       updateAdressFormPharmacist: event => this.updateAdressFormPharmacist(event)
     }
 
+
+
     //console.log('STATE :', this.state.commande.clientAdress)
     //console.log('STATE 2:', this.state.commande.clientAdress.primary_adress)
+
+
 
     return (
       <div className="f">
@@ -359,11 +364,11 @@ class FormulaireCommande extends Component {
               />
               <Route 
                 path={`${match.path}/autre`}
-                render={props => <FormulaireClient {...props} />}
+                render={props => <TitleComponent {...props} /> }
               />
               <Route 
                 path={`${match.path}/recapitulatif`}
-                render={props => <FormulaireRecap {...props} />}
+                render={props => <FormulaireRecap {...props} recap={this.state.commande} />}
               />
             </Switch>
 

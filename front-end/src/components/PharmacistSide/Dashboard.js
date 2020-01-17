@@ -28,7 +28,11 @@ import AfficheCommande from './CommandPages/AfficheCommande';
 import FormulaireMedicament from './CommandPages/FormulaireMedicament';
 import FormulaireClient from './CommandPages/FormulaireClient'
 import FormulaireRecap from './CommandPages/FormulaireRecap'
+
+
+
 /* ============================== */
+
 
 
 // MATERIAL-UI STYLES
@@ -67,9 +71,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-
-
-// ROUTING OPTIONS
 
 
 export default function Dashboard({match}) {

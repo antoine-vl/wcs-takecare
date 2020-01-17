@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
+import './formulairePage.css'; 
+
+// MATERIAL UI
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CreateIcon from '@material-ui/icons/Create';
-import './formulairePage.css';  
 import Grid from '@material-ui/core/Grid';
+
+
+
+/* ============================== */
+
+
 
 class FormulaireResumeMedicaments extends Component {
     constructor(props) {
@@ -11,7 +19,7 @@ class FormulaireResumeMedicaments extends Component {
     }
 
     render() {
-        const { deleteMedicament , medicaments , editMedicament } = this.props;
+        const { deleteMedicament , medicaments , editMedicament, recap} = this.props;
 
         return ( 
             <div className="contentResumeMedicament">
@@ -23,9 +31,13 @@ class FormulaireResumeMedicaments extends Component {
                         <Grid item xs={12} sm={4}>
                             <h1>Quantité</h1>
                         </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <h1>Action</h1>
-                        </Grid>        
+
+                        {recap ? null : (
+                            <Grid item xs={12} sm={4}>
+                                <h1>Action</h1>
+                            </Grid>
+                        )}
+                        
                     </div>
                 </Grid>
                 <Grid container spacing={3}>
@@ -34,17 +46,21 @@ class FormulaireResumeMedicaments extends Component {
                             <div key={id} className="resumeMedicament">
                                 <div className="resumeMedicamentName">{item.name}</div>
                                 <div className="resumeMedicamentQuantity">{item.quantity}</div>
-                                <div className="resumeMedicamentAction">
-                                    <button onClick={() => deleteMedicament(id)} >
-                                        < DeleteOutlineIcon />
-                                    </button>
-   
-                                    <button onClick={() => editMedicament(id)} >
-                                        < CreateIcon />
-                                    </button>
-                                </div>
-                            </div>)
-                        }
+
+                                {recap ? null : (
+                                    <div className="resumeMedicamentAction">
+                                        <button onClick={() => deleteMedicament(id)} >
+                                            < DeleteOutlineIcon />
+                                        </button>
+    
+                                        <button onClick={() => editMedicament(id)} >
+                                            < CreateIcon />
+                                        </button>
+                                    </div>
+                                )}
+
+                            </div>
+                        )}
                     </Grid> 
                 </Grid>
             </div>

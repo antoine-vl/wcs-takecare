@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
+import './formulairePage.css';
+
+// MATERIAL UI
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
-import './formulairePage.css';
 import Grid from '@material-ui/core/Grid';
+
+
+
+/* ============================== */
+
+
 
 class InputsMedicament extends Component {
     constructor(props) {
         super(props);
-        this.state = {  }
+        this.state = {}
     }
-
-       /* updateForm = (event) => {
-            event.preventDefault();
-            this.setState({[event.target.id]: event.target.value})
-        };
-
-        handleChangeCheckbox = () => {
-            this.state.prescription === false ?
-            this.setState({prescription: true})
-            :
-            this.setState({prescription: false})
-        };
-        */
-        /*handleSubmit = (event) => {
-            event.preventDefault();
-            this.props.inputSubmit()
-        }*/
 
     render() { 
         const { medicament: {name, id, comment, quantity , prescription, isEdit }, updateFormMedicament , inputSubmit, handleChangeCheckboxMed, clearMedoc } = this.props;
