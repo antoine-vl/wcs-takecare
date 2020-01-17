@@ -19,48 +19,7 @@ import FormulaireResumeMedicaments from './FormulaireResumeMedicaments'
 class FormulaireRecap extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        /*  pharmaceuticals:[],
-
-            clientAdress: {
-                lastname: 'Gingras',
-                firstname: 'Pascaline',
-                mail:'PascalineGingras@teleworm.us',
-                GSM:'0484950494',
-                primary_adress: {
-                    adress:'Rue du Cornet',
-                    street_number:'23',
-                    zip_code:'6717',
-                    city:'Attert'
-                },
-                secondary_adress:{
-                    adress:'',
-                    street_number:'',
-                    zip_code:'',
-                    city:''
-                }
-            },
-
-            pharmacistAdress: {
-                lastname: 'Dupuy',
-                firstname: 'Georges',
-                mail:'GeorgesDupuy@armyspy.com',
-                GSM:'025118381',
-                pharmacy_name:'Reine Pharma Bvba-Sprl',
-                primary_adress: {
-                    adress:'Rue de la Montagne',
-                    street_number:'25',
-                    zip_code:'1000',
-                    city:'Bruxelles'
-              }
-            },
-
-            orderInformation:{
-              receipt:'',
-              delivery_comment:''
-            }
-        */
-        }
+        this.state = {}
     }
 
 
@@ -68,12 +27,13 @@ class FormulaireRecap extends Component {
         const {pharmaceuticals} = this.props.recap;
         const {clientAdress} = this.props.recap;
         const {pharmacistAdress} = this.props.recap;
-        //const {orderInformation} = this.props.recap;
+        const {orderInformation} = this.props.recap;
 
         return (
       
         <form>
-            <h3>Récapitulatif de la commande</h3>  
+            <Typography variant="h4" align="left" >Récapitulatif de la commande</Typography>
+
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                     <Typography align="left">
@@ -90,7 +50,7 @@ class FormulaireRecap extends Component {
                 </Grid>
             
                 <Grid item xs={12} sm={6}>
-                <Typography align="left">
+                    <Typography align="left">
                         <h2>Adresse pharmacie</h2>
                         <i><font color="grey">Nom</font></i><br/> {pharmacistAdress.lastname} <br/>
                         <i><font color="grey">Prénom</font></i><br/> {pharmacistAdress.firstname} <br/>
@@ -105,39 +65,23 @@ class FormulaireRecap extends Component {
                 </Grid>
         
 
-                {/* <Grid item xs={12}>
-                <Typography align="left">
-                        <h2>Commande</h2>
-                        {pharmacistAdress.lastname} <br/>
-                        {pharmacistAdress.firstname} <br/>
-                        {pharmacistAdress.mail} <br/>
-                        {pharmacistAdress.GSM} <br/>
-                        {pharmacistAdress.pharmacy_name} <br/>
-                        {pharmacistAdress.primary_adress.adress} <br/>
-                        {pharmacistAdress.primary_adress.street_number} <br/>
-                        {pharmacistAdress.primary_adress.zip_code} <br/>
-                        {pharmacistAdress.primary_adress.city} <br/>
+                <Grid item xs={12} sm={6}>
+                    <Typography align="left">
+                        <h2>Autres informations</h2>
+                        {orderInformation.delivery_comment} <br/>
+                        <h4>Facture</h4>
+                        <img width="100px" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/ReceiptSwiss.jpg" alt="order ticket" />
                     </Typography>   
-                </Grid> */}
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                    <FormulaireResumeMedicaments medicaments={pharmaceuticals} recap={true} />   
+                </Grid>
 
             </Grid>
 
-            <FormulaireResumeMedicaments medicaments={pharmaceuticals} recap={true} />
+            
 
-            {/* <List disablePadding>
-              {products.map(product => (
-                <ListItem className={classes.listItem} key={product.name}>
-                  <ListItemText primary={product.name} secondary={product.desc} />
-                  <Typography variant="body2">{product.price}</Typography>
-                </ListItem>
-              ))} */}
-              {/* <ListItem className={classes.listItem}>
-                <ListItemText primary="Total" />
-                <Typography variant="subtitle1" className={classes.total}>
-                  $34.06
-                </Typography>
-              </ListItem> 
-            </List> */}
         </form>
         );
     }

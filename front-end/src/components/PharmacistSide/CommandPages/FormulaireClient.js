@@ -5,6 +5,7 @@ import './FormulaireClient.css'
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
+import Typography from '@material-ui/core/Typography';
 
 
 
@@ -44,7 +45,8 @@ class FormulaireClient extends Component {
 
         return (    
           <form>
-            <h2>Formulaire client</h2>
+            <Typography variant="h5" align="left" >Adresse du client</Typography>
+            <Typography align="left" gutterBottom >Veuillez entrer l'adresse du client. Ce sera l'adresse d'arrivé de la livraison de Couriier</Typography>
 
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6}>

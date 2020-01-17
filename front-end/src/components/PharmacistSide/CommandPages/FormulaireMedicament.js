@@ -1,8 +1,19 @@
 import React, { Component } from 'react'
-import InputsMedicament from './InputsMedicament'
-import FormulaireResumeMedicament from './FormulaireResumeMedicaments'
 import './formulairePage.css';
+
+// MATERIAL UI
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
+// COMPONENTS
+import InputsMedicament from './InputsMedicament';
+import FormulaireResumeMedicament from './FormulaireResumeMedicaments';
+
+
+
+/* ============================== */
+
+
 
 class FormulaireMedicament extends Component {
     constructor(props) {
@@ -24,6 +35,8 @@ class FormulaireMedicament extends Component {
 
         return ( 
             <>
+                <Typography variant="h5" align="left" >Liste des médicaments</Typography>
+                <Typography align="left" gutterBottom >Veuillez entrer la liste des médicaments de la commande</Typography>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={6}>
                         < InputsMedicament

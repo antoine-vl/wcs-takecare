@@ -31,7 +31,7 @@ const HeroHeader = () => {
             </div>
             <ButtonPhone/>
             
-            <button><Link to='/test-comp' >TEST-COMP</Link></button>
+            {/* <button><Link to='/test-comp' >TEST-COMP</Link></button> */}
             <button><Link to='/dashboard' >DASHBOARD</Link></button>
         </div>
     )

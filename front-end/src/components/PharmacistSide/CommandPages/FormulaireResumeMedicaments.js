@@ -5,6 +5,7 @@ import './formulairePage.css';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CreateIcon from '@material-ui/icons/Create';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 
 
@@ -49,13 +50,9 @@ class FormulaireResumeMedicaments extends Component {
 
                                 {recap ? null : (
                                     <div className="resumeMedicamentAction">
-                                        <button onClick={() => deleteMedicament(id)} >
-                                            < DeleteOutlineIcon />
-                                        </button>
-    
-                                        <button onClick={() => editMedicament(id)} >
-                                            < CreateIcon />
-                                        </button>
+                                        <Button variant="contained" color="secondary" onClick={() => deleteMedicament(id)}>< DeleteOutlineIcon /></Button>
+                                            
+                                        <Button variant="contained" color="secondary" onClick={() => editMedicament(id)}>< CreateIcon /></Button>
                                     </div>
                                 )}
 

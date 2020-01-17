@@ -5,6 +5,7 @@ import './formulairePage.css';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 
 
@@ -51,12 +52,12 @@ class InputsMedicament extends Component {
 
                         <Grid item xs={12} sm={6}>
                             {isEdit ? (
-                                <>
-                                    <button className="button" type="submit" >modifier</button>
-                                    <button className="button" onClick={(e) => clearMedoc(e)} >annuler</button>
+                                <>  
+                                    <Button variant="contained" color="secondary" type="submit">Modifier</Button>
+                                    <Button variant="contained" color="secondary" onClick={(e) => clearMedoc(e)}>Annuler</Button>
                                 </>
-                            ):(
-                                <button className="button" type="submit" >Sauvegarder</button>
+                            ):( 
+                                <Button variant="contained" color="secondary" type="submit">Sauvegarder</Button>
                             )}
                             
                         </Grid>

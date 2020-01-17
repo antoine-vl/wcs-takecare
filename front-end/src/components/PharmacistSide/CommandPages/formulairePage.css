@@ -129,3 +129,10 @@
 .resumeMedicamentAction button:focus{
     border: none;
 }
+
+.buttonAddFichier{
+    width: 15vw;
+    height: 7vh;
+    border: none;
+    border-radius: 10%;
+}

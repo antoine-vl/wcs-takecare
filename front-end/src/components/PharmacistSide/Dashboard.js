@@ -2,7 +2,7 @@ import React from 'react';
 import './headerUserPage.css';
 
 // ROUTER
-import { NavLink, Switch, Route } from 'react-router-dom';
+import { Link, NavLink, Switch, Route } from 'react-router-dom';
 
 // MATERIAL UI
 import PeopleIcon from '@material-ui/icons/People';
@@ -21,13 +21,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 
 // COMPONENTS
-//import CommandPage from './CommandPages/CommandPage';
-//import FormulaireClient from './ClientPages/FormulaireClient';
 import FormulaireCommande from './CommandPages/FormulaireCommande';
 import AfficheCommande from './CommandPages/AfficheCommande';
-import FormulaireMedicament from './CommandPages/FormulaireMedicament';
-import FormulaireClient from './CommandPages/FormulaireClient'
-import FormulaireRecap from './CommandPages/FormulaireRecap'
+import FormulaireClient from './CommandPages/FormulaireClient';
+import TitleComponent from './CommandPages/TitleComponent';
 
 
 
@@ -105,44 +102,44 @@ export default function Dashboard({match}) {
 
         <Divider />
         <List>
-          <NavLink  activeClassName="active" to={`${match.url}/client`} >
+          <Link style={{textDecoration: 'none'}} to={`${match.url}/client`} >
             <ListItem button key ="Client">
                 <ListItemIcon><PeopleIcon /></ListItemIcon>
                 <ListItemText primary="Client"/>
             </ListItem>
-          </NavLink>
+          </Link>
         </List>
 
         <Divider />
 
         <List>
-          <NavLink  activeClassName="active" to={`${match.url}/orders`} > 
-            <ListItem button>
-              <ListItemIcon><DescriptionIcon /></ListItemIcon>
-              <ListItemText primary="Commande"/>
-            </ListItem>
-          </NavLink>
+          <Link style={{textDecoration: 'none'}} to={`${match.url}/orders`} > 
+              <ListItem button>
+                  <ListItemIcon><DescriptionIcon /></ListItemIcon>
+                  <ListItemText style={{textDecoration: 'none'}} primary="Commande"/>
+              </ListItem>
+          </Link>
         </List>
 
         <Divider />
 
         <List>
-          <NavLink  activeClassName="active" to={`${match.url}/new-order`} > 
+          <Link style={{textDecoration: 'none'}} to={`${match.url}/new-order`} > 
             <ListItem button>
               <ListItemIcon><DescriptionIcon /></ListItemIcon>
-              <ListItemText primary="new-order"/>
+              <ListItemText primary="Nouvelle commande"/>
             </ListItem>
-          </NavLink>
+          </Link>
         </List>
 
-        <List>
+        {/* <List>
           <NavLink  activeClassName="active" to={`${match.url}/test-comp`} > 
             <ListItem button>
               <ListItemIcon><DescriptionIcon /></ListItemIcon>
               <ListItemText primary="test-comp"/>
             </ListItem>
           </NavLink>
-        </List>
+        </List> */}
         
 
       </Drawer>
@@ -161,7 +158,7 @@ export default function Dashboard({match}) {
 
           <Route 
             path={`${match.path}/client`}
-            render={props => <FormulaireClient {...props} />}
+            render={props => <TitleComponent {...props} />}
           />
 
           <Route 
@@ -169,10 +166,10 @@ export default function Dashboard({match}) {
             render={props => <FormulaireCommande {...props} />}
           />
 
-          <Route 
+          {/* <Route 
             path={`${match.path}/test-comp`}
             render={props => <FormulaireRecap {...props} />}
-          />
+          /> */}
 
         </Switch>
       </div>  

@@ -16,7 +16,7 @@ import FormulaireMedicament from './FormulaireMedicament';
 import FormulaireClient from './FormulaireClient.js';
 import FormulairePharmacien from './FormulairePharmacien';
 import FormulaireRecap from './FormulaireRecap';
-import TitleComponent from './TitleComponent';
+import FormulaireSupplementaire from './FormulaireSupplementaire';
 
 
 
@@ -257,6 +257,27 @@ class FormulaireCommande extends Component {
   }
 
 
+  
+// Partie autres informations
+  updateFormAutre = event => {
+    event.preventDefault();
+    this.setState({
+      commande: {
+        ...this.state.commande,
+        orderInformation: {
+          ...this.state.commande.orderInformation,
+          [event.target.id]: event.target.value
+        }
+      }
+    })
+  }
+
+  alertFalseButton = (event) => {
+    event.preventDefault();
+    alert('Il est impossible d\'uploader une image pour le moment')        
+  }
+
+
 
 // Gestion stepper
   getStepContent = (stepIndex, match) => {
@@ -321,9 +342,16 @@ class FormulaireCommande extends Component {
       updateAdressFormPharmacist: event => this.updateAdressFormPharmacist(event)
     }
 
+    //props step 4 - autres informations
+    const propsFormulaireAutre = {
+      updateFormAutre: event => this.updateFormAutre(event),
+      alertFalseButton: event => this.alertFalseButton(event),
+      currentOtherInfos: this.state.commande.orderInformation
+    }
 
 
-    //console.log('STATE :', this.state.commande.clientAdress)
+
+    //console.log('STATE :', this.state.commande.orderInformation)
     //console.log('STATE 2:', this.state.commande.clientAdress.primary_adress)
 
 
@@ -364,7 +392,7 @@ class FormulaireCommande extends Component {
               />
               <Route 
                 path={`${match.path}/autre`}
-                render={props => <TitleComponent {...props} /> }
+                render={props => <FormulaireSupplementaire {...props} PFO={propsFormulaireAutre} />}
               />
               <Route 
                 path={`${match.path}/recapitulatif`}

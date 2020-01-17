@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 //import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 //import Checkbox from '@material-ui/core/Checkbox';
 
 
@@ -16,7 +17,7 @@ class FormulairePharmacien extends Component {
     constructor(props) {
         super(props);
         this.state = {}
-    }
+    } 
 
     render() { 
 
@@ -42,7 +43,8 @@ class FormulairePharmacien extends Component {
 
       return ( 
         <form>
-          <h2>Formulaire pharmacien</h2>
+          <Typography variant="h5" align="left" >Adresse de la pharmacie</Typography>
+          <Typography align="left" gutterBottom >Veuillez entrer l'adresse de la pharmacie. Ce sera l'adresse de départ pour le coursier de Couriier</Typography>
 
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>

@@ -10,7 +10,7 @@ function TitleComponent() {
 
     return (
         <h1>
-            STEP 4
+            PARTIE CLIENT
         </h1>
     );
 
