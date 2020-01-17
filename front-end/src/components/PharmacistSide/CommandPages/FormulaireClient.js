@@ -1,52 +1,58 @@
 import React, { Component } from 'react';
+import './FormulaireClient.css'
+
+// MATERIAL UI
 import TextField from '@material-ui/core/TextField';
-//import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
-import './FormulaireClient.css'
+
+
+
+/* ============================== */
+
+
 
 class FormulaireClient extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
-                lastName: '',
-                firstName: '',
-                mail: '',
-                GSM: '',
-                adress : '',
-                other_adress: '',
-                street_number: '',
-                zip_code: '',
-                city: '',
-                is_other_adress: false,
-         }
+        this.state = {
+          is_other_adress: false,
+        }
     }
-
-    updateForm = (event) => {
-        event.preventDefault();
-        this.setState({[event.target.id]: event.target.value})
-        console.log(event.target)
-      };
-    handleChange = name => event => {
-        this.setState({...this.state, [name]: event.target.checked });
-      };
 
     checkboxChange = () => {
       this.setState({is_other_adress : !this.state.is_other_adress}) 
     }
 
     render() { 
+        const {
+          currentClient :{
+            lastname, 
+            firstname, 
+            mail, 
+            GSM,  
+            primary_adress: {
+              adress,
+              street_number,
+              zip_code,
+              city
+            }
+          },
+          updateFormClient,
+          updateAdressFormClient
+        } = this.props.PFC;
+
         return (    
           <form>
             <h2>Formulaire client</h2>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  value={this.state.lastName} 
-                  onChange={this.updateForm}
+                  defaultValue={lastname} 
+                  onChange={(e) => updateFormClient(e)}
                   required
-                  id="lastName"
-                  name="lastName"
+                  id="lastname"
+                  //name="lastname"
                   label="Nom"
                   fullWidth
                   inputProps={{
@@ -58,11 +64,11 @@ class FormulaireClient extends Component {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  value={this.state.firstName} 
-                  onChange={this.updateForm}
+                  value={firstname} 
+                  onChange={(e) => updateFormClient(e)}
                   required
-                  id="firstName"
-                  name="firstName"
+                  id="firstname"
+                  //name="firstname"
                   label="Prénom"
                   fullWidth
                   inputProps={{
@@ -73,11 +79,11 @@ class FormulaireClient extends Component {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  value={this.state.mail} 
-                  onChange={this.updateForm}
+                  value={mail} 
+                  onChange={(e) => updateFormClient(e)}
                   required
                   id="mail"
-                  name="mail"
+                  //name="mail"
                   label="Email"
                   fullWidth
                   inputProps={{
@@ -88,11 +94,11 @@ class FormulaireClient extends Component {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  value={this.state.GSM} 
-                  onChange={this.updateForm}
+                  value={GSM} 
+                  onChange={(e) => updateFormClient(e)}
                   required
                   id="GSM"
-                  name="GSM"
+                  //name="GSM"
                   label="GSM"
                   fullWidth
                   inputProps={{
@@ -103,12 +109,11 @@ class FormulaireClient extends Component {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  value={this.state.adress} 
-                  onChange={this.updateForm}
+                  defaultValue={adress} 
+                  onChange={(e) => updateAdressFormClient(e)}
                   required
-                  disabled={this.state.is_other_adress ? true : false}
                   id="adress"
-                  name="adress"
+                  //name="adress"
                   label="Adresse"
                   fullWidth
                   inputProps={{
@@ -117,28 +122,14 @@ class FormulaireClient extends Component {
                   //autoComplete="billing address-level2"
                 />
               </Grid>
+
               <Grid item xs={12} sm={6}>
                 <TextField
-                  value={this.state.other_adress} 
-                  onChange={this.updateForm}
-                  disabled={this.state.is_other_adress ? false : true}
-                  id="other_adress"
-                  name="other_adress"
-                  label="Autre adresse"
-                  fullWidth
-                  inputProps={{
-                    style: { textAlign: "left", paddingLeft: "3px" }
-                  }}
-                  //autoComplete="billing address-level2"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  value={this.state.street_number} 
-                  onChange={this.updateForm}
+                  defaultValue={street_number} 
+                  onChange={(e) => updateAdressFormClient(e)}
                   required
                   id="street_number"
-                  name="street_number"
+                  //name="street_number"
                   label="Numéro"
                   fullWidth
                   inputProps={{
@@ -147,13 +138,14 @@ class FormulaireClient extends Component {
                   //autoComplete="billing postal-code"
                 />
               </Grid>
+
               <Grid item xs={12} sm={6}>
                 <TextField
-                  value={this.state.zip_code} 
-                  onChange={this.updateForm}
+                  value={zip_code} 
+                  onChange={(e) => updateAdressFormClient(e)}
                   required
                   id="zip_code"
-                  name="zip_code"
+                  //name="zip_code"
                   label="Code postale"
                   fullWidth
                   inputProps={{
@@ -164,11 +156,11 @@ class FormulaireClient extends Component {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  value={this.state.city} 
-                  onChange={this.updateForm}
+                  value={city} 
+                  onChange={(e) => updateAdressFormClient(e)}
                   required
                   id="city"
-                  name="city"
+                  //name="city"
                   label="Ville"
                   fullWidth
                   inputProps={{
@@ -177,12 +169,15 @@ class FormulaireClient extends Component {
                   //autoComplete="fname"
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <div className="checkbox">
                   <Checkbox color="secondary" name="saveAddress" value="yes" onChange={this.checkboxChange} /> Cocher uniquement si adresse de livraison différente
                 </div>
               </Grid>
+
             </Grid>
+
           </form>             
          );
     }

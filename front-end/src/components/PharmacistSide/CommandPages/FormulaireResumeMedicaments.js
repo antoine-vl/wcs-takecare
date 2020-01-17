@@ -11,6 +11,8 @@ class FormulaireResumeMedicaments extends Component {
     }
 
     render() {
+        const { deleteMedicament , medicaments , editMedicament } = this.props;
+
         return ( 
             <div className="contentResumeMedicament">
                 <Grid container spacing={3}>
@@ -25,23 +27,25 @@ class FormulaireResumeMedicaments extends Component {
                             <h1>Action</h1>
                         </Grid>        
                     </div>
-                    <div>
-                        {this.props.medicaments.map((item,id) =>
+                </Grid>
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        {medicaments.map((item,id) =>
                             <div key={id} className="resumeMedicament">
                                 <div className="resumeMedicamentName">{item.name}</div>
                                 <div className="resumeMedicamentQuantity">{item.quantity}</div>
                                 <div className="resumeMedicamentAction">
-                                {/* {console.log('mon state !!!!', this.props)} */}
-                                    <button onClick={() => this.props.deleteMedicament(id)} >
+                                    <button onClick={() => deleteMedicament(id)} >
                                         < DeleteOutlineIcon />
                                     </button>
-                                    <button onClick={() => this.props.editMedicament(id)} >
+   
+                                    <button onClick={() => editMedicament(id)} >
                                         < CreateIcon />
                                     </button>
                                 </div>
                             </div>)
                         }
-                    </div>
+                    </Grid> 
                 </Grid>
             </div>
          );
