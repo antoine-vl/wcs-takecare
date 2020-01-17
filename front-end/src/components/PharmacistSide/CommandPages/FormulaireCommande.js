@@ -359,7 +359,8 @@ class FormulaireCommande extends Component {
     return (
       <div className="f">
         
-        <Stepper activeStep={this.state.activePage.activeStep} alternativeLabel >
+        <Stepper
+                    style={{ backgroundColor:'rgb(250,250,250)' }} activeStep={this.state.activePage.activeStep} alternativeLabel >
           {this.steps.map(label => (
             <Step key={label}>
                 <StepLabel>{label}</StepLabel>
@@ -403,6 +404,7 @@ class FormulaireCommande extends Component {
             
             <div>
               <Button
+                style={{margin:'30px'}}
                 disabled={this.state.activePage.activeStep === 0}
                 onClick={this.handleBack}
               >

@@ -26,16 +26,61 @@ class InputsMedicament extends Component {
                 <form className="formulaireMed" onSubmit={(e) => inputSubmit(e)} autoComplete="on"> 
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
-                            <TextField fullWidth className="inputs" value={name} onChange={(e) => updateFormMedicament(e)} id="name" label="Nom du médicament"  required />
+                            <TextField 
+                                inputProps={{
+                                    style: { textAlign: "left", paddingLeft: "3px" }
+                                }} 
+                                fullWidth 
+                                className="inputs" 
+                                value={name} 
+                                onChange={(e) => updateFormMedicament(e)} 
+                                id="name" 
+                                label="Nom du médicament"  
+                                required 
+                            />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextField fullWidth className="inputs" value={id} onChange={(e) => updateFormMedicament(e)} id="id" label="Id"  required />
+                            <TextField 
+                                inputProps={{
+                                    style: { textAlign: "left", paddingLeft: "3px" }
+                                }} 
+                                fullWidth 
+                                className="inputs" 
+                                value={id} 
+                                onChange={(e) => updateFormMedicament(e)} 
+                                id="id" 
+                                label="Id"  
+                                required 
+                            />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextField fullWidth className="inputs" value={quantity} onChange={(e) => updateFormMedicament(e)} id="quantity" label="Quantité"  required type='number' />
+                            <TextField 
+                                inputProps={{
+                                    style: { textAlign: "left", paddingLeft: "3px" }
+                                }} 
+                                fullWidth 
+                                className="inputs" 
+                                value={quantity} 
+                                onChange={(e) => updateFormMedicament(e)} 
+                                id="quantity" 
+                                label="Quantité"  
+                                required 
+                                type='number' 
+                            />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField fullWidth multiline={true} rows="7" rowsMax="5" className="inputs" value={comment} onChange={(e) => updateFormMedicament(e)} id="comment" label="Commentaire" variant="outlined" />   
+                            <TextField 
+                                fullWidth 
+                                multiline={true} 
+                                rows="7" 
+                                rowsMax="5" 
+                                className="inputs" 
+                                value={comment} 
+                                onChange={(e) => updateFormMedicament(e)} 
+                                id="comment" 
+                                label="Commentaire" 
+                                variant="outlined" 
+                            />   
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <div className="checkboxContent">
@@ -53,11 +98,33 @@ class InputsMedicament extends Component {
                         <Grid item xs={12} sm={6}>
                             {isEdit ? (
                                 <>  
-                                    <Button variant="contained" color="secondary" type="submit">Modifier</Button>
-                                    <Button variant="contained" color="secondary" onClick={(e) => clearMedoc(e)}>Annuler</Button>
+                                    <Button 
+                                        variant="contained" 
+                                        style={{
+                                            backgroundColor: 'rgb(32,173,143)', 
+                                            color:'#fff',
+                                            marginRight:'5px'                                         
+                                        }} 
+                                            type="submit">Modifier
+                                    </Button>
+                                    <Button 
+                                        variant="contained" 
+                                        style={{
+                                            backgroundColor: 'rgb(32,173,143)', 
+                                            color:'#fff'
+                                        }} 
+                                        onClick={(e) => clearMedoc(e)}>Annuler
+                                    </Button>
                                 </>
                             ):( 
-                                <Button variant="contained" color="secondary" type="submit">Sauvegarder</Button>
+                                <Button 
+                                    variant="contained" 
+                                    style={{
+                                        backgroundColor: 'rgb(32,173,143)', 
+                                        color:'#fff'
+                                    }} 
+                                    type="submit">Sauvegarder
+                                </Button>
                             )}
                             
                         </Grid>
