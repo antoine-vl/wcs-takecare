@@ -4,6 +4,11 @@ import './formulairePage.css';
 // MATERIAL UI
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button';
 
 // COMPONENTS
 import InputsMedicament from './InputsMedicament';
@@ -35,10 +40,12 @@ class FormulaireMedicament extends Component {
 
         return ( 
             <>
+    
                 <Typography variant="h5" align="left" >Liste des médicaments</Typography>
                 <Typography align="left" gutterBottom >Veuillez entrer la liste des médicaments de la commande</Typography>
+                
                 <Grid container spacing={3}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={5}>
                         < InputsMedicament
                             medicament={medicament}
                             inputSubmit={inputSubmitMed}
@@ -47,7 +54,7 @@ class FormulaireMedicament extends Component {
                             clearMedoc={clearMedoc}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={7}>
                         < FormulaireResumeMedicament 
                             medicaments={listeMedicament}
                             deleteMedicament={deleteMedicament}

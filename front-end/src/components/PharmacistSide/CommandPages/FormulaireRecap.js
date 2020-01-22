@@ -19,15 +19,32 @@ import FormulaireResumeMedicaments from './FormulaireResumeMedicaments'
 class FormulaireRecap extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {  
+            count: this.countPharmaceuticals(props.recap.pharmaceuticals)
+        }
+    }
+    
+    countPharmaceuticals = (details) => {
+        console.log(details)
+        let result= 0;
+        for (let i = 0; i < details.length; i ++){
+            console.log(details[i].price)
+            result = result + (parseInt(details[i].price, 10) * parseInt(details[i].quantity, 10))
+        }
+        console.log(result)
+        return result
+            
+        
+        
     }
 
-
     render() { 
-        const {pharmaceuticals} = this.props.recap;
-        const {clientAdress} = this.props.recap;
+        const {pharmaceuticals}  = this.props.recap;
+        const {price}            = this.props.recap.pharmaceuticals;
+        const {clientAdress}     = this.props.recap;
         const {pharmacistAdress} = this.props.recap;
         const {orderInformation} = this.props.recap;
+        
 
         return (
       
@@ -65,7 +82,7 @@ class FormulaireRecap extends Component {
                 </Grid>
         
 
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <Typography align="left">
                         <h2>Autres informations</h2>
                         {orderInformation.delivery_comment} <br/>
@@ -74,8 +91,24 @@ class FormulaireRecap extends Component {
                     </Typography>   
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormulaireResumeMedicaments medicaments={pharmaceuticals} recap={true} />   
+                </Grid>
+
+                <Grid item xs={12} sm={4}>
+                    <Typography align="left">
+                        <h2>Payement</h2>
+                        {pharmaceuticals.map((item,id) =>
+                            <div key={id} className="resumeMedicament">
+                                <div className="resumeMedicamentName">{item.name}</div>
+                                <div className="resumeMedicamentQuantity">{item.price * item.quantity} Euro ({item.price} * {item.quantity})</div>
+                            </div>
+                        )}
+                        {this.state.count >= 35 ? <p>Total : {this.state.count} €</p> : <p>Sous-total : {this.state.count} €</p>}
+                        
+                        {this.state.count >= 35 ? <p>livraison gratuite</p> : <p>livraison payante de 5,00 €</p>}
+                        {this.state.count >= 35 ? null : <p>Total : {this.state.count + 5} € </p>}
+                    </Typography>   
                 </Grid>
 
             </Grid>
