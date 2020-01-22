@@ -41,6 +41,7 @@ class FormulaireCommande extends Component {
         comment: '',
         quantity: '',
         price: '',
+        categorie: '',
         prescription: false,
         isEdit: false,
         idEdit: 0
@@ -107,7 +108,8 @@ class FormulaireCommande extends Component {
         id: '',
         comment: '',
         quantity: '',
-        price: '',
+        price:'',
+        categorie: '',
         prescription: false,
         isEdit: false,
         idEdit: 0
@@ -159,7 +161,7 @@ class FormulaireCommande extends Component {
     this.setState({
       medicament:{
         ...this.state.medicament,
-        [event.target.id]: event.target.value
+        [event.target.name]: event.target.value
       }
     })
   };

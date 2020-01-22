@@ -7,6 +7,12 @@
     background-color: rgba(128, 128, 128, 0.158);
 }
 
+.test button {
+    width: 3vw;
+    height: 6vh;
+    min-width: 1vw;
+}
+
 /* .formInfoClient {
     background-color: rgba(105, 105, 105, 0.295);
 }
@@ -68,14 +74,12 @@
     box-shadow: gray 0px 0px 1px;
     border-radius: 5px;
     background-color: rgba(175, 162, 162, 0.274);
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    width: 70vw;
     height: 8vh;
     padding: 3px;
+    
 }  
 
 .checkboxContent{
@@ -83,16 +87,26 @@
 }
 
 .titleResumeMedicament{
+    /* border: 2px solid black; */
+    display: flex;
+    
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    margin: 20px;
     font-size: 0.4em;
+    
 }
 
 .titleResumeMedicament h1{
     font-weight: normal;
+    display: flex;
+    justify-content: left;
 }
 
 .resumeMedicamentName{
     font-size: 1.2rem;
-    margin-left: 20px;
+    /* margin-left: 30px; */
 }
 
 .resumeMedicamentQuantity{
