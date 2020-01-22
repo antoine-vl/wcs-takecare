@@ -40,6 +40,7 @@ class FormulaireCommande extends Component {
         id: '',
         comment: '',
         quantity: '',
+        price: '',
         prescription: false,
         isEdit: false,
         idEdit: 0
@@ -98,7 +99,6 @@ class FormulaireCommande extends Component {
   }
 
 
-
 // Partie médicaments
   clearMedoc = () => {
     this.setState({
@@ -107,6 +107,7 @@ class FormulaireCommande extends Component {
         id: '',
         comment: '',
         quantity: '',
+        price: '',
         prescription: false,
         isEdit: false,
         idEdit: 0

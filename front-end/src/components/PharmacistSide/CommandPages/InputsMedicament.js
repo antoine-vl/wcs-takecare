@@ -20,7 +20,7 @@ class InputsMedicament extends Component {
     }
 
     render() { 
-        const { medicament: {name, id, comment, quantity , prescription, isEdit }, updateFormMedicament , inputSubmit, handleChangeCheckboxMed, clearMedoc } = this.props;
+        const { medicament: {name, id, comment, quantity , prescription, isEdit, price }, updateFormMedicament , inputSubmit, handleChangeCheckboxMed, clearMedoc } = this.props;
         
         return ( 
                 <form className="formulaireMed" onSubmit={(e) => inputSubmit(e)} autoComplete="on"> 
@@ -39,7 +39,7 @@ class InputsMedicament extends Component {
                                 required 
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={4}>
                             <TextField 
                                 inputProps={{
                                     style: { textAlign: "left", paddingLeft: "3px" }
@@ -53,7 +53,7 @@ class InputsMedicament extends Component {
                                 required 
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={4}>
                             <TextField 
                                 inputProps={{
                                     style: { textAlign: "left", paddingLeft: "3px" }
@@ -64,6 +64,22 @@ class InputsMedicament extends Component {
                                 onChange={(e) => updateFormMedicament(e)} 
                                 id="quantity" 
                                 label="Quantité"  
+                                required 
+                                type='number' 
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <TextField 
+                                inputProps={{
+                                    style: { textAlign: "left", paddingLeft: "3px" }
+                                }} 
+                                fullWidth 
+                                className="inputs" 
+                                value={price} 
+                                placeholder="00,00 €"
+                                onChange={(e) => updateFormMedicament(e)} 
+                                id="price" 
+                                label="Prix à l'unité"
                                 required 
                                 type='number' 
                             />
