@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 
 // ROUTER
-import { withRouter, Redirect, Switch, Route } from 'react-router-dom';
+import { Link, Redirect, Switch, Route } from 'react-router-dom';
 
 // MATERIAL UI
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
+import StepButton from '@material-ui/core/StepButton'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
@@ -30,6 +31,7 @@ class FormulaireCommande extends Component {
     super(props);
 
     this.state = { 
+      orderComplete: true,
 
       activePage: {
         activeStep : 0,
@@ -90,13 +92,19 @@ class FormulaireCommande extends Component {
       }
     }
 
-    this.steps = ['Liste des médiaments', 
-                  'Informations du client', 
-                  'Informations de la pharmacie', 
-                  'Informations Supplémentaires', 
-                  'Récapitulatif'];
+    this.steps = [{name:'Informations du client', path:'client', step:0}, 
+                  {name:'Liste des médiaments', path:'medicaments', step:1},
+                  {name:'Informations de la pharmacie', path:'pharmacien', step:2},
+                  {name:'Informations Supplémentaires', path:'autre', step:3},
+                  {name:'Récapitulatif', path:'recapitulatif', step:4}];
   }
 
+  componentWillUnmount(){
+    if(this.state.orderComplete){
+      alert('Ola manant tu na point fini de remplir la commande!!!')
+      this.setState({orderComplete: true})
+    }
+  }
 
 
 // Partie médicaments
@@ -283,15 +291,15 @@ class FormulaireCommande extends Component {
   getStepContent = (stepIndex, match) => {
     switch (stepIndex) {
       case 0:
-        return <Redirect to={`${match.url}/medicaments`} push/>;
+        return <Redirect to={`${match.url}/${this.steps[0].path}`} push/>;
       case 1:
-        return <Redirect to={`${match.url}/client`} push/>;
+        return <Redirect to={`${match.url}/${this.steps[1].path}`} push/>;
       case 2:
-        return <Redirect to={`${match.url}/pharmacien`} push/>;
+        return <Redirect to={`${match.url}/${this.steps[2].path}`} push/>;
       case 3:
-        return <Redirect to={`${match.url}/autre`} push/>;
+        return <Redirect to={`${match.url}/${this.steps[3].path}`} push/>;
       case 4:
-        return <Redirect to={`${match.url}/recapitulatif`} push/>;
+        return <Redirect to={`${match.url}/${this.steps[4].path}`} push/>;
       default:
         return 'Unknown stepIndex';
     }
@@ -307,6 +315,10 @@ class FormulaireCommande extends Component {
 
   handleReset = () => {
     this.setState({activePage:{  activeStep: 0}})
+  }
+
+  handleGoTo = (event, step) => {
+    this.setState({activePage:{ activeStep: step}})
   }
 
 
@@ -360,10 +372,14 @@ class FormulaireCommande extends Component {
       <div className="f">
         
         <Stepper
-                    style={{ backgroundColor:'rgb(250,250,250)' }} activeStep={this.state.activePage.activeStep} alternativeLabel >
+          style={{ backgroundColor:'rgb(250,250,250)' }} activeStep={this.state.activePage.activeStep} alternativeLabel >
           {this.steps.map(label => (
-            <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+            <Step key={label.name}>
+              <StepLabel>
+                <StepButton onClick={(e) => this.handleGoTo(e, label.step)} >
+                    {label.name}
+                </StepButton>
+              </StepLabel>
             </Step>
           ))}
         </Stepper>
@@ -380,23 +396,23 @@ class FormulaireCommande extends Component {
             <Typography>{this.getStepContent(this.state.activePage.activeStep, match)}</Typography>
             <Switch>
               <Route 
-                path={`${match.path}/medicaments`}
-                render={(props) =>  <FormulaireMedicament {...props} PFM={propsFormulaireMedicament} />}
+                path={`${match.path}/${this.steps[0].path}`}
+                render={(props) => <FormulaireClient {...props} PFC={propsFormulaireClient}/>}
               />
               <Route 
-                path={`${match.path}/client`}
-                render={props => <FormulaireClient {...props} PFC={propsFormulaireClient}/>}
+                path={`${match.path}/${this.steps[1].path}`}
+                render={props => <FormulaireMedicament {...props} PFM={propsFormulaireMedicament} />}
               />
               <Route 
-                path={`${match.path}/pharmacien`}
+                path={`${match.path}/${this.steps[2].path}`}
                 render={props => <FormulairePharmacien {...props} PFP={propsFormulairePharmacien} />}
               />
               <Route 
-                path={`${match.path}/autre`}
+                path={`${match.path}/${this.steps[3].path}`}
                 render={props => <FormulaireSupplementaire {...props} PFO={propsFormulaireAutre} />}
               />
               <Route 
-                path={`${match.path}/recapitulatif`}
+                path={`${match.path}/${this.steps[4].path}`}
                 render={props => <FormulaireRecap {...props} recap={this.state.commande} />}
               />
             </Switch>

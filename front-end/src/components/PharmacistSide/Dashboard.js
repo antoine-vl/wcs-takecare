@@ -2,7 +2,7 @@ import React from 'react';
 import './headerUserPage.css';
 
 // ROUTER
-import { Link, NavLink, Switch, Route } from 'react-router-dom';
+import { Link, Switch, Route } from 'react-router-dom';
 
 // MATERIAL UI
 import PeopleIcon from '@material-ui/icons/People';

@@ -3,6 +3,7 @@ const bodyParser  =  require('body-parser');
 const app  =  express();
 const connection = require('./config');
 const cors = require('cors');
+const orderSql = require("./commandRequest.js");
 
 const port = process.env.PORT  ||  5000;
 
@@ -10,11 +11,45 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended:  false }));
 app.use(bodyParser.json());
 
+/*
+exemple:
+http://localhost:5000/dashboard/orders/?limit=10&offset=5&orderby=name&order=asc
 
+test:
+http://localhost:5000/dashboard/orders/?limit=2&offset=0&orderby=name&order=asc
+let sqlQuerry = `${orderSql.GET} ORDER BY ${req.query.orderby} ${req.query.order}`;
+*/
 
 app.get('/dashboard/orders', (req,res) => {
-    console.log('GET pharmacist');
-    connection.query("SELECT od.order_number AS 'Numéro de commande', us.firstname AS 'Prénom', us.lastname AS 'Nom', DATE(ohs.date_status) AS 'Date de création', st.name AS 'Status' FROM Users AS us JOIN Orders AS od ON od.client_id=us.id JOIN Orders_has_Status AS ohs ON ohs.orders_order_number = od.order_number JOIN Status AS st ON st.id=ohs.status_id", (err, results) => {
+
+    console.log('REQ QUERY :', req.query)
+    console.log('orderby :', req.query.orderby)
+    console.log('order :', req.query.order)
+
+    let sqlQuerry = orderSql.GET
+
+    if(req.query.order){
+       sqlQuerry += ` ORDER BY ${req.query.orderby} ${req.query.order}`;
+    }
+    console.log('SQL QUERY :', sqlQuerry)
+
+
+    /*
+
+    let sqlQuerry = orderSql.GET + ' ORDER BY ? ?';
+
+    const queryValue = [
+      String(req.query.orderby),
+      req.query.order
+      /*Number(req.query.limit),
+      Number(req.query.offset)
+    ]
+
+    console.log('ESCAPE :', connection.escape(req.query.orderby))
+
+    */
+
+    connection.query(sqlQuerry, (err, results) => {
         if (err) {
             res.status(500).send(`Error retrieving orders! err: ${err}`);
           } else {
@@ -22,6 +57,12 @@ app.get('/dashboard/orders', (req,res) => {
             res.json(results);
           }
     });
+})
+
+
+app.get('/dashboard/clients', (req,res) => {
+
+    console.log('GET Clients');
 })
 
 
