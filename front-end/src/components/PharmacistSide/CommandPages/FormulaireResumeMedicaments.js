@@ -32,6 +32,9 @@ class FormulaireResumeMedicaments extends Component {
                         <Grid item xs={12} sm={4}>
                             <h1>Quantité</h1>
                         </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <h1>Catégorie</h1>
+                        </Grid>
 
                         {recap ? null : (
                             <Grid item xs={12} sm={4}>
@@ -47,11 +50,12 @@ class FormulaireResumeMedicaments extends Component {
                             <div key={id} className="resumeMedicament">
                                 <div className="resumeMedicamentName">{item.name}</div>
                                 <div className="resumeMedicamentQuantity">{item.quantity}</div>
+                                <div className="resumeMedicamentCatégorie">{item.categorie}</div>
 
                                 {recap ? null : (
                                     <div>
-                                        <Button variant="contained" style={{backgroundColor: 'rgb(32,173,143)', color:'#fff', marginRight:'5px'}} onClick={() => deleteMedicament(id)}>< DeleteOutlineIcon /></Button>  
-                                        <Button variant="contained" style={{backgroundColor: 'rgb(32,173,143)', color:'#fff'}} onClick={() => editMedicament(id)}>< CreateIcon /></Button>
+                                        <Button variant="contained" style={{backgroundColor: 'rgb(32,173,143)', color:'#fff', marginRight:'5px', borderRadius:'50%'}} onClick={() => deleteMedicament(id)}>< DeleteOutlineIcon /></Button>  
+                                        <Button variant="contained" style={{backgroundColor: 'rgb(32,173,143)', color:'#fff', borderRadius:'50%'}} onClick={() => editMedicament(id)}>< CreateIcon /></Button>
                                     </div>
                                 )}
 
