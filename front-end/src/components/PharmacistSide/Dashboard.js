@@ -25,6 +25,7 @@ import FormulaireCommande from './CommandPages/FormulaireCommande';
 import AfficheCommande from './CommandPages/AfficheCommande';
 import FormulaireClient from './CommandPages/FormulaireClient';
 import TitleComponent from './CommandPages/TitleComponent';
+import OrderPart from './CommandPages/OrderPart';
 
 
 
@@ -153,12 +154,12 @@ export default function Dashboard({match}) {
 
           <Route 
             path={`${match.path}/orders`}
-            render={props => <AfficheCommande {...props} />}
+            render={props => <OrderPart {...props} />}
           />
 
           <Route 
             path={`${match.path}/client`}
-            render={props => <TitleComponent {...props} />}
+            render={props => <TitleComponent {...props} title="Partie Client" />}
           />
 
           <Route 

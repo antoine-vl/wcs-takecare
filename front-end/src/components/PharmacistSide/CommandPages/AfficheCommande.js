@@ -12,8 +12,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+import { Button } from '@material-ui/core';
+
+
 
 /* ============================== */
+
 
 
 // MATERIAL-UI STYLES
@@ -44,11 +48,24 @@ class AfficheCommande extends Component {
         this.state = { 
             headTitle: [],
             rows: [],
-            rowsPerPage: 5,
+            rowsPerPage: 1,
             page: 0,
-            orderBy: 'Nom',
-            order: 'asc'
+            totRows: 10,
+            param: {
+              orderby: 'lastname',
+              order: 'asc',
+              limit: 1,
+              offset: 0
+            }
         }
+        
+        this.columnName = [
+          'Numéro de commande',
+          'Prénom',
+          'Nom',
+          'Date de status',
+          'Status'
+        ]
 
         this.status =[
           {
@@ -80,40 +97,123 @@ class AfficheCommande extends Component {
     }
 
     componentDidMount = () => {
+      const urlCpt = `http://localhost:5000/dashboard/orders/count`;
+
       axios
-          .get('http://localhost:5000/dashboard/orders')
+        .get(urlCpt)
+
+        .then(res => {
+          const cpt = res.data[0].cpt;
+          console.log('COUNT :', res.data[0].cpt)
+
+          const paramsQuery= Object.keys(this.state.param)
+          console.log('paramsQuery :', paramsQuery)
+          const url = `http://localhost:5000/dashboard/orders/?${paramsQuery[0]}=${this.state.param.orderby}&${paramsQuery[1]}=${this.state.param.order}&${paramsQuery[2]}=${this.state.param.limit}&${paramsQuery[3]}=${this.state.param.offset}`;
+          console.log('URL :', url)
+
+          axios
+            .get(url)
+
+            .then(res => {
+              console.log('Res ?', res.data)
+              
+              const headTitle = Object.keys(res.data[0]).map((serverTitle, index) => {
+                return {title: this.columnName[index], sqlTitle: serverTitle}
+              })
+
+              console.log('Table Title: ', headTitle)
+
+              const rows = res.data
+
+              this.setState({
+                ...this.state,
+                headTitle: headTitle,
+                rows: rows,
+                totRows: cpt
+              })
+            })
+        })
+    }
+
+    componentDidUpdate = (prevProps, prevState) => {
+      if(this.state.param !== prevState.param){
+
+        const paramsQuery= Object.keys(this.state.param)
+        const url = `http://localhost:5000/dashboard/orders/?${paramsQuery[0]}=${this.state.param.orderby}&${paramsQuery[1]}=${this.state.param.order}&${paramsQuery[2]}=${this.state.param.limit}&${paramsQuery[3]}=${this.state.param.offset}`;
+
+        axios
+          .get(url)
+
           .then(res => {
-
-            console.log('Res ?', res.data)
-
-            const headTitle = Object.keys(res.data[0])
-            console.log('Table Title: ', headTitle)
+            
+            const headTitle = Object.keys(res.data[0]).map((serverTitle, index) => {
+              return {title: this.columnName[index], sqlTitle: serverTitle}
+            })
 
             const rows = res.data
 
             this.setState({
+              ...this.state,
               headTitle: headTitle,
-              rows: rows
+              rows: rows,
             })
           })
+      }
     }
 
     handleChangePage = (event, newPage) => {
-      console.log('Je suis handleChangePage')
-      this.setState({page: newPage});
-    }
-
-    handleChangeRowsPerPage = event => {
-      console.log('Je suis handleChangeRowsPerPage')
       this.setState({
-        rowsPerPage: parseInt(event.target.value, 10),
-        page: 0
+        ...this.state,
+        page: newPage,
+        param: {
+          ...this.state.param,
+          offset: this.state.param.limit * newPage
+        }
       });
     }
 
+    handleChangeRowsPerPage = event => {
+      const newRowsPerPage = parseInt(event.target.value, 10);
+      this.setState({
+        ...this.state,
+        rowsPerPage: newRowsPerPage,
+        page: 0,
+        param: {
+          ...this.state.param,
+          limit: newRowsPerPage,
+          offset: 0
+        }
+      });
+    }
+
+    createSortHandler = (event, titleSort) => {
+      const isAsc = this.state.param.orderby === titleSort && this.state.param.order === 'asc';
+
+      this.setState({
+        ...this.state,
+        param: {
+          ...this.state.param,
+          orderby: titleSort,
+          order: isAsc ? 'desc' : 'asc'
+        }
+      })
+    }
+
     render() { 
-        const { classes } = this.props;
-        const { headTitle, rows, rowsPerPage, page, orderBy, order } = this.state;
+        const { classes , match, handleLook } = this.props;
+        const { 
+          headTitle, 
+          rows,
+          rowsPerPage,
+          page,
+          totRows,
+          param:{
+            orderby, 
+            order,
+          }
+        } = this.state;
+
+        console.log('Match ', match)
 
         return ( 
           <>
@@ -121,38 +221,49 @@ class AfficheCommande extends Component {
               <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    {headTitle.map(title => (
+                    {headTitle.map(column => (
                       <TableCell 
-                        key={title} 
-                        sortDirection={orderBy === title ? order : false}
+                        key={column.title} 
+                        sortDirection={orderby === column.title ? order : false}
                       >
                         <TableSortLabel
-                          active={orderBy === title}
-                          direction={orderBy === title ? order : 'asc'}
-                          //onClick={createSortHandler(headCell.id)}
+                          active={orderby === column.title}
+                          direction={orderby === column.title ? order : 'asc'}
+                          onClick={(e) => this.createSortHandler(e, column.sqlTitle)}
                         >
-                          {title}
-
-                          {orderBy === title ? (
+                          {column.title}
+                          {orderby === column.title ? (
                             <span className={classes.visuallyHidden}>
                               {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                             </span>
                             ) : null}
-                            
                         </TableSortLabel>
                       </TableCell>
                     ))}
+                    <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
-
+                
                 <TableBody>
                 {rows.map(row => (
-                  <TableRow key={row[headTitle[0]]}>
-                    <TableCell>{row[headTitle[0]]}</TableCell>
-                    <TableCell>{row[headTitle[1]]}</TableCell>
-                    <TableCell>{row[headTitle[2]]}</TableCell>
-                    <TableCell>{row[headTitle[3]]}</TableCell>
-                    <TableCell className={classes.status}>{row[headTitle[4]]}</TableCell>
+                  <TableRow key={row[headTitle[0].sqlTitle]}>
+                    <TableCell>{row[headTitle[0].sqlTitle] /*Numéro de commande*/ }</TableCell>
+                    <TableCell>{row[headTitle[1].sqlTitle] /*Prénom*/ }</TableCell>
+                    <TableCell>{row[headTitle[2].sqlTitle] /*Nom*/ }</TableCell>
+                    <TableCell>{row[headTitle[3].sqlTitle] /*Date de status*/ }</TableCell>
+                    <TableCell className={classes.status}>{row[headTitle[4].sqlTitle] /*Status*/ }</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="contained" 
+                        style={{
+                            backgroundColor: 'rgb(32,173,143)', 
+                            color:'#fff'
+                        }} 
+                        onClick={(e) => handleLook(e, row[headTitle[0].sqlTitle])}
+                      >
+                        Voir
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
                 </TableBody>
@@ -160,9 +271,10 @@ class AfficheCommande extends Component {
             </TableContainer>
 
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={[1, 2, 3]}
               component="div"
-              count={rows.length} // requete nb totale de tuple sur table order
+              count={totRows}
+              //{rows.length} // requete nb totale de tuple sur table order
               rowsPerPage={rowsPerPage}
               page={page}
 

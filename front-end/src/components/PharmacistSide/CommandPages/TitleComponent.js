@@ -6,11 +6,17 @@ import React from 'react';
 
 
 
-function TitleComponent() {
+function TitleComponent({ title, match, location, history}) {
+
+    console.log('match ',match)
+    console.log('location ',location)
+    console.log('history', history)
 
     return (
         <h1>
-            PARTIE CLIENT
+            { title }
+            <br/>
+            { match.params.id_order }
         </h1>
     );
 
