@@ -25,6 +25,7 @@ import FormulaireCommande from './CommandPages/FormulaireCommande';
 import AfficheCommande from './CommandPages/AfficheCommande';
 import FormulaireClient from './CommandPages/FormulaireClient';
 import TitleComponent from './CommandPages/TitleComponent';
+import Recap from './CommandPages/Recap';
 
 
 
@@ -153,7 +154,7 @@ export default function Dashboard({match}) {
 
           <Route 
             path={`${match.path}/orders`}
-            render={props => <AfficheCommande {...props} />}
+            render={props => <Recap {...props} />}
           />
 
           <Route 
