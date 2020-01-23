@@ -154,7 +154,7 @@ export default function Dashboard({match}) {
 
           <Route 
             path={`${match.path}/orders`}
-            render={props => <Recap {...props} />}
+            render={props => <TitleComponent {...props} />}
           />
 
           <Route 
