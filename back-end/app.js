@@ -150,6 +150,34 @@ app.get('/dashboard/orders/:id/pharmaceuticals', (req, res) => {
 
 });
 
+app.get('/dashboard/orders/:id/status', (req, res) => {
+
+  const sql = `
+  SELECT
+  st.name AS status,
+  ohs.date_status AS date_status
+  FROM Orders
+  JOIN Orders_has_Status AS ohs ON ohs.orders_order_number = Orders.order_number
+  JOIN Status AS st ON st.id = ohs.status_id
+  WHERE Orders.order_number = ?
+  `
+
+  const orderID = req.params.id
+  console.log(orderID)
+
+  connection.query(sql, orderID, (err, results) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send('Erreur lors de la récupération des commandes');
+    }
+    if (results.length === 0) {
+      return res.status(404).send('Order not found');
+    }
+    return res.json(results);
+  });
+
+});
+
 
 
 app.get('/dashboard/clients', (req,res) => {

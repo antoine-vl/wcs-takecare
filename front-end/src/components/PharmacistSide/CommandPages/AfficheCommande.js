@@ -69,30 +69,40 @@ class AfficheCommande extends Component {
 
         this.status =[
           {
-            id:'New_order',
-            name:'Nouvelle commande',
-            color:''
+              id:'',
+              name:'Nouvelle commande',
+              color:'#073A9D'
           },
           {
-            id:'Order_prepared',
-            name:'Commande prête',
-            color:''
+              id:'',
+              name:'Payement effectué',
+              color:'#8C318B'
           },
           {
-            id:'Order_picked_up_by_Couriier',
-            name:'Récupérer par Couriier',
-            color:''
+              id:'',
+              name:'Commande prête pour la livraison',
+              color:'#FC0D20'
           },
           {
-            id:'Delivered',
-            name:'Commande livrée',
-            color:''
+              id:'',
+              name:'Récupérer par Couriier',
+              color:'#F36A20'
           },
           {
-            id:'Returned_prescription',
-            name:'Prescription retournée',
-            color:''
-          }
+              id:'',
+              name:'Commande livrée',
+              color:'#F7F536'
+          },
+          {
+              id:'',
+              name:'Prescription retournée',
+              color:'#2AFD31'
+          },
+          {
+              id:'',
+              name:'STATUS INCONNU',
+              color:'#FFF'
+          },
         ]
     }
 
@@ -199,6 +209,69 @@ class AfficheCommande extends Component {
       })
     }
 
+    statusColor = (status) => {
+      switch(status){
+        case 'New_order':
+            return '#073A9D';
+        break; 
+
+        case 'Paid':
+            return '#8C318B';
+        break; 
+
+        case 'Order_prepared':
+            return '#FC0D20';
+        break; 
+
+        case 'Order_picked_up_by_Couriier':
+            return 'Récupérer par Couriier';
+        break; 
+
+        case 'Delivered':
+            return 'Commande livrée';
+        break; 
+
+        case 'Returned_prescription':
+            return 'Prescription retournée';
+        break; 
+
+        default:
+            return 'Inconnu';
+      }
+    }
+
+    statusName = (status) => {
+      switch(status){
+        case 'New_order':
+            return 'Nouvelle commande';
+        break; 
+
+        case 'Paid':
+            return 'Payement effectué';
+        break; 
+
+        case 'Order_prepared':
+            return 'Commande prête pour la livraison';
+        break; 
+
+        case 'Order_picked_up_by_Couriier':
+            return '#F36A20';
+        break; 
+
+        case 'Delivered':
+            return '#F7F536';
+        break; 
+
+        case 'Returned_prescription':
+            return '#2AFD31';
+        break; 
+
+        default:
+            return '#AAA';
+      }
+    }
+
+
     render() { 
         const { classes , match, handleLook } = this.props;
         const { 
@@ -251,7 +324,20 @@ class AfficheCommande extends Component {
                     <TableCell>{row[headTitle[1].sqlTitle] /*Prénom*/ }</TableCell>
                     <TableCell>{row[headTitle[2].sqlTitle] /*Nom*/ }</TableCell>
                     <TableCell>{row[headTitle[3].sqlTitle] /*Date de status*/ }</TableCell>
-                    <TableCell className={classes.status}>{row[headTitle[4].sqlTitle] /*Status*/ }</TableCell>
+                    <TableCell 
+                      //className={classes.status}
+                      style={{
+                        backgroundColor: `${this.statusColor(row[headTitle[4].sqlTitle])}`,
+                        //backgroundColor: 'grey',
+                        color: 'white',
+                        borderRadius: '5px',
+                        //padding: '5px',
+                        //display: 'flex',
+                        //flexDirection: 'column'
+                      }}
+                    >
+                      {this.statusName(row[headTitle[4].sqlTitle]) /*Status*/ }
+                    </TableCell>
                     <TableCell>
                       <Button
                         variant="contained" 
