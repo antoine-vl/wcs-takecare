@@ -142,7 +142,7 @@ class InputsMedicament extends Component {
                             />   
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <div className="checkboxContent">
+                            {/* <div className="checkboxContent">
                                 <Checkbox 
                                     checked={prescription ? true : false}
                                     className="checkbox"
@@ -151,7 +151,7 @@ class InputsMedicament extends Component {
                                 />
 
                                 Ce médicament à-t-il besoin d'une prescription ?
-                            </div>
+                            </div> */}
                         </Grid>
 
                         <Grid item xs={12} sm={6}>
