@@ -88,6 +88,7 @@ class Recap extends Component {
             .get(`http://localhost:5000/dashboard/orders/${this.order}/pharmaceuticals`)
             .then(res => {
                 const pharmaceuticals = res.data;
+                console.log('medocs: ', pharmaceuticals)
 
                 axios
                 .get(`http://localhost:5000/dashboard/orders/${this.order}/status`)
@@ -174,7 +175,7 @@ class Recap extends Component {
                                             backgroundColor: `${item.color}` ,
                                             color: 'white',
                                             borderRadius: '5px',
-                                            padding: '5px',
+                                            padding: '10px',
                                             display: 'flex',
                                             flexDirection: 'column'
                                             }}

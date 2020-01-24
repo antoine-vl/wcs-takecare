@@ -19,8 +19,10 @@ class FormulaireResumeMedicaments extends Component {
         this.state = { }
     }
 
+
     render() {
         const { deleteMedicament , medicaments , editMedicament, recap} = this.props;
+        console.log('medicaments liste :', medicaments)
 
         return ( 
             <div className="contentResumeMedicament">
@@ -60,7 +62,7 @@ class FormulaireResumeMedicaments extends Component {
                                     <div className="resumeMedicamentQuantity">{item.price}€</div>
                                 </Grid>
                                 <Grid item xs={12} sm={4}>
-                                    <div className="resumeMedicamentQuantity">{item.categorie}</div>
+                                    <div className="resumeMedicamentQuantity">{item.categorie || item.category}</div>
                                 </Grid>
                                 {recap ? null : (
                                     <Grid item xs={6} sm={4}>

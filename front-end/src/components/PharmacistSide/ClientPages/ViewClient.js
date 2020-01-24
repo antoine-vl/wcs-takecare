@@ -18,7 +18,7 @@ class ViewClient extends Component {
           user:{}
          }
 
-         this.idClient = 1
+         this.idClient = this.props.match.params.id_order
 
     }
 

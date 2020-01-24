@@ -101,12 +101,12 @@ class FormulaireCommande extends Component {
                   {name:'Récapitulatif', path:'recapitulatif', step:4}];
   }
 
-  componentWillUnmount(){
+  /*componentWillUnmount(){
     if(this.state.orderComplete){
       alert('Ola manant tu na point fini de remplir la commande!!!')
       this.setState({orderComplete: true})
     }
-  }
+  }*/
 
 // Partie médicaments
   clearMedoc = () => {

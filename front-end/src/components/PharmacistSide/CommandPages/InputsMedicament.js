@@ -120,8 +120,8 @@ class InputsMedicament extends Component {
                                 required  
                             >
                                 <MenuItem value={''}></MenuItem>
-                                <MenuItem value={'XT'}>XT</MenuItem>
-                                <MenuItem value={'OCT'}>OCT</MenuItem>
+                                <MenuItem value={'RX'}>RX</MenuItem>
+                                <MenuItem value={'OTC'}>OTC</MenuItem>
                                 <MenuItem value={'PARA'}>PARA</MenuItem>
                             </Select>
                         </FormControl>

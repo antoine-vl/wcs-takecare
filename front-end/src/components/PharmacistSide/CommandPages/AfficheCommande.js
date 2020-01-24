@@ -48,13 +48,13 @@ class AfficheCommande extends Component {
         this.state = { 
             headTitle: [],
             rows: [],
-            rowsPerPage: 1,
+            rowsPerPage: 5,
             page: 0,
             totRows: 10,
             param: {
               orderby: 'lastname',
               order: 'asc',
-              limit: 1,
+              limit: 5,
               offset: 0
             }
         }
