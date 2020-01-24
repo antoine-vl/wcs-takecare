@@ -22,8 +22,6 @@ import Avatar from '@material-ui/core/Avatar';
 
 // COMPONENTS
 import FormulaireCommande from './CommandPages/FormulaireCommande';
-import AfficheCommande from './CommandPages/AfficheCommande';
-import FormulaireClient from './CommandPages/FormulaireClient';
 import ClientPart from './ClientPages/ClientPart';
 import OrderPart from './CommandPages/OrderPart';
 
@@ -166,11 +164,6 @@ export default function Dashboard({match}) {
             path={`${match.path}/new-order`}
             render={props => <FormulaireCommande {...props} />}
           />
-
-          {/* <Route 
-            path={`${match.path}/test-comp`}
-            render={props => <FormulaireRecap {...props} />}
-          /> */}
 
         </Switch>
       </div>  

@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 // COMPONENTS
 import AfficheClients from './AfficheClients';
-import TitleComponent from '../CommandPages/TitleComponent';
+import ViewClient from './ViewClient';
 
 
 
@@ -59,7 +59,7 @@ class ClientPart extends Component {
                     />
                     <Route 
                         path={`${match.path}/:id_order`}
-                        render={props => <TitleComponent {...props} title="Affiche One Client" />}
+                        render={props => <ViewClient {...props} />}
                     />
                 </Switch>
             </div>

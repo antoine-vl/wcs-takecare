@@ -198,7 +198,7 @@ app.get('/dashboard/clients', (req,res) => {
 app.get('/dashboard/clients/:id', (req, res) => {
 
   if(req.params.id === 'count'){
-    let sqlQuerry = `
+    const sqlQuerry = `
       SELECT count(*) AS cpt
       FROM Users`;
 
@@ -212,7 +212,40 @@ app.get('/dashboard/clients/:id', (req, res) => {
     });
   }
   else {
-    res.status(200).send(`Affichage du client : ${req.params.id}`)
+    const sql =
+      `SELECT 
+      lastname, 
+      firstname, 
+      mail, 
+      GSM, 
+      date_inscription, 
+      national_registration_number ,
+      zip_code,
+      adress,
+      city,
+      street_number
+      
+      FROM Users AS us
+      
+      JOIN Adress AS ad ON ad.id = us.primary_adress_id
+      JOIN Roles AS ro ON ro.id = us.roles_id
+      
+      WHERE us.primary_adress_id = ?
+      AND ro.role = 'client'`
+
+    const ClientsID = req.params.id
+
+    console.log(ClientsID)
+    connection.query(sql, ClientsID, (err, results) => {
+      if (err) {
+        console.log(err)
+        res.status(500).send('Erreur lors de la récupération des clients');
+      }
+      if (results.length === 0) {
+        return res.status(404).send('Clients not found');
+      }
+      return res.json(results);
+    });
   }
 });
 
