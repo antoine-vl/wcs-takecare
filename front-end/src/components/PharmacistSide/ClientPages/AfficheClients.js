@@ -42,62 +42,35 @@ const styles = theme => ({
 });
 
 
-class AfficheCommande extends Component {
+class AfficheClients extends Component {
     constructor(props) {
         super(props);
         this.state = { 
             headTitle: [],
             rows: [],
-            rowsPerPage: 1,
+            rowsPerPage: 10,
             page: 0,
             totRows: 10,
             param: {
               orderby: 'lastname',
               order: 'asc',
-              limit: 1,
+              limit: 10,
               offset: 0
             }
         }
         
         this.columnName = [
-          'Numéro de commande',
-          'Prénom',
           'Nom',
-          'Date de status',
-          'Status'
+          'Prénom',
+          'Numéro de mobile',
+          'Code postal',
+          'Ville'
         ]
 
-        this.status =[
-          {
-            id:'New_order',
-            name:'Nouvelle commande',
-            color:''
-          },
-          {
-            id:'Order_prepared',
-            name:'Commande prête',
-            color:''
-          },
-          {
-            id:'Order_picked_up_by_Couriier',
-            name:'Récupérer par Couriier',
-            color:''
-          },
-          {
-            id:'Delivered',
-            name:'Commande livrée',
-            color:''
-          },
-          {
-            id:'Returned_prescription',
-            name:'Prescription retournée',
-            color:''
-          }
-        ]
     }
 
     componentDidMount = () => {
-      const urlCpt = `http://localhost:5000/dashboard/orders/count`;
+      const urlCpt = `http://localhost:5000/dashboard/clients/count`;
 
       axios
         .get(urlCpt)
@@ -108,7 +81,7 @@ class AfficheCommande extends Component {
 
           const paramsQuery= Object.keys(this.state.param)
           console.log('paramsQuery :', paramsQuery)
-          const url = `http://localhost:5000/dashboard/orders/?${paramsQuery[0]}=${this.state.param.orderby}&${paramsQuery[1]}=${this.state.param.order}&${paramsQuery[2]}=${this.state.param.limit}&${paramsQuery[3]}=${this.state.param.offset}`;
+          const url = `http://localhost:5000/dashboard/clients/?${paramsQuery[0]}=${this.state.param.orderby}&${paramsQuery[1]}=${this.state.param.order}&${paramsQuery[2]}=${this.state.param.limit}&${paramsQuery[3]}=${this.state.param.offset}`;
           console.log('URL :', url)
 
           axios
@@ -117,7 +90,10 @@ class AfficheCommande extends Component {
             .then(res => {
               console.log('Res ?', res.data)
               
-              const headTitle = Object.keys(res.data[0]).map((serverTitle, index) => {
+              const nameColumnWithoutId = Object.keys(res.data[0])
+              nameColumnWithoutId.pop();
+
+              const headTitle = nameColumnWithoutId.map((serverTitle, index) => {
                 return {title: this.columnName[index], sqlTitle: serverTitle}
               })
 
@@ -139,7 +115,7 @@ class AfficheCommande extends Component {
       if(this.state.param !== prevState.param){
 
         const paramsQuery= Object.keys(this.state.param)
-        const url = `http://localhost:5000/dashboard/orders/?${paramsQuery[0]}=${this.state.param.orderby}&${paramsQuery[1]}=${this.state.param.order}&${paramsQuery[2]}=${this.state.param.limit}&${paramsQuery[3]}=${this.state.param.offset}`;
+        const url = `http://localhost:5000/dashboard/clients/?${paramsQuery[0]}=${this.state.param.orderby}&${paramsQuery[1]}=${this.state.param.order}&${paramsQuery[2]}=${this.state.param.limit}&${paramsQuery[3]}=${this.state.param.offset}`;
 
         axios
           .get(url)
@@ -246,12 +222,12 @@ class AfficheCommande extends Component {
                 
                 <TableBody>
                 {rows.map(row => (
-                  <TableRow key={row[headTitle[0].sqlTitle]}>
-                    <TableCell>{row[headTitle[0].sqlTitle] /*Numéro de commande*/ }</TableCell>
+                  <TableRow key={row['id']}>
+                    <TableCell>{row[headTitle[0].sqlTitle] /*Nom*/ }</TableCell>
                     <TableCell>{row[headTitle[1].sqlTitle] /*Prénom*/ }</TableCell>
-                    <TableCell>{row[headTitle[2].sqlTitle] /*Nom*/ }</TableCell>
-                    <TableCell>{row[headTitle[3].sqlTitle] /*Date de status*/ }</TableCell>
-                    <TableCell className={classes.status}>{row[headTitle[4].sqlTitle] /*Status*/ }</TableCell>
+                    <TableCell>{row[headTitle[2].sqlTitle] /*GSM*/ }</TableCell>
+                    <TableCell>{row[headTitle[3].sqlTitle] /*Code Postal*/ }</TableCell>
+                    <TableCell>{row[headTitle[4].sqlTitle] /*Ville*/ }</TableCell>
                     <TableCell>
                       <Button
                         variant="contained" 
@@ -259,7 +235,7 @@ class AfficheCommande extends Component {
                             backgroundColor: 'rgb(32,173,143)', 
                             color:'#fff'
                         }} 
-                        onClick={(e) => handleLook(e, row[headTitle[0].sqlTitle])}
+                        onClick={(e) => handleLook(e, row['id'])}
                       >
                         Voir
                       </Button>
@@ -271,10 +247,9 @@ class AfficheCommande extends Component {
             </TableContainer>
 
             <TablePagination
-              rowsPerPageOptions={[1, 2, 3]}
+              rowsPerPageOptions={[10, 20, 30]}
               component="div"
               count={totRows}
-              //{rows.length} // requete nb totale de tuple sur table order
               rowsPerPage={rowsPerPage}
               page={page}
 
@@ -286,4 +261,4 @@ class AfficheCommande extends Component {
     }
 }
 
-export default withStyles(styles)(AfficheCommande)
+export default withStyles(styles)(AfficheClients)
