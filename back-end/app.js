@@ -60,10 +60,37 @@ app.get('/dashboard/orders', (req,res) => {
 })
 
 
-app.get('/dashboard/clients', (req,res) => {
-
-    console.log('GET Clients');
-})
+app.get('/dashboard/clients/:id', (req, res) => {
+  const sql = `SELECT 
+                lastname, 
+                firstname, 
+                mail, 
+                GSM, 
+                date_inscription, 
+                national_registration_number ,
+                zip_code,
+                adress,
+                city,
+                street_number
+              FROM Users AS us
+                
+              JOIN Adress AS ad ON ad.id = us.primary_adress_id
+              WHERE us.primary_adress_id = 1`
+    const ClientsID = req.params.id
+  console.log(ClientsID)
+  connection.query(sql, ClientsID, (err, results) => {
+    if (err) {
+      // Si une erreur est survenue, alors on informe l’utilisateur de l’erreur
+      console.log(err)
+      res.status(500).send('Erreur lors de la récupération des clients');
+    }
+    if (results.length === 0) {
+      return res.status(404).send('Clients not found');
+    }
+    // Si tout s’est bien passé, on envoie le résultat de la requête SQL en tant que JSON.
+    return res.json(results);
+  });
+});
 
 
 

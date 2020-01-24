@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 // COMPONENTS
 //import FormulaireClient from '../ClientPages/FormulaireClient';
 import FormulaireMedicament from './FormulaireMedicament';
-import FormulaireClient from './FormulaireClient.js';
+import FormulaireClient from '../ClientPages/FormulaireClient';
 import FormulairePharmacien from './FormulairePharmacien';
 import FormulaireRecap from './FormulaireRecap';
 import FormulaireSupplementaire from './FormulaireSupplementaire';

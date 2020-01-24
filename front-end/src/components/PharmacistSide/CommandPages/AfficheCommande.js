@@ -84,10 +84,10 @@ class AfficheCommande extends Component {
           .get('http://localhost:5000/dashboard/orders')
           .then(res => {
 
-            console.log('Res ?', res.data)
+            // console.log('Res ?', res.data)
 
             const headTitle = Object.keys(res.data[0])
-            console.log('Table Title: ', headTitle)
+            // console.log('Table Title: ', headTitle)
 
             const rows = res.data
 
