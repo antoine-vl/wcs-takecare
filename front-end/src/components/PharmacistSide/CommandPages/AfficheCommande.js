@@ -224,19 +224,19 @@ class AfficheCommande extends Component {
         break; 
 
         case 'Order_picked_up_by_Couriier':
-            return 'Récupérer par Couriier';
+            return '#F36A20';
         break; 
 
         case 'Delivered':
-            return 'Commande livrée';
+            return '#F0E232';
         break; 
 
         case 'Returned_prescription':
-            return 'Prescription retournée';
+            return '#4EBB22';
         break; 
 
         default:
-            return 'Inconnu';
+            return '#AAA';
       }
     }
 
@@ -255,19 +255,19 @@ class AfficheCommande extends Component {
         break; 
 
         case 'Order_picked_up_by_Couriier':
-            return '#F36A20';
+            return 'Récupérer par Couriier';
         break; 
 
         case 'Delivered':
-            return '#F7F536';
+            return 'Commande livrée';
         break; 
 
         case 'Returned_prescription':
-            return '#2AFD31';
+            return 'Prescription retournée';
         break; 
 
         default:
-            return '#AAA';
+            return 'Inconnu';
       }
     }
 

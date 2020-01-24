@@ -51,12 +51,12 @@ class Recap extends Component {
             {
                 id:'',
                 name:'Commande livrée',
-                color:'#F7F536'
+                color:'#F0E232'
             },
             {
                 id:'',
                 name:'Prescription retournée',
-                color:'#2AFD31'
+                color:'#4EBB22'
             },
             {
                 id:'',
