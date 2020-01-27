@@ -69,5 +69,4 @@ class OrderPart extends Component {
 
 }
 
-
 export default withStyles(styles)(OrderPart);

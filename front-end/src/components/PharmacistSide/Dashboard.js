@@ -2,7 +2,7 @@ import React from 'react';
 import './headerUserPage.css';
 
 // ROUTER
-import { Link, Switch, Route } from 'react-router-dom';
+import { Link, NavLink, Switch, Route } from 'react-router-dom';
 
 // MATERIAL UI
 import PeopleIcon from '@material-ui/icons/People';
@@ -21,9 +21,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 
 // COMPONENTS
-import FormulaireCommande from './CommandPages/FormulaireCommande';
-import ClientPart from './ClientPages/ClientPart';
-import OrderPart from './CommandPages/OrderPart';
+import FormulaireCommande from './OrderPart/FormulaireCommande';
+import ClientPart from './ClientPart/ClientPart';
+import OrderPart from './OrderPart/OrderPart';
+import DisplayCurrentStatus from './OrderPart/DisplayCurrentStatus';
+import DisplayMarkerStatus from './OrderPart/DisplayMarkerStatus';
 
 
 
@@ -131,14 +133,23 @@ export default function Dashboard({match}) {
           </Link>
         </List>
 
-        {/* <List>
-          <NavLink  activeClassName="active" to={`${match.url}/test-comp`} > 
+        <List>
+          <NavLink  activeClassName="active" to={`${match.url}/test-DisplayMarkerStatus`} > 
             <ListItem button>
               <ListItemIcon><DescriptionIcon /></ListItemIcon>
-              <ListItemText primary="test-comp"/>
+              <ListItemText primary="test-DisplayMarkerStatus"/>
             </ListItem>
           </NavLink>
-        </List> */}
+        </List>
+
+        <List>
+          <NavLink  activeClassName="active" to={`${match.url}/test-DisplayCurrentStatus`} > 
+            <ListItem button>
+              <ListItemIcon><DescriptionIcon /></ListItemIcon>
+              <ListItemText primary="test-DisplayCurrentStatus"/>
+            </ListItem>
+          </NavLink>
+        </List>
         
 
       </Drawer>
@@ -164,6 +175,16 @@ export default function Dashboard({match}) {
             path={`${match.path}/new-order`}
             render={props => <FormulaireCommande {...props} />}
           />
+
+          <Route 
+            path={`${match.path}/test-DisplayMarkerStatus`}
+            render={props => <DisplayMarkerStatus {...props} />}
+          />
+
+          <Route 
+            path={`${match.path}/test-DisplayCurrentStatus`}
+            render={props => <DisplayCurrentStatus {...props} />}
+          />  
 
         </Switch>
       </div>  

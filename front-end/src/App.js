@@ -7,14 +7,14 @@ import { Switch, Route } from 'react-router-dom';
 // COMPONENTS
 import Dashboard from './components/PharmacistSide/Dashboard';
 import HeroHeader from './components/HomeSide/HeroHeader';
-import FormulaireCommande from './components/PharmacistSide/CommandPages/FormulaireCommande';
+
 
 
 /* ============================== */
 
 
-function App() {
 
+function App() {
 
     return (
         <div className="App">
@@ -27,10 +27,6 @@ function App() {
                     <Route 
                         path='/dashboard' 
                         render ={props => < Dashboard {...props} />} 
-                    />
-                    <Route 
-                        path='/test-comp' 
-                        render ={props => < FormulaireCommande {...props} />} 
                     />
                 </Switch>
             </header>

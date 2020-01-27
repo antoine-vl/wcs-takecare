@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 
 // MATERIAL UI
 import TextField from '@material-ui/core/TextField';
-//import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-//import Checkbox from '@material-ui/core/Checkbox';
 
 
 
@@ -164,5 +162,4 @@ class FormulairePharmacien extends Component {
     }
 }
 
- 
 export default FormulairePharmacien;

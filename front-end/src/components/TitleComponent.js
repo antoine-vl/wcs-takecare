@@ -19,7 +19,6 @@ function TitleComponent({ title, match, location, history}) {
             { match.params.id_order }
         </h1>
     );
-
 }
 
 export default TitleComponent;

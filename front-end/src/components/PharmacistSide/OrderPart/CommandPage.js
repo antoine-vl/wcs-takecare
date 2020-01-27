@@ -5,17 +5,15 @@ import './formulairePage.css'
 import { NavLink } from 'react-router-dom';
 
 // MATERIAL UI
-import TableContact from '../TableContact'
-import CreateIcon from '@material-ui/icons/Create';
-import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 // COMPONENTS
 import EnhancedTable from './EnhancedTable';
-import PermanentDrawerLeft from '../Dashboard';
+
 
 
 /* ============================== */
+
 
 
 export class CommandPage extends Component {

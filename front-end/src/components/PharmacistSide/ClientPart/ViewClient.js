@@ -50,7 +50,6 @@ class ViewClient extends Component {
       } = this.state.user
 
       return ( 
-        // <div style= {{width: '100%'}} >
           <Grid container spacing={3} zeroMinWidth style= {{width: '100%'}} >
             <Grid item xs={12} sm={6} >
               <Typography align="left">
@@ -76,7 +75,6 @@ class ViewClient extends Component {
               </Typography>  
             </Grid>
           </Grid>
-        // </div>
         );
     }
 }

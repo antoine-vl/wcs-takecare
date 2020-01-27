@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 // ROUTER
-import { Link, Redirect, Switch, Route } from 'react-router-dom';
+import { Redirect, Switch, Route } from 'react-router-dom';
 
 // MATERIAL UI
 import Stepper from '@material-ui/core/Stepper';
@@ -12,9 +12,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 // COMPONENTS
-//import FormulaireClient from '../ClientPages/FormulaireClient';
 import FormulaireMedicament from './FormulaireMedicament';
-import FormulaireClient from '../ClientPages/FormulaireClient';
+import FormulaireClient from '../ClientPart/FormulaireClient';
 import FormulairePharmacien from './FormulairePharmacien';
 import FormulaireRecap from './FormulaireRecap';
 import FormulaireSupplementaire from './FormulaireSupplementaire';
