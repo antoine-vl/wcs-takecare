@@ -24,8 +24,7 @@ class FormulairePharmacien extends Component {
       const {
         currentPharmacist: {
           lastname, 
-          firstname, 
-          mail, 
+          firstname,  
           GSM,
           pharmacy_name, 
           primary_adress:{ 

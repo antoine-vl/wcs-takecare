@@ -151,11 +151,11 @@ class Recap extends Component {
         return (
       
             <form>
-                <Typography variant="h4" align="left" >Récapitulatif de la commande</Typography>
+                <Typography variant="h4" align="left"> h4. Récapitulatif de la commande</Typography>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={4}>
-                            <Typography align="left">
-                                <h2>Numéro de commande</h2>
+                            <Typography align="left" variant="h2">
+                                h2. Numéro de commande
                                 {this.state.orderInformation["Numéro de commande"]} <br/>
                             </Typography>   
                         </Grid>
@@ -165,8 +165,8 @@ class Recap extends Component {
                         </Grid>
 
                         <Grid item xs={12} sm={4}>
-                            <Typography align="left">
-                                <h2>Status</h2>
+                            <Typography align="left" variant="h2">
+                                Status
                                 <div style={{display: 'flex'}}>
                                     {status.map((item,id) =>
                                         <div 
@@ -191,9 +191,8 @@ class Recap extends Component {
 
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={6}>
-                        <Typography align="left">
-                            
-                            <h2>Adresse client</h2>
+                        <Typography align="left" variant="h2">
+                            Adresse client
                             <i><font color="grey">Nom</font></i><br/>{this.state.orderInformation["Nom client"]}<br/>
                             <i><font color="grey">Prénom</font></i><br/> {this.state.orderInformation["Prénom client"]} <br/>
                             <i><font color="grey">Email</font></i><br/> {this.state.orderInformation["Email client"]} <br/>
@@ -207,8 +206,8 @@ class Recap extends Component {
                     </Grid>
                 
                     <Grid item xs={12} sm={6}>
-                        <Typography align="left">
-                            <h2>Adresse pharmacie</h2>
+                        <Typography align="left" variant="h2">
+                            Adresse pharmacie
                             <i><font color="grey">Nom</font></i><br/> {this.state.orderInformation["Nom pharmacien"]} <br/>
                             <i><font color="grey">Prénom</font></i><br/> {this.state.orderInformation["Prénom pharmacien"]} <br/>
                             <i><font color="grey">Email</font></i><br/> {this.state.orderInformation["Email pharmacien"]} <br/>
@@ -223,8 +222,8 @@ class Recap extends Component {
             
 
                     <Grid item xs={12} sm={4}>
-                        <Typography align="left">
-                            <h2>Autres informations</h2>
+                        <Typography align="left" variant="h2">
+                            Autres informations
                             {this.state.orderInformation["Commentaire de livraison"]} <br/>
                             <h4>Facture</h4>
                             <img width="100px" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/ReceiptSwiss.jpg" alt="order ticket" />
@@ -236,8 +235,8 @@ class Recap extends Component {
                     </Grid>
 
                     <Grid item xs={12} sm={4}>
-                        <Typography align="left">
-                            <h2>Payement</h2>
+                        <Typography align="left" variant="h2">
+                            Payement
                             {pharmaceuticals.map((item,id) =>
                                 <div key={id} className="resumeMedicament">
                                     <div className="resumeMedicamentName">{item.name}</div>
