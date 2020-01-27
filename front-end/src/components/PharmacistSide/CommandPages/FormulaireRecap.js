@@ -49,76 +49,87 @@ class FormulaireRecap extends Component {
 
         return (
       
-        <form>
-            <Typography variant="h4" align="left" >Récapitulatif de la commande</Typography>
+            <form>
 
-            <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                    <Typography align="left">
-                        <h2>Adresse client</h2>
-                        <i><font color="grey">Nom</font></i><br/> {clientAdress.lastname} <br/>
-                        <i><font color="grey">Prénom</font></i><br/> {clientAdress.firstname} <br/>
-                        <i><font color="grey">Email</font></i><br/> {clientAdress.mail} <br/>
-                        <i><font color="grey">Gsm</font></i><br/> {clientAdress.GSM} <br/>
-                        <i><font color="grey">Adresse</font></i><br/> {clientAdress.primary_adress.adress} <br/>
-                        <i><font color="grey">Numéro</font></i><br/> {clientAdress.primary_adress.street_number} <br/>
-                        <i><font color="grey">Code postal</font></i><br/> {clientAdress.primary_adress.zip_code} <br/>
-                        <i><font color="grey">Ville</font></i><br/> {clientAdress.primary_adress.city} <br/>
-                    </Typography>  
-                </Grid>
-            
-                <Grid item xs={12} sm={6}>
-                    <Typography align="left">
-                        <h2>Adresse pharmacie</h2>
-                        <i><font color="grey">Nom</font></i><br/> {pharmacistAdress.lastname} <br/>
-                        <i><font color="grey">Prénom</font></i><br/> {pharmacistAdress.firstname} <br/>
-                        <i><font color="grey">Email</font></i><br/> {pharmacistAdress.mail} <br/>
-                        <i><font color="grey">Gsm</font></i><br/> {pharmacistAdress.GSM} <br/>
-                        <i><font color="grey">Nom de la pharmacie</font></i><br/> {pharmacistAdress.pharmacy_name} <br/>
-                        <i><font color="grey">Adresse</font></i><br/> {pharmacistAdress.primary_adress.adress} <br/>
-                        <i><font color="grey">Numéro</font></i><br/> {pharmacistAdress.primary_adress.street_number} <br/>
-                        <i><font color="grey">Code postal</font></i><br/> {pharmacistAdress.primary_adress.zip_code} <br/>
-                        <i><font color="grey">Ville</font></i><br/> {pharmacistAdress.primary_adress.city} <br/>
-                    </Typography>   
-                </Grid>
-        
-
-                <Grid item xs={12} sm={4}>
-                    <Typography align="left">
-                        <h2>Autres informations</h2>
-                        {orderInformation.delivery_comment} <br/>
-                        <h4>Facture</h4>
-                        <img width="100px" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/ReceiptSwiss.jpg" alt="order ticket" />
-                    </Typography>   
-                </Grid>
-
-                <Grid item xs={12} sm={4}>
-                    <FormulaireResumeMedicaments medicaments={pharmaceuticals} readRecap />   
-                </Grid>
-
-                < TitleComponent title="Status" />
-                
-                <Grid item xs={12} sm={4}>
-                    <Typography align="left">
-                        <h2>Payement</h2>
-                        {pharmaceuticals.map((item,id) =>
-                            <div key={id} className="resumeMedicament">
-                                <div className="resumeMedicamentName">{item.name}</div>
-                                <div className="resumeMedicamentQuantity">{item.price * item.quantity} Euro ({item.price} * {item.quantity})</div>
+                <Typography variant="h4" align="left" > Récapitulatif de la commande </Typography>
+                <br/>
+                <Grid container spacing={3}>
+                    <Grid container  item xs={12} sm={12}>
+                        <div className="commandeStatus">
+                            < TitleComponent />
+                        </div>
+                    </Grid>
+                    <Grid container item xs={12} sm={4} alignContent="center">
+                        <div className="containerFormRecap">
+                            <Typography className="titleResumeCommande" align="left" variant="h6" style= {{fontWeight:"bold"}}>Adresse de facturation</Typography>
+                            <div className="adressResume height">
+                                <Typography align="left">{clientAdress.lastname} {clientAdress.firstname}</Typography>
+                                <Typography align="left">{clientAdress.primary_adress.adress}, {clientAdress.primary_adress.street_number}</Typography>
+                                <Typography align="left">{clientAdress.primary_adress.zip_code} - {clientAdress.primary_adress.city}</Typography>
+                                <Typography align="left">{clientAdress.mail}</Typography>
+                                <Typography align="left">{clientAdress.GSM}</Typography>
                             </div>
-                        )}
-                        {this.state.count >= 35 ? <p>Total : {this.state.count} €</p> : <p>Sous-total : {this.state.count} €</p>}
-                        
-                        {this.state.count >= 35 ? <p>livraison gratuite</p> : <p>livraison payante de 5,00 €</p>}
-                        {this.state.count >= 35 ? null : <p>Total : {this.state.count + 5} € </p>}
-                    </Typography>   
+                        </div>
+                    </Grid>
+                    
+                    <Grid container item xs={12} sm={4} alignContent="center">
+                        <div className="containerFormRecap">
+                            <Typography align="left" className="titleResumeCommande" variant="h6" style={{fontWeight:"bold"}}>Adresse pharmacie</Typography>
+                            <div className="adressResume height">
+                                <Typography align="left">{pharmacistAdress.pharmacy_name}</Typography>
+                                <Typography align="left">{pharmacistAdress.lastname} {pharmacistAdress.firstname}</Typography> 
+                                <Typography align="left">{pharmacistAdress.primary_adress.adress}, {pharmacistAdress.primary_adress.street_number}</Typography>
+                                <Typography align="left">{pharmacistAdress.primary_adress.zip_code} - {pharmacistAdress.primary_adress.city}</Typography>
+                                <Typography align="left">{pharmacistAdress.mail}</Typography>
+                                <Typography align="left">{pharmacistAdress.GSM}</Typography>
+                            </div>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <div className="containerFormRecap" style={{height:"30vh", overflowX:'auto'}}>
+                            <Typography align="left" className="titleResumeCommande" variant="h6" style={{fontWeight:"bold"}}>Panier</Typography>
+                            <FormulaireResumeMedicaments className="adressResume height" medicaments={pharmaceuticals} readRecap={true} />
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <div className="containerFormRecap">
+                            <Typography align="left" className="titleResumeCommande" variant="h6" style={{fontWeight:"bold"}}>Autres informations </Typography>
+                            <div className="adressResume height">{orderInformation.delivery_comment}</div>
+                        </div>
+                    </Grid>
+
+                    <Grid item xs={12} sm={4}>
+                        <div className="containerFormRecap">
+                            <Typography align="left" className="titleResumeCommande" variant="h6" style={{fontWeight:"bold"}}>Facture</Typography>
+                            <img align="center" className="adressResume height" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/ReceiptSwiss.jpg" alt="order ticket" />
+                        </div>
+                    </Grid>
+                    
+                    
+                    <Grid item xs={12} sm={4}>
+                        <div className="containerFormRecap">
+                            <Typography align="left" className="titleResumeCommande" variant="h6" style={{fontWeight:"bold"}}>Récapitulatif de votre commande </Typography>
+                            <Grid className="height" style={{fontSize:'0.9rem'}} container spacing={3}>
+                                <Grid item xs={12} sm={9} align="right" className="titlePrixResume">
+                                    <p>Sous-total : </p>
+                                    <p>Livraison : </p>
+                                    <p>Réduction livraison : </p>
+                                    <br/>
+                                    <p>Montant total : </p>
+                                </Grid>
+
+                                <Grid item xs={12} sm={3} align="right" className="priceResume">
+                                    <p>{this.state.count} €</p>
+                                    <p>5,00 €</p>
+                                    {this.state.count >= 35 ? <p>- 5,00€</p> : <p>0,00 €</p>}
+                                    <br/>
+                                    {this.state.count >= 35 ? <p>{this.state.count} € </p> : <p>{this.state.count + 5} € </p>}
+                                </Grid>
+                            </Grid>
+                        </div>
+                    </Grid>
                 </Grid>
-
-            </Grid>
-
-            
-
-        </form>
+            </form>            
         );
     }
 }

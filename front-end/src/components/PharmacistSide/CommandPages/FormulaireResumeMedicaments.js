@@ -35,12 +35,13 @@ class FormulaireResumeMedicaments extends Component {
                             <h1>Quantité</h1>
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <h1>Prix/unité</h1>
+                            <h1>Prix</h1>
                         </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <h1>Catégorie</h1>
-                        </Grid>
-
+                        {readRecap ? null : (
+                            <Grid item xs={12} sm={4}>
+                                <h1>Catégorie</h1>
+                            </Grid>
+                        )}
                         {readRecap ? null : (
                             <Grid item xs={12} sm={3}>
                                 <h1>Action</h1>
@@ -61,9 +62,11 @@ class FormulaireResumeMedicaments extends Component {
                                 <Grid item xs={12} sm={4}>
                                     <div className="resumeMedicamentQuantity">{item.price}€</div>
                                 </Grid>
-                                <Grid item xs={12} sm={4}>
-                                    <div className="resumeMedicamentQuantity">{item.categorie || item.category}</div>
-                                </Grid>
+                                {readRecap ? null : (
+                                    <Grid item xs={12} sm={4}>
+                                        <div className="resumeMedicamentQuantity">{item.categorie || item.category}</div>
+                                    </Grid>
+                                )}
                                 {readRecap ? null : (
                                     <Grid item xs={6} sm={4}>
                                         <div className='test'>

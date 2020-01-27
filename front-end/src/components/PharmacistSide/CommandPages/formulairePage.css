@@ -7,11 +7,11 @@
     background-color: rgba(128, 128, 128, 0.158);
 }
 
-.test button {
+/* .test button {
     width: 3vw;
     height: 6vh;
     min-width: 1vw;
-}
+} */
 
 /* .formInfoClient {
     background-color: rgba(105, 105, 105, 0.295);
@@ -140,9 +140,73 @@
     border: none;
 }
 
+.gridResumeCommand{
+    margin-top: 50px;
+}
+
 .buttonAddFichier{
     width: 15vw;
     height: 7vh;
     border: none;
     border-radius: 10%;
+}
+
+.commandeStatus{
+    /* border: 2px solid black; */
+    background: linear-gradient(150deg, #1ea08456 0%, #fff 70%);
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    padding-left: 10px;
+    /* margin-bottom: -10%; */
+    font-size: 1.5rem; 
+    color: rgb(53, 53, 52);
+    box-shadow: rgba(102, 99, 99, 0.479) 0px 0px 10px;
+    border-radius: 10px;
+}
+
+.containerFormRecap{
+    /* border: 2px solid black; */
+    box-shadow: black 0px 0px 10px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.titleResumeCommande{
+    background-color: #1ea08456;
+    color: rgb(53, 53, 52);
+    border-radius: 10px 10px 0px 0px;
+    padding-left: 10px;
+}
+
+.adressResume{
+    /* border: 2px solid black; */
+    height: 25vh;
+    max-height: 25vh;
+    background-color: white;
+    border-radius: 0px 0px 10px 10px;
+    padding: 10px 0px 10px 10px;
+}
+
+.prixResume{
+    /* border: 2px solid black; */
+    width: 100%;
+    height: 25vh;
+    max-height: 25vh;
+    background-color: white;
+    border-radius: 0px 0px 10px 10px;
+    padding: 10px 0px 10px 10px;
+    font-size: 0.8rem;
+}
+
+.height{
+    height: 27vh;
+}
+
+.priceResume p{
+    padding-right: 20px;
+}
+
+.titlePrixResume p{
+    padding-right: 40px;
 }
