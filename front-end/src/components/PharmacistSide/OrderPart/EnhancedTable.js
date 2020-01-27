@@ -29,8 +29,7 @@ import AlertDialog from'./AlertDialogDelete';
 
 /* ============================== */
 
-
-function createData(idCommantaire, name, surname,AddPhotoAlternateIcon date, status, action) {
+function createData(idCommantaire, name, surname, date, status, action) {
   return { idCommantaire, name, surname, date, status, action };
 }
 
@@ -244,12 +243,10 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   useEffect(() => {
-    console.log('Je suis dans un DiDMont');
 
      axios
          .get('http://localhost:5000/dashboard/orders')
          .then(res => {
-             console.log('Res ?', res.data)
          })
 
     //fetch("http://localhost:5000/pharmacist")
@@ -259,7 +256,7 @@ export default function EnhancedTable() {
     //          'Content-Type':  'application/json'
     //      }),
     //  })
-    //.then(res  =>  console.log('res: ', res.body))
+    //.then(res  => 
 
   }, []);
 

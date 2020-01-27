@@ -65,13 +65,10 @@ class Recap extends Component {
     }
     
     countPharmaceuticals = (details) => {
-        console.log(details)
         let result= 0;
         for (let i = 0; i < details.length; i ++){
-            console.log(details[i].price)
             result = result + (parseInt(details[i].price, 10) * parseInt(details[i].quantity, 10))
         }
-        console.log(result)
         return result
                   
     }
@@ -86,47 +83,42 @@ class Recap extends Component {
             .get(`http://localhost:5000/dashboard/orders/${this.order}/pharmaceuticals`)
             .then(res => {
                 const pharmaceuticals = res.data;
-                console.log('medocs: ', pharmaceuticals)
 
                 axios
                 .get(`http://localhost:5000/dashboard/orders/${this.order}/status`)
                 .then(res => {
                     
 
-                    console.log('Status RESPONSE :', res.data)
-
                     const status = res.data.map((item, index) => {
                         switch(item.status){
                             case 'New_order':
                                 return {...this.status[0], id: item.status, date:item.date_status };
-                            break; 
+                           
 
                             case 'Paid':
                                 return {...this.status[1], id: item.status, date:item.date_status };
-                            break; 
+                            
 
                             case 'Order_prepared':
                                 return {...this.status[2], id: item.status, date:item.date_status };
-                            break; 
+                            
 
                             case 'Order_picked_up_by_Couriier':
                                 return {...this.status[3], id: item.status, date:item.date_status };
-                            break; 
+                            
 
                             case 'Delivered':
                                 return {...this.status[4], id: item.status, date:item.date_status };
-                            break; 
+                             
 
                             case 'Returned_prescription':
                                 return {...this.status[5], id: item.status, date:item.date_status };
-                            break; 
+                            
 
                             default:
                                 return {...this.status[6], id:item.status, date:item.date_status };
                         }
                     })
-
-                    console.log('Status modified :', status)
                     
                     this.setState({
                         orderInformation: orderInformation,
@@ -141,19 +133,17 @@ class Recap extends Component {
    
 
     render() { 
-        
-        console.log('state:',this.state.orderInformation["Nom client"])
 
         const {pharmaceuticals, status} = this.state
 
         return (
       
             <form>
-                <Typography variant="h4" align="left" >Récapitulatif de la commande</Typography>
+                <Typography variant="h4" align="left"> h4. Récapitulatif de la commande</Typography>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={4}>
-                            <Typography align="left">
-                                <h2>Numéro de commande</h2>
+                            <Typography align="left" variant="h2">
+                                h2. Numéro de commande
                                 {this.state.orderInformation["Numéro de commande"]} <br/>
                             </Typography>   
                         </Grid>
@@ -163,8 +153,8 @@ class Recap extends Component {
                         </Grid>
 
                         <Grid item xs={12} sm={4}>
-                            <Typography align="left">
-                                <h2>Status</h2>
+                            <Typography align="left" variant="h2">
+                                Status
                                 <div style={{display: 'flex'}}>
                                     {status.map((item,id) =>
                                         <div 
@@ -189,9 +179,8 @@ class Recap extends Component {
 
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={6}>
-                        <Typography align="left">
-                            
-                            <h2>Adresse client</h2>
+                        <Typography align="left" variant="h2">
+                            Adresse client
                             <i><font color="grey">Nom</font></i><br/>{this.state.orderInformation["Nom client"]}<br/>
                             <i><font color="grey">Prénom</font></i><br/> {this.state.orderInformation["Prénom client"]} <br/>
                             <i><font color="grey">Email</font></i><br/> {this.state.orderInformation["Email client"]} <br/>
@@ -205,8 +194,8 @@ class Recap extends Component {
                     </Grid>
                 
                     <Grid item xs={12} sm={6}>
-                        <Typography align="left">
-                            <h2>Adresse pharmacie</h2>
+                        <Typography align="left" variant="h2">
+                            Adresse pharmacie
                             <i><font color="grey">Nom</font></i><br/> {this.state.orderInformation["Nom pharmacien"]} <br/>
                             <i><font color="grey">Prénom</font></i><br/> {this.state.orderInformation["Prénom pharmacien"]} <br/>
                             <i><font color="grey">Email</font></i><br/> {this.state.orderInformation["Email pharmacien"]} <br/>
@@ -221,8 +210,8 @@ class Recap extends Component {
             
 
                     <Grid item xs={12} sm={4}>
-                        <Typography align="left">
-                            <h2>Autres informations</h2>
+                        <Typography align="left" variant="h2">
+                            Autres informations
                             {this.state.orderInformation["Commentaire de livraison"]} <br/>
                             <h4>Facture</h4>
                             <img width="100px" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/ReceiptSwiss.jpg" alt="order ticket" />
@@ -234,8 +223,8 @@ class Recap extends Component {
                     </Grid>
 
                     <Grid item xs={12} sm={4}>
-                        <Typography align="left">
-                            <h2>Payement</h2>
+                        <Typography align="left" variant="h2">
+                            Payement
                             {pharmaceuticals.map((item,id) =>
                                 <div key={id} className="resumeMedicament">
                                     <div className="resumeMedicamentName">{item.name}</div>

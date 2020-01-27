@@ -32,7 +32,6 @@ class ClientPart extends Component {
   }
 
   handleLook = (e, selectedClient) => {
-    console.log('selectedOrder', selectedClient);
     this.props.history.push(`${this.props.match.url}/${selectedClient}`);
   }
 

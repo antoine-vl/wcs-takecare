@@ -21,9 +21,6 @@ let sqlQuerry = `${orderSql.GET} ORDER BY ${req.query.orderby} ${req.query.order
 
 app.get('/dashboard/orders', (req,res) => {
 
-    console.log('REQ QUERY :', req.query)
-    console.log('orderby :', req.query.orderby)
-    console.log('order :', req.query.order)
     let sqlQuerry = `
       SELECT od.order_number, 
       us.firstname, 
@@ -43,13 +40,11 @@ app.get('/dashboard/orders', (req,res) => {
         OFFSET ${req.query.offset}`;
     }
 
-    console.log('SQL QUERY :', sqlQuerry)
 
     connection.query(sqlQuerry, (err, results) => {
         if (err) {
             res.status(500).send(`Error retrieving orders! err: ${err}`);
           } else {
-            console.log('RESULT: ', results);
             res.json(results);
           }
     });
@@ -67,7 +62,6 @@ app.get('/dashboard/orders/:id', (req, res) => {
         if (err) {
             res.status(500).send(`Error retrieving orders! err: ${err}`);
           } else {
-            console.log('RESULT: ', results);
             res.json(results);
           }
     });
@@ -103,12 +97,10 @@ app.get('/dashboard/orders/:id', (req, res) => {
     `
 
     const orderID = req.params.id
-    console.log(orderID)
 
     connection.query(sql, orderID, (err, results) => {
       if (err) {
         // Si une erreur est survenue, alors on informe l'utilisateur de l'erreur
-        console.log(err)
         res.status(500).send('Erreur lors de la récupération des commandes');
       }
       if (results.length === 0) {
@@ -135,11 +127,9 @@ app.get('/dashboard/orders/:id/pharmaceuticals', (req, res) => {
   `
 
   const orderID = req.params.id
-  console.log(orderID)
 
   connection.query(sql, orderID, (err, results) => {
     if (err) {
-      console.log(err)
       res.status(500).send('Erreur lors de la récupération des commandes');
     }
     if (results.length === 0) {
@@ -163,11 +153,9 @@ app.get('/dashboard/orders/:id/status', (req, res) => {
   `
 
   const orderID = req.params.id
-  console.log(orderID)
 
   connection.query(sql, orderID, (err, results) => {
     if (err) {
-      console.log(err)
       res.status(500).send('Erreur lors de la récupération des commandes');
     }
     if (results.length === 0) {
@@ -181,10 +169,6 @@ app.get('/dashboard/orders/:id/status', (req, res) => {
 
 
 app.get('/dashboard/clients', (req,res) => {
-
-  console.log('REQ QUERY :', req.query)
-  console.log('orderby :', req.query.orderby)
-  console.log('order :', req.query.order)
 
   let sqlQuerry = `
     SELECT 
@@ -211,13 +195,11 @@ app.get('/dashboard/clients', (req,res) => {
       OFFSET ${req.query.offset}`;
   }
 
-  console.log('SQL QUERY :', sqlQuerry)
 
   connection.query(sqlQuerry, (err, results) => {
       if (err) {
           res.status(500).send(`Error retrieving orders! err: ${err}`);
         } else {
-          console.log('RESULT: ', results);
           res.json(results);
         }
   });
@@ -234,7 +216,6 @@ app.get('/dashboard/clients/:id', (req, res) => {
         if (err) {
             res.status(500).send(`Error retrieving orders! err: ${err}`);
           } else {
-            console.log('RESULT: ', results);
             res.json(results);
           }
     });
@@ -263,10 +244,9 @@ app.get('/dashboard/clients/:id', (req, res) => {
 
     const ClientsID = req.params.id
 
-    console.log(ClientsID)
+    
     connection.query(sql, ClientsID, (err, results) => {
       if (err) {
-        console.log(err)
         res.status(500).send('Erreur lors de la récupération des clients');
       }
       if (results.length === 0) {
@@ -287,5 +267,4 @@ app.use(function(req, res, next) {
 });
 
 let  server  =  app.listen( port, function(){
-    console.log('Listening on port '  +  server.address().port);
 });

@@ -32,7 +32,6 @@ class OrderPart extends Component {
   }
 
   handleLook = (e, selectedOrder) => {
-    console.log('selectedOrder', selectedOrder);
     this.props.history.push(`${this.props.match.url}/${selectedOrder}`);
   }
 

@@ -6,6 +6,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CreateIcon from '@material-ui/icons/Create';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import { Typography } from '@material-ui/core';
 
 
 
@@ -22,28 +23,28 @@ class FormulaireResumeMedicaments extends Component {
 
     render() {
         const { deleteMedicament , medicaments , editMedicament, recap} = this.props;
-        console.log('medicaments liste :', medicaments)
 
         return ( 
+            <Typography variant="h3">
             <div className="contentResumeMedicament">
                 <Grid container spacing={3}>
                     <div className="titleResumeMedicament">
                         <Grid item xs={12} sm={4} >
-                            <h1>Nom</h1>
+                            Nom
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <h1>Quantité</h1>
+                            Quantité
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <h1>Prix/unité</h1>
+                            Prix/unité
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <h1>Catégorie</h1>
+                            Catégorie
                         </Grid>
 
                         {recap ? null : (
                             <Grid item xs={12} sm={3}>
-                                <h1>Action</h1>
+                                Action
                             </Grid>
                         )}
                     </div>
@@ -77,6 +78,7 @@ class FormulaireResumeMedicaments extends Component {
                     </Grid>
                 </Grid>
             </div>
+            </Typography>
          );
     }
 }

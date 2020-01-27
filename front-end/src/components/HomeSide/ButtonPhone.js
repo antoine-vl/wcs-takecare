@@ -21,12 +21,11 @@ class ButtonPhone extends Component {
             number: this.state,
           })
           .then(function (response) {
-            //console.log(response);
+            
           })
           .catch(function (error) {
-            //console.log(error);
+            
           });
-          console.log(this.state)
     }
     render() {      
         return ( 

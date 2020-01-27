@@ -29,14 +29,14 @@ class FormulaireCommande extends Component {
 
     super(props);
 
-    this.state = { 
+    this.state = {
       orderComplete: true,
 
       activePage: {
-        activeStep : 0,
+        activeStep: 0,
       },
 
-      medicament:{
+      medicament: {
         name: '',
         id: '',
         comment: '',
@@ -48,56 +48,77 @@ class FormulaireCommande extends Component {
         idEdit: 0
       },
 
-      commande:{
+      commande: {
 
-        pharmaceuticals:[],
+        pharmaceuticals: [],
 
-        clientAdress:{
+        clientAdress: {
           lastname: 'Gingras',
           firstname: 'Pascaline',
-          mail:'PascalineGingras@teleworm.us',
-          GSM:'0484950494',
+          mail: 'PascalineGingras@teleworm.us',
+          GSM: '0484950494',
           primary_adress: {
-            adress:'Rue du Cornet',
-            street_number:'335',
-            zip_code:'6717',
-            city:'Attert',
+            adress: 'Rue du Cornet',
+            street_number: '335',
+            zip_code: '6717',
+            city: 'Attert',
           },
           secondary_adress: {
-            adress:'',
-            street_number:'',
-            zip_code:'',
-            city:'',
+            adress: '',
+            street_number: '',
+            zip_code: '',
+            city: '',
           }
 
         },
 
-        pharmacistAdress:{
+        pharmacistAdress: {
           lastname: 'Dupuy',
           firstname: 'Georges',
-          mail:'GeorgesDupuy@armyspy.com',
-          GSM:'025118381',
-          pharmacy_name:'Reine Pharma Bvba-Sprl',
-          primary_adress:{
-            adress:'Rue de la Montagne',
-            street_number:'25',
-            zip_code:'1000',
-            city:'Bruxelles'
+          mail: 'GeorgesDupuy@armyspy.com',
+          GSM: '025118381',
+          pharmacy_name: 'Reine Pharma Bvba-Sprl',
+          primary_adress: {
+            adress: 'Rue de la Montagne',
+            street_number: '25',
+            zip_code: '1000',
+            city: 'Bruxelles'
           }
         },
 
-        orderInformation:{
-          receipt:'',
-          delivery_comment:''
+        orderInformation: {
+          receipt: '',
+          delivery_comment: ''
         }
       }
     }
 
-    this.steps = [{name:'Informations du client', path:'client', step:0}, 
-                  {name:'Liste des médiaments', path:'medicaments', step:1},
-                  {name:'Informations de la pharmacie', path:'pharmacien', step:2},
-                  {name:'Informations Supplémentaires', path:'autre', step:3},
-                  {name:'Récapitulatif', path:'recapitulatif', step:4}];
+    this.steps = [{
+        name: 'Informations du client',
+        path: 'client',
+        step: 0
+      },
+      {
+        name: 'Liste des médiaments',
+        path: 'medicaments',
+        step: 1
+      },
+      {
+        name: 'Informations de la pharmacie',
+        path: 'pharmacien',
+        step: 2
+      },
+      {
+        name: 'Informations Supplémentaires',
+        path: 'autre',
+        step: 3
+      },
+      {
+        name: 'Récapitulatif',
+        path: 'recapitulatif',
+        step: 4
+      }
+    ];
   }
 
   /*componentWillUnmount(){
@@ -107,15 +128,15 @@ class FormulaireCommande extends Component {
     }
   }*/
 
-// Partie médicaments
+  // Partie médicaments
   clearMedoc = () => {
     this.setState({
-      medicament:{
+      medicament: {
         name: '',
         id: '',
         comment: '',
         quantity: '',
-        price:'',
+        price: '',
         categorie: '',
         prescription: false,
         isEdit: false,
@@ -128,11 +149,11 @@ class FormulaireCommande extends Component {
     event.preventDefault();
 
     // UPDATE MEDOC
-    if(this.state.medicament.isEdit){
+    if (this.state.medicament.isEdit) {
       const newMedicaments = [...this.state.commande.pharmaceuticals]
       newMedicaments[this.state.medicament.idEdit] = this.state.medicament;
       this.setState({
-        commande:{
+        commande: {
           ...this.state.commande,
           pharmaceuticals: newMedicaments
         }
@@ -140,33 +161,33 @@ class FormulaireCommande extends Component {
     }
 
     // CREATE MEDOC
-    else{
+    else {
       const newMedicaments = [...this.state.commande.pharmaceuticals, this.state.medicament]
       this.setState({
-        commande:{
+        commande: {
           ...this.state.commande,
           pharmaceuticals: newMedicaments
         }
-      }) 
+      })
     }
 
     this.clearMedoc();
   }
 
   deleteMedicament = (id) => {
-    const newArrayDelete = this.state.commande.pharmaceuticals.filter ((medoc, index) => index !== id ? true : false);
+    const newArrayDelete = this.state.commande.pharmaceuticals.filter((medoc, index) => index !== id ? true : false);
     this.setState({
-      commande:{
+      commande: {
         ...this.state.commande,
         pharmaceuticals: newArrayDelete
       }
-    }) 
+    })
   }
 
   updateFormMedicament = (event) => {
     event.preventDefault();
     this.setState({
-      medicament:{
+      medicament: {
         ...this.state.medicament,
         [event.target.name]: event.target.value
       }
@@ -174,27 +195,25 @@ class FormulaireCommande extends Component {
   };
 
   handleChangeCheckboxMed = () => {
-    this.state.medicament.prescription === false 
-    ? this.setState({
-      medicament:{
-        ...this.state.medicament,
-        prescription: true
-      }
-    })
-    : this.setState({
-      medicament:{
-        ...this.state.medicament,
-        prescription: false
-      }
-    })
+    this.state.medicament.prescription === false ?
+      this.setState({
+        medicament: {
+          ...this.state.medicament,
+          prescription: true
+        }
+      }) :
+      this.setState({
+        medicament: {
+          ...this.state.medicament,
+          prescription: false
+        }
+      })
   };
 
   editMedicament = (id) => {
-    let newArrayEdit = this.state.commande.pharmaceuticals.filter ((medoc, index) => index !== id ? false : true);
-    console.log('editMedicament: ', newArrayEdit)
-    console.log('ID editMedicament: ', id)
+    let newArrayEdit = this.state.commande.pharmaceuticals.filter((medoc, index) => index !== id ? false : true);
     this.setState({
-      medicament:{
+      medicament: {
         ...newArrayEdit[0],
         isEdit: true,
         idEdit: id
@@ -204,7 +223,7 @@ class FormulaireCommande extends Component {
 
 
 
-// Partie adresse client
+  // Partie adresse client
   updateFormClient = event => {
     event.preventDefault();
     this.setState({
@@ -213,9 +232,9 @@ class FormulaireCommande extends Component {
         clientAdress: {
           ...this.state.commande.clientAdress,
           [event.target.id]: event.target.value
-          }
         }
-      })
+      }
+    })
   }
 
   updateAdressFormClient = event => {
@@ -236,7 +255,7 @@ class FormulaireCommande extends Component {
 
 
 
-// Partie adresse pharmacien
+  // Partie adresse pharmacien
   updateFormPharmacist = event => {
     event.preventDefault();
     this.setState({
@@ -257,7 +276,7 @@ class FormulaireCommande extends Component {
         ...this.state.commande,
         pharmacistAdress: {
           ...this.state.commande.pharmacistAdress,
-          primary_adress :{
+          primary_adress: {
             ...this.state.commande.pharmacistAdress.primary_adress,
             [event.target.id]: event.target.value
           }
@@ -267,8 +286,8 @@ class FormulaireCommande extends Component {
   }
 
 
-  
-// Partie autres informations
+
+  // Partie autres informations
   updateFormAutre = event => {
     event.preventDefault();
     this.setState({
@@ -284,91 +303,117 @@ class FormulaireCommande extends Component {
 
   alertFalseButton = (event) => {
     event.preventDefault();
-    alert('Il est impossible d\'uploader une image pour le moment')        
+    alert('Il est impossible d\'uploader une image pour le moment')
   }
 
 
 
-// Gestion stepper
+  // Gestion stepper
   getStepContent = (stepIndex, match) => {
     switch (stepIndex) {
       case 0:
-        return <Redirect to={`${match.url}/${this.steps[0].path}`} push/>;
+        return <Redirect to = {
+          `${match.url}/${this.steps[0].path}`
+        }
+        push / > ;
       case 1:
-        return <Redirect to={`${match.url}/${this.steps[1].path}`} push/>;
+        return <Redirect to = {
+          `${match.url}/${this.steps[1].path}`
+        }
+        push / > ;
       case 2:
-        return <Redirect to={`${match.url}/${this.steps[2].path}`} push/>;
+        return <Redirect to = {
+          `${match.url}/${this.steps[2].path}`
+        }
+        push / > ;
       case 3:
-        return <Redirect to={`${match.url}/${this.steps[3].path}`} push/>;
+        return <Redirect to = {
+          `${match.url}/${this.steps[3].path}`
+        }
+        push / > ;
       case 4:
-        return <Redirect to={`${match.url}/${this.steps[4].path}`} push/>;
+        return <Redirect to = {
+          `${match.url}/${this.steps[4].path}`
+        }
+        push / > ;
       default:
         return 'Unknown stepIndex';
     }
   }
 
   handleNext = () => {
-    this.setState({activePage:{ activeStep: this.state.activePage.activeStep + 1}})
+    this.setState({
+      activePage: {
+        activeStep: this.state.activePage.activeStep + 1
+      }
+    })
   }
 
   handleBack = () => {
-    this.setState({activePage:{ activeStep: this.state.activePage.activeStep - 1 }})
+    this.setState({
+      activePage: {
+        activeStep: this.state.activePage.activeStep - 1
+      }
+    })
   }
 
   handleReset = () => {
-    this.setState({activePage:{  activeStep: 0}})
+    this.setState({
+      activePage: {
+        activeStep: 0
+      }
+    })
   }
 
   handleGoTo = (event, step) => {
-    this.setState({activePage:{ activeStep: step}})
+    this.setState({
+      activePage: {
+        activeStep: step
+      }
+    })
   }
 
 
 
-// Render
-  render() { 
-    //props router
-    const {match, location, history} = this.props;
+  // Render
+  render() {
+      //props router
+      const {
+        match
+      } = this.props;
 
-    //props step 1 - medicaments
-    const propsFormulaireMedicament = {
-      inputSubmitMed: event => this.inputSubmitMed(event),
-      deleteMedicament: id => this.deleteMedicament(id),
-      updateFormMedicament: event => this.updateFormMedicament(event),
-      handleChangeCheckboxMed: () => this.handleChangeCheckboxMed(),
-      editMedicament: id => this.editMedicament(id),
-      clearMedoc: () => this.clearMedoc(),
-      listeMedicament: this.state.commande.pharmaceuticals,
-      medicament: this.state.medicament
-    }
+      //props step 1 - medicaments
+      const propsFormulaireMedicament = {
+        inputSubmitMed: event => this.inputSubmitMed(event),
+        deleteMedicament: id => this.deleteMedicament(id),
+        updateFormMedicament: event => this.updateFormMedicament(event),
+        handleChangeCheckboxMed: () => this.handleChangeCheckboxMed(),
+        editMedicament: id => this.editMedicament(id),
+        clearMedoc: () => this.clearMedoc(),
+        listeMedicament: this.state.commande.pharmaceuticals,
+        medicament: this.state.medicament
+      }
 
-    //props step 2 - adresse client
-    const propsFormulaireClient = {
-      currentClient: this.state.commande.clientAdress,
-      updateFormClient: event => this.updateFormClient(event),
-      updateAdressFormClient: event => this.updateAdressFormClient(event)
-    }
+      //props step 2 - adresse client
+      const propsFormulaireClient = {
+        currentClient: this.state.commande.clientAdress,
+        updateFormClient: event => this.updateFormClient(event),
+        updateAdressFormClient: event => this.updateAdressFormClient(event)
+      }
 
-    //props step 3 - adresse pharmacien
-    const propsFormulairePharmacien = {
-      currentPharmacist: this.state.commande.pharmacistAdress,
-      updateFormPharmacist: event => this.updateFormPharmacist(event),
-      updateAdressFormPharmacist: event => this.updateAdressFormPharmacist(event)
-    }
+      //props step 3 - adresse pharmacien
+      const propsFormulairePharmacien = {
+        currentPharmacist: this.state.commande.pharmacistAdress,
+        updateFormPharmacist: event => this.updateFormPharmacist(event),
+        updateAdressFormPharmacist: event => this.updateAdressFormPharmacist(event)
+      }
 
-    //props step 4 - autres informations
-    const propsFormulaireAutre = {
-      updateFormAutre: event => this.updateFormAutre(event),
-      alertFalseButton: event => this.alertFalseButton(event),
-      currentOtherInfos: this.state.commande.orderInformation
-    }
-
-
-
-    //console.log('STATE :', this.state.commande.orderInformation)
-    //console.log('STATE 2:', this.state.commande.clientAdress.primary_adress)
-
-
+      //props step 4 - autres informations
+      const propsFormulaireAutre = {
+        updateFormAutre: event => this.updateFormAutre(event),
+        alertFalseButton: event => this.alertFalseButton(event),
+        currentOtherInfos: this.state.commande.orderInformation
+      }
 
     return (
       <div className="f">

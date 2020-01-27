@@ -26,7 +26,6 @@ class FormulaireMedicament extends Component {
         this.setState({
 
         })
-        console.log('editMedicament: ', id, newArrayEdit)
     }*/
     
 
