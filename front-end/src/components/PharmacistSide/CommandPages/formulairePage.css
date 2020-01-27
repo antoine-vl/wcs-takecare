@@ -66,14 +66,28 @@
 }*/
 .contentResumeMedicament{
     height: 45vh;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .resumeMedicament{
     border: 1px solid rgba(128, 128, 128, 0.26);
-    box-shadow: gray 0px 0px 1px;
+    box-shadow: rgba(128, 128, 128, 0.411) 0px 0px 4px;
     border-radius: 5px;
-    background-color: rgba(175, 162, 162, 0.274);
+    background-color: rgba(108, 167, 108, 0.233);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 8vh;
+    padding: 3px;
+    
+}  
+
+.resumeMedicamentbis{
+    /* border: 1px solid rgba(128, 128, 128, 0.26); */
+    box-shadow: rgba(128, 128, 128, 0.411) 0px 0px 8px;
+    border-radius: 5px;
+    /* background-color: #fff; */
     display: flex;
     align-items: center;
     justify-content: space-between;

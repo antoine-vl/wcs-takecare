@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 // COMPONENTS
 import FormulaireResumeMedicaments from './FormulaireResumeMedicaments'
+import TitleComponent from "./TitleComponent"
 
 
 
@@ -92,9 +93,11 @@ class FormulaireRecap extends Component {
                 </Grid>
 
                 <Grid item xs={12} sm={4}>
-                    <FormulaireResumeMedicaments medicaments={pharmaceuticals} recap={true} />   
+                    <FormulaireResumeMedicaments medicaments={pharmaceuticals} readRecap />   
                 </Grid>
 
+                < TitleComponent title="Status" />
+                
                 <Grid item xs={12} sm={4}>
                     <Typography align="left">
                         <h2>Payement</h2>

@@ -47,6 +47,7 @@ class InputsMedicament extends Component {
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <TextField 
+                                autoFocus
                                 inputProps={{
                                     style: { textAlign: "left", paddingLeft: "3px" }
                                 }} 
