@@ -42,6 +42,8 @@ const useStyles = makeStyles(theme => ({
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
     backgroundColor: '#0dae8e',
+    justifyContent:'center',
+    
 
   },
   drawer: {
@@ -77,8 +79,8 @@ export default function Dashboard({match}) {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar >
-          <Typography variant="h6" noWrap>
-            Permanent drawer
+          <Typography variant="h4" align="center">
+            Take-Care
           </Typography>
         </Toolbar> 
         

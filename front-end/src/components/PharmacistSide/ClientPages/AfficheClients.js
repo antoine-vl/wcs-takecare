@@ -77,18 +77,17 @@ class AfficheClients extends Component {
 
         .then(res => {
           const cpt = res.data[0].cpt;
-          console.log('COUNT :', res.data[0].cpt)
+          
 
           const paramsQuery= Object.keys(this.state.param)
-          console.log('paramsQuery :', paramsQuery)
           const url = `http://localhost:5000/dashboard/clients/?${paramsQuery[0]}=${this.state.param.orderby}&${paramsQuery[1]}=${this.state.param.order}&${paramsQuery[2]}=${this.state.param.limit}&${paramsQuery[3]}=${this.state.param.offset}`;
-          console.log('URL :', url)
+          
 
           axios
             .get(url)
 
             .then(res => {
-              console.log('Res ?', res.data)
+              
               
               const nameColumnWithoutId = Object.keys(res.data[0])
               nameColumnWithoutId.pop();
@@ -97,7 +96,7 @@ class AfficheClients extends Component {
                 return {title: this.columnName[index], sqlTitle: serverTitle}
               })
 
-              console.log('Table Title: ', headTitle)
+              
 
               const rows = res.data
 
@@ -176,7 +175,7 @@ class AfficheClients extends Component {
     }
 
     render() { 
-        const { classes , match, handleLook } = this.props;
+        const { classes, handleLook } = this.props;
         const { 
           headTitle, 
           rows,
@@ -189,12 +188,12 @@ class AfficheClients extends Component {
           }
         } = this.state;
 
-        console.log('Match ', match)
+        
 
         return ( 
           <>
             <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="simple table">
+              <Table className={classes.table} aria-label="simple table" >
                 <TableHead>
                   <TableRow>
                     {headTitle.map(column => (

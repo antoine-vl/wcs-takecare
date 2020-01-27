@@ -20,35 +20,39 @@ import FormulaireResumeMedicaments from './FormulaireResumeMedicaments'
 class FormulaireRecap extends Component {
     constructor(props) {
         super(props);
-        this.state = {  
+        this.state = {
             count: this.countPharmaceuticals(props.recap.pharmaceuticals)
         }
     }
-    
+
     countPharmaceuticals = (details) => {
-        console.log(details)
-        let result= 0;
-        for (let i = 0; i < details.length; i ++){
-            console.log(details[i].price)
+        let result = 0;
+        for (let i = 0; i < details.length; i++) {
             result = result + (parseInt(details[i].price, 10) * parseInt(details[i].quantity, 10))
         }
-        console.log(result)
         return result
-            
-        
-        
+
+
+
     }
 
-    render() { 
-        const {pharmaceuticals}  = this.props.recap;
-        const {price}            = this.props.recap.pharmaceuticals;
-        const {clientAdress}     = this.props.recap;
-        const {pharmacistAdress} = this.props.recap;
-        const {orderInformation} = this.props.recap;
-        
+    render() {
+            const {
+                pharmaceuticals
+            } = this.props.recap;
+            //const {price}            = this.props.recap.pharmaceuticals;
+            const {
+                clientAdress
+            } = this.props.recap;
+            const {
+                pharmacistAdress
+            } = this.props.recap;
+            const {
+                orderInformation
+            } = this.props.recap;
 
-        return (
-      
+
+            return (
         <form>
             <Typography variant="h4" align="left" > Récapitulatif de la commande</Typography>
 

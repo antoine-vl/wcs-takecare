@@ -23,7 +23,6 @@ class FormulaireResumeMedicaments extends Component {
 
     render() {
         const { deleteMedicament , medicaments , editMedicament, recap} = this.props;
-        console.log('medicaments liste :', medicaments)
 
         return ( 
             <Typography variant="h3">

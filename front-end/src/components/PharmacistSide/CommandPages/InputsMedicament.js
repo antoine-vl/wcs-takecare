@@ -3,10 +3,9 @@ import './formulairePage.css';
 
 // MATERIAL UI
 import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
+//import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -40,7 +39,7 @@ class InputsMedicament extends Component {
       };
 
     render() { 
-        const { medicament: {name, id, comment, quantity , categorie, prescription, isEdit, price }, updateFormMedicament , inputSubmit, handleChangeCheckboxMed, clearMedoc } = this.props;
+         const { medicament: {name, id, comment, quantity , categorie, isEdit, price }, updateFormMedicament , inputSubmit, clearMedoc } = this.props;
         
         return ( 
                 <form className="formulaireMed" onSubmit={(e) => inputSubmit(e)} autoComplete="on"> 

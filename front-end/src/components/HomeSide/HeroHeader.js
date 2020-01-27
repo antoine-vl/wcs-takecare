@@ -5,7 +5,7 @@ import './HeroHeader.css';
 import { Link } from 'react-router-dom';
 
 // COMPONENTS
-import SimpleSelect from './SimpleSelect';
+//import SimpleSelect from './SimpleSelect';
 import ButtonPhone from './ButtonPhone';
 
 

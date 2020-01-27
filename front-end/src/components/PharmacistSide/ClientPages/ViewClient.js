@@ -26,9 +26,6 @@ class ViewClient extends Component {
         axios
             .get(`http://localhost:5000/dashboard/clients/${this.idClient}`)
             .then(res => {
-  
-              console.log('Res ?', res.data)
-  
               this.setState({
                 user: res.data[0]
               })
@@ -41,8 +38,8 @@ class ViewClient extends Component {
         firstname, 
         mail, 
         GSM, 
-        date_inscription, 
-        national_registration_number,
+        //date_inscription, 
+        //national_registration_number,
         zip_code,
         adress,
         city,

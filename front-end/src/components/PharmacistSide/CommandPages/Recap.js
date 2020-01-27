@@ -67,13 +67,10 @@ class Recap extends Component {
     }
     
     countPharmaceuticals = (details) => {
-        console.log(details)
         let result= 0;
         for (let i = 0; i < details.length; i ++){
-            console.log(details[i].price)
             result = result + (parseInt(details[i].price, 10) * parseInt(details[i].quantity, 10))
         }
-        console.log(result)
         return result
                   
     }
@@ -88,47 +85,42 @@ class Recap extends Component {
             .get(`http://localhost:5000/dashboard/orders/${this.order}/pharmaceuticals`)
             .then(res => {
                 const pharmaceuticals = res.data;
-                console.log('medocs: ', pharmaceuticals)
 
                 axios
                 .get(`http://localhost:5000/dashboard/orders/${this.order}/status`)
                 .then(res => {
                     
 
-                    console.log('Status RESPONSE :', res.data)
-
                     const status = res.data.map((item, index) => {
                         switch(item.status){
                             case 'New_order':
                                 return {...this.status[0], id: item.status, date:item.date_status };
-                            break; 
+                           
 
                             case 'Paid':
                                 return {...this.status[1], id: item.status, date:item.date_status };
-                            break; 
+                            
 
                             case 'Order_prepared':
                                 return {...this.status[2], id: item.status, date:item.date_status };
-                            break; 
+                            
 
                             case 'Order_picked_up_by_Couriier':
                                 return {...this.status[3], id: item.status, date:item.date_status };
-                            break; 
+                            
 
                             case 'Delivered':
                                 return {...this.status[4], id: item.status, date:item.date_status };
-                            break; 
+                             
 
                             case 'Returned_prescription':
                                 return {...this.status[5], id: item.status, date:item.date_status };
-                            break; 
+                            
 
                             default:
                                 return {...this.status[6], id:item.status, date:item.date_status };
                         }
                     })
-
-                    console.log('Status modified :', status)
                     
                     this.setState({
                         orderInformation: orderInformation,
@@ -143,8 +135,6 @@ class Recap extends Component {
    
 
     render() { 
-        
-        console.log('state:',this.state.orderInformation["Nom client"])
 
         const {pharmaceuticals, status} = this.state
 

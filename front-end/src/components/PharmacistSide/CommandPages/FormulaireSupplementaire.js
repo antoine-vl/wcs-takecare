@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 // MATERIAL UI
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
+//import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/styles';
@@ -33,7 +33,6 @@ export class FormulaireSupplementaire extends Component {
     updateForm = (event) => {
         event.preventDefault();
         this.setState({[event.target.id]: event.target.value})
-        console.log(event.target)
     };
 
       alertFalseButton = (event) => {
