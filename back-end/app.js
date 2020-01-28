@@ -22,15 +22,16 @@ let sqlQuerry = `${orderSql.GET} ORDER BY ${req.query.orderby} ${req.query.order
 app.get('/dashboard/orders', (req,res) => {
 
     let sqlQuerry = `
-      SELECT od.order_number, 
-      us.firstname, 
-      us.lastname, 
-      ohs.date_status, 
-      st.name     
+      SELECT 
+        od.order_number, 
+        us.firstname, 
+        us.lastname, 
+        ohs.date_status, 
+        st.name     
       FROM Users AS us 
-      JOIN Orders AS od ON od.client_id=us.id
-      JOIN Orders_has_Status AS ohs ON ohs.orders_order_number = od.order_number
-      JOIN Status AS st ON st.id=ohs.status_id`;
+        JOIN Orders AS od ON od.client_id=us.id
+        JOIN Orders_has_Status AS ohs ON ohs.orders_order_number = od.order_number
+        JOIN Status AS st ON st.id=ohs.status_id`;
     
 
     if(req.query.order){
@@ -116,13 +117,13 @@ app.get('/dashboard/orders/:id/pharmaceuticals', (req, res) => {
 
   const sql = `
   SELECT 
-  ph.name, 
-  ohp.quantity, 
-  ph.price, 
-  ph.category 
+    ph.name, 
+    ohp.quantity, 
+    ph.price, 
+    ph.category 
   FROM Orders AS od
-  JOIN Orders_has_Pharmaceuticals AS ohp ON ohp.orders_order_number = od.order_number
-  JOIN Pharmaceuticals AS ph ON ph.id_medicament = ohp.pharmaceuticals_id_medicament
+    JOIN Orders_has_Pharmaceuticals AS ohp ON ohp.orders_order_number = od.order_number
+    JOIN Pharmaceuticals AS ph ON ph.id_medicament = ohp.pharmaceuticals_id_medicament
   WHERE od.order_number = ?
   `
 
@@ -144,11 +145,11 @@ app.get('/dashboard/orders/:id/status', (req, res) => {
 
   const sql = `
   SELECT
-  st.name AS status,
-  ohs.date_status AS date_status
+    st.name AS status,
+    ohs.date_status AS date_status
   FROM Orders
-  JOIN Orders_has_Status AS ohs ON ohs.orders_order_number = Orders.order_number
-  JOIN Status AS st ON st.id = ohs.status_id
+    JOIN Orders_has_Status AS ohs ON ohs.orders_order_number = Orders.order_number
+    JOIN Status AS st ON st.id = ohs.status_id
   WHERE Orders.order_number = ?
   `
 
@@ -156,11 +157,12 @@ app.get('/dashboard/orders/:id/status', (req, res) => {
 
   connection.query(sql, orderID, (err, results) => {
     if (err) {
-      res.status(500).send('Erreur lors de la récupération des commandes');
+      res.status(500).send('Erreur lors de la récupération des status de la commande');
     }
     if (results.length === 0) {
       return res.status(404).send('Order not found');
     }
+    console.log('results :', results)
     return res.json(results);
   });
 
@@ -172,18 +174,15 @@ app.get('/dashboard/clients', (req,res) => {
 
   let sqlQuerry = `
     SELECT 
-    lastname, 
-    firstname, 
-    GSM, 
-    zip_code, 
-    city,
-    us.id
-
+      lastname, 
+      firstname, 
+      GSM, 
+      zip_code, 
+      city,
+      us.id
     FROM Users AS us
-
-    JOIN Adress AS ad ON ad.id=us.primary_adress_id
-    JOIN Roles AS ro ON ro.id=us.roles_id 
-          
+      JOIN Adress AS ad ON ad.id=us.primary_adress_id
+      JOIN Roles AS ro ON ro.id=us.roles_id     
     WHERE ro.role = 'Client'
   `;
   
@@ -223,22 +222,19 @@ app.get('/dashboard/clients/:id', (req, res) => {
   else {
     const sql =
       `SELECT 
-      lastname, 
-      firstname, 
-      mail, 
-      GSM, 
-      date_inscription, 
-      national_registration_number ,
-      zip_code,
-      adress,
-      city,
-      street_number
-      
+        lastname, 
+        firstname, 
+        mail, 
+        GSM, 
+        date_inscription, 
+        national_registration_number ,
+        zip_code,
+        adress,
+        city,
+        street_number
       FROM Users AS us
-      
-      JOIN Adress AS ad ON ad.id = us.primary_adress_id
-      JOIN Roles AS ro ON ro.id = us.roles_id
-      
+        JOIN Adress AS ad ON ad.id = us.primary_adress_id
+        JOIN Roles AS ro ON ro.id = us.roles_id
       WHERE us.primary_adress_id = ?
       AND ro.role = 'client'`
 
@@ -266,5 +262,6 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-let  server  =  app.listen( port, function(){
+app.listen( port, function(){
+  console.log(`Server is listening on ${port}`);
 });

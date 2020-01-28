@@ -1,10 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+
+// MOMENT
+import Moment from 'react-moment';
+
+// AXIOS
+import axios from 'axios';
 
 // MATERIAL-UI
 import Card from '@material-ui/core/Card';
 import { withStyles } from '@material-ui/core/styles';
-import { CardContent } from '@material-ui/core';
+import { CardContent, Divider, Container, Paper } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+
 
 
 /* ============================== */
@@ -14,19 +22,9 @@ import Typography from '@material-ui/core/Typography';
 // MATERIAL-UI STYLES
 const styles = {
     card: {
-      minWidth: 175,
-    }/*,
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      fontSize: 14,
-    },
-    pos: {
-      marginBottom: 12,
-    },*/
+      width: 125,
+      marginLeft: 20
+    }
   };
 
 class DisplayMarkerStatus extends Component {
@@ -124,18 +122,55 @@ class DisplayMarkerStatus extends Component {
                 numStatus: 7
             },
           ]
+
+          this.orderNumber = 157523696;
     }
 
     componentDidMount = () => {
-      
+
+        axios
+        .get(`http://localhost:5000/dashboard/orders/${this.orderNumber}/status`)
+        .then(res => {
+
+            console.log('res Data: ', res.data);
+
+            console.log('state status', this.state.status)
+
+            const updateStatus = [...this.state.status];
+
+            updateStatus.map((statu, index) => {
+                res.data.map(data => {
+                    if(statu.bddName === data.status){
+                        console.log('OK ', statu.bddName)
+                        statu.dateMarker = data.date_status
+                        console.log('statu.dateMarker ', statu.dateMarker)
+                        statu.colorStatus = this.colorStatus[index].color
+                        console.log('statu.colorStatus ', statu.colorStatus)
+                    }
+                })
+
+                console.log('STATU: ', statu)
+            })
+
+
+            console.log('state status AFTER', this.state.status)
+            console.log('updateStatus', updateStatus);
+            
+            this.setState({
+                ...this.state,
+                status: updateStatus
+            })
+        })
     }
 
     render() { 
         const { classes } = this.props
 
         return ( 
+            <>
+
             <div style ={{
-                width: '1500px',
+                //width: '1500px',
                 display: 'flex',
                 justifyContent: 'space-around'
             }}>
@@ -143,30 +178,76 @@ class DisplayMarkerStatus extends Component {
             {this.state.status.map(statu => (
                  
                     <Card 
-                        className={classes.card} 
+                        //sclassName={classes.card} 
                         key={statu.numStatus} 
-                        
+                        style={{
+                            color: 'white',
+                            backgroundColor: `${statu.colorStatus}`,
+                            //width: 125,
+                            marginLeft: 20
+                        }}
                     >
-                        <CardContent >
-                            <Typography>{statu.markerName}</Typography>
-                            <Typography>{statu.dateMarker}</Typography>
-                        </CardContent>
+                        
+
+                            <CardContent>
+                            <Grid container alignItems="center">
+                                <Typography>{statu.markerName}</Typography>
+                            
+
+                            <Divider orientation="vertical" />
+
+                            
+                                <Typography variant="caption">
+                                    {statu.dateMarker  
+                                    ? <Moment >{statu.dateMarker}</Moment> 
+                                    : '...'}
+                                </Typography> 
+                                </Grid>
+                            </CardContent>
+
+                        
                     </Card>
+
                 
             ))}
-                
-                {/* <Card className={classes.card} >
-                    <CardContent>
-                        <Typography>Hello</Typography>
-                    </CardContent>
-                </Card>
 
-                <Card className={classes.card} >
-                    <CardContent>
-                        <Typography>Hello</Typography>
-                    </CardContent>
-                </Card> */}
+            <Paper>
+            
+                    
+                        <Typography>{this.state.status[3].markerName}</Typography>
+
+                        {/* <Divider orientation="vertical" /> */}
+
+                        <Typography variant="caption">
+                            {this.state.status[3].dateMarker  
+                            ? <Moment >{this.state.status[3].dateMarker}</Moment> 
+                            : '...'}
+                        </Typography> 
+                   
+               
+            </Paper>
+                
             </div>
+
+            <Paper>
+                <Container>
+                <Grid container alignItems="center">
+                    
+                    <Typography>{this.state.status[3].markerName}</Typography>
+
+                    <Divider  />
+
+                    <Typography variant="caption">
+                        {this.state.status[3].dateMarker  
+                        ? <Moment >{this.state.status[3].dateMarker}</Moment> 
+                        : '...'}
+                    </Typography> 
+                </Grid>
+                </Container>
+
+            </Paper>
+        
+            </>
         );
     }
 }
