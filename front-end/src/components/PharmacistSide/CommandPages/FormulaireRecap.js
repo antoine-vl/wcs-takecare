@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 //import List from '@material-ui/core/List';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 // COMPONENTS
 import FormulaireResumeMedicaments from './FormulaireResumeMedicaments'
@@ -34,9 +35,10 @@ class FormulaireRecap extends Component {
         }
         console.log(result)
         return result
-            
-        
-        
+    }
+
+    onClickHelp = () => {
+        alert('Help')
     }
 
     render() { 
@@ -112,7 +114,7 @@ class FormulaireRecap extends Component {
                             <Grid className="height" style={{fontSize:'0.9rem'}} container spacing={3}>
                                 <Grid item xs={12} sm={9} align="right" className="titlePrixResume">
                                     <p>Sous-total : </p>
-                                    <p>Livraison : </p>
+                                    <p>Livraison< HelpOutlineIcon onMouseMove={(e) => this.onClickHelp(e)}/> : </p>
                                     <p>Réduction livraison : </p>
                                     <br/>
                                     <p>Montant total : </p>
