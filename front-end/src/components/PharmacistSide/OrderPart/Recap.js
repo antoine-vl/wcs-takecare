@@ -139,11 +139,11 @@ class Recap extends Component {
         return (
       
             <form>
-                <Typography variant="h4" align="left"> h4. Récapitulatif de la commande</Typography>
+                <Typography variant="h4" align="left">Récapitulatif de la commande</Typography>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={4}>
                             <Typography align="left" variant="h2">
-                                h2. Numéro de commande
+                                Numéro de commande
                                 {this.state.orderInformation["Numéro de commande"]} <br/>
                             </Typography>   
                         </Grid>
@@ -179,24 +179,64 @@ class Recap extends Component {
 
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={6}>
-                        <Typography align="left" variant="h2">
-                            Adresse client
-                            <i><font color="grey">Nom</font></i><br/>{this.state.orderInformation["Nom client"]}<br/>
-                            <i><font color="grey">Prénom</font></i><br/> {this.state.orderInformation["Prénom client"]} <br/>
-                            <i><font color="grey">Email</font></i><br/> {this.state.orderInformation["Email client"]} <br/>
-                            <i><font color="grey">Gsm</font></i><br/> {this.state.orderInformation["GSM"]} <br/>
-                            <i><font color="grey">Adresse</font></i><br/> {this.state.orderInformation["Adresse client"]} <br/>
-                            <i><font color="grey">Numéro</font></i><br/> {this.state.orderInformation["Numéro client"]} <br/>
-                            <i><font color="grey">Code postal</font></i><br/> {this.state.orderInformation["Code postal client"]} <br/>
-                            <i><font color="grey">Ville</font></i><br/> {this.state.orderInformation["Ville client"]} <br/>
-                            
-                        </Typography>  
+                    <Typography align="left" style= {{fontWeight:"bold"}}>Adresse client </Typography>
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Nom</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Nom client"]}</Typography>
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Prénom</i></Typography> */}
+                        <Typography align="left"> {this.state.orderInformation["Prénom client"]}</Typography>
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Email</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Email client"]} </Typography>
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Gsm</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["GSM"]} </Typography>
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Adresse</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Adresse client"]} </Typography>
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Numéro</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Numéro client"]}</Typography>
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Code postal</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Code postal client"]} </Typography>
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Ville</i>Vlle</Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Ville client"]}</Typography> 
+                        
+              
                     </Grid>
                 
                     <Grid item xs={12} sm={6}>
-                        <Typography align="left" variant="h2">
-                            Adresse pharmacie
-                            <i><font color="grey">Nom</font></i><br/> {this.state.orderInformation["Nom pharmacien"]} <br/>
+                    <Typography align="left" style= {{fontWeight:"bold"}}>Adresse pharmacie</Typography>
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Nom</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Nom pharmacien"]}</Typography>
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Prénom</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Prénom pharmacien"]}</Typography> 
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Email</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Email pharmacien"]}</Typography> 
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Gsm</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["GSM pharmacien"]}</Typography> 
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Nom de la pharmacie</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Nom de la pharmacie"]}</Typography> 
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Adresse</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Adresse pharmacie"]}</Typography> 
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Numéro</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Numéro pharmacie"]}</Typography>
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Code postal</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Code postal du pharmacien"]} </Typography>
+
+                        {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Ville</i></Typography> */}
+                        <Typography align="left">{this.state.orderInformation["Ville pharmacie"]}</Typography> 
+                        
+                            {/* <i><font color="grey">Nom</font></i><br/> {this.state.orderInformation["Nom pharmacien"]} <br/>
                             <i><font color="grey">Prénom</font></i><br/> {this.state.orderInformation["Prénom pharmacien"]} <br/>
                             <i><font color="grey">Email</font></i><br/> {this.state.orderInformation["Email pharmacien"]} <br/>
                             <i><font color="grey">Gsm</font></i><br/> {this.state.orderInformation["GSM pharmacien"]} <br/>
@@ -204,8 +244,8 @@ class Recap extends Component {
                             <i><font color="grey">Adresse</font></i><br/> {this.state.orderInformation["Adresse pharmacie"]} <br/>
                             <i><font color="grey">Numéro</font></i><br/> {this.state.orderInformation["Numéro pharmacie"]} <br/>
                             <i><font color="grey">Code postal</font></i><br/> {this.state.orderInformation["Code postal du pharmacien"]} <br/>
-                            <i><font color="grey">Ville</font></i><br/> {this.state.orderInformation["Ville pharmacie"]} <br/>
-                        </Typography>   
+                            <i><font color="grey">Ville</font></i><br/> {this.state.orderInformation["Ville pharmacie"]} <br/> */}
+                       
                     </Grid>
             
 
