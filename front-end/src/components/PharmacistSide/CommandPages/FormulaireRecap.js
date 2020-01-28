@@ -7,6 +7,8 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import Popover from '@material-ui/core/Popover';
+import { makeStyles } from '@material-ui/core/styles';
 
 // COMPONENTS
 import FormulaireResumeMedicaments from './FormulaireResumeMedicaments'
@@ -22,9 +24,25 @@ class FormulaireRecap extends Component {
     constructor(props) {
         super(props);
         this.state = {  
-            count: this.countPharmaceuticals(props.recap.pharmaceuticals)
+            count: this.countPharmaceuticals(props.recap.pharmaceuticals),
+            anchorEl: null,
         }
+        this.open = Boolean(this.state.anchorEl)
     }
+
+    handlePopoverOpen = event => {
+        this.setState({
+            ...this.state, 
+            anchorEl: event.currentTarget
+        })
+      };
+    
+    handlePopoverClose = () => {
+        this.setState({
+            ...this.state, 
+            anchorEl: null
+        })
+      };
     
     countPharmaceuticals = (details) => {
         console.log(details)
@@ -37,10 +55,6 @@ class FormulaireRecap extends Component {
         return result
     }
 
-    onClickHelp = () => {
-        alert('Help')
-    }
-
     render() { 
         const {pharmaceuticals}  = this.props.recap;
         const {price}            = this.props.recap.pharmaceuticals;
@@ -48,6 +62,7 @@ class FormulaireRecap extends Component {
         const {pharmacistAdress} = this.props.recap;
         const {orderInformation} = this.props.recap;
         
+        console.log('mon state :', this.state.anchorEl)
 
         return (
       
@@ -114,7 +129,37 @@ class FormulaireRecap extends Component {
                             <Grid className="height" style={{fontSize:'0.9rem'}} container spacing={3}>
                                 <Grid item xs={12} sm={9} align="right" className="titlePrixResume">
                                     <p>Sous-total : </p>
-                                    <p>Livraison< HelpOutlineIcon onMouseMove={(e) => this.onClickHelp(e)}/> : </p>
+                                    <p>Livraison < HelpOutlineIcon /></p>
+
+                                    {/* <Typography
+                                        aria-owns={this.open ? 'mouse-over-popover' : undefined}
+                                        aria-haspopup="true"
+                                        onMouseEnter={this.handlePopoverOpen}
+                                        onMouseLeave={this.handlePopoverClose}
+                                    >
+                                        Livraison< HelpOutlineIcon />
+                                    </Typography>
+                                    <Popover
+                                        style={{
+                                            pointerEvents: 'none',
+                                        }}
+                                        id="mouse-over-popover"
+                                        open={true}
+                                        anchorEl={this.state.anchorEl}
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'left',
+                                        }}
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'left',
+                                        }}
+                                        onClose={this.handlePopoverClose}
+                                        disableRestoreFocus
+                                    >
+                                        <Typography>I use Popover.</Typography>
+                                    </Popover> */}
+                                    
                                     <p>Réduction livraison : </p>
                                     <br/>
                                     <p>Montant total : </p>
