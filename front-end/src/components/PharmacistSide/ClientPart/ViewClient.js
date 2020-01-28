@@ -68,45 +68,33 @@ class ViewClient extends Component {
       return ( 
         
           <Grid container spacing={3} >
-            <Grid item xs={12} sm={6} >
-            
-        <Typography align="left" style= {{fontWeight:"bold"}}>Adresse client </Typography>
-          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Nom</i></Typography> */}
-          <Typography align="left">{lastname}</Typography>
-
-          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Prénom</i></Typography> */}
-          <Typography align="left"> {firstname}</Typography>
-
-          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Email</i></Typography> */}
-          <Typography align="left">{mail} </Typography>
-
-          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Gsm</i></Typography> */}
-          <Typography align="left">{GSM} </Typography>
-
-          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Adresse</i></Typography> */}
-          <Typography align="left">{adress} </Typography>
-
-          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Numéro</i></Typography> */}
-          <Typography align="left">{street_number} </Typography>
-
-          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Code postal</i></Typography> */}
-          <Typography align="left">{zip_code} </Typography>
-
-          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Ville</i>Vlle</Typography> */}
-          <Typography align="left">{city}</Typography> 
-            </Grid>
+            <div className="containerFormRecap">
+              <Grid item xs={12} sm={12}>
+                <Typography className="titleResumeCommande" align="left" variant='h4'>{lastname} {firstname}</Typography>
+              </Grid>
+              <div className="adressResumeClient">
+                <Grid item>
+                  <Typography align="left">{adress}, {street_number}</Typography>
+                  <Typography align="left">{zip_code} - {city}</Typography>
+                </Grid> 
+                <Grid item>
+                  <Typography align="left">{mail} </Typography>
+                  <Typography align="left">{GSM} </Typography>
+                </Grid>
+              </div>
+            </div>
 
             <Grid item xs={12} sm={6} >
             <Typography align="left" style= {{fontWeight:"bold"}}>Liste des commandes</Typography>
             {this.orders.map((item,id ) => (
               
                 <Card style={{marginBottom:"3px", border:"1px solid black"}}>
-                <CardActionArea>
-                <CardContent>
-                <Typography style={{fontSize:"10px"}}align="left">{item.order_number} / {item.name}</Typography>
-                <Typography style={{fontSize:"10px"}}align="left">{item.date_status}</Typography> 
-                </CardContent>
-                </CardActionArea>
+                  <CardActionArea>
+                    <CardContent>
+                      <Typography style={{fontSize:"10px"}}align="left">{item.order_number} / {item.name}</Typography>
+                      <Typography style={{fontSize:"10px"}}align="left">{item.date_status}</Typography> 
+                    </CardContent>
+                  </CardActionArea>
                 </Card> 
                 
               

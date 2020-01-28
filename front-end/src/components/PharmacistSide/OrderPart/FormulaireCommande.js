@@ -483,7 +483,7 @@ class FormulaireCommande extends Component {
               />
               <Route 
                 path={`${match.path}/${this.steps[4].path}`}
-                render={props => <FormulaireRecap {...props} recap={this.state.commande} />}
+                render={props => <FormulaireRecap {...props} recap={this.state.commande} recapCreation />}
               />
             </Switch>
 

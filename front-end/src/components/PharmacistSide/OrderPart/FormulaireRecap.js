@@ -56,8 +56,8 @@ class FormulaireRecap extends Component {
     }
 
     render() { 
+        const {recapCreation}    = this.props
         const {pharmaceuticals}  = this.props.recap;
-        const {price}            = this.props.recap.pharmaceuticals;
         const {clientAdress}     = this.props.recap;
         const {pharmacistAdress} = this.props.recap;
         const {orderInformation} = this.props.recap;
@@ -68,7 +68,15 @@ class FormulaireRecap extends Component {
       
             <form>
 
-                <Typography variant="h4" align="left" > Récapitulatif de la commande </Typography>
+                <Typography 
+                    variant="h4" 
+                    align="left" 
+                > 
+                    Récapitulatif de la commande 
+                    {recapCreation 
+                    ? null
+                    : ' commande numero 112345'}
+                </Typography>
                 <br/>
                 <Grid container spacing={3}>
                     <Grid container  item xs={12} sm={12}>

@@ -60,6 +60,8 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     color: 'black',
     backgroundColor: theme.palette.background.default,
+    boxShadow: 'black 0px 0px 7px',
+    borderRadius: '10px',
     padding: theme.spacing(3),
     marginTop: "90px"
   },
@@ -152,10 +154,8 @@ export default function Dashboard({match}) {
             </ListItem>
           </NavLink>
         </List>
-        
-
       </Drawer>
-
+      
       <div className={classes.content}>
         <Switch>
           {/* <Route 
