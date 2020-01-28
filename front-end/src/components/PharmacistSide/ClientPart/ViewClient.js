@@ -4,8 +4,10 @@ import axios from 'axios';
 // MATERIAL UI
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-
-
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+//import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 
 /* ============================== */
 
@@ -15,8 +17,26 @@ class ViewClient extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-          user:{}
+          user:{},
+          orders:this.orders,
          }
+      
+         this.orders = [{
+          order_number:'147258369',
+          date_status:'2020-01-01 00:00:00',
+          name:'Order_prepared',
+         },
+         {
+          order_number:'147251659',
+          date_status:'2020-01-01 00:00:00',
+          name:'Paid',
+         },
+         {
+          order_number:'147251659',
+          date_status:'2020-01-01 00:00:00',
+          name:'Paid',
+         },
+        ]
 
          this.idClient = this.props.match.params.id_order
 
@@ -38,38 +58,60 @@ class ViewClient extends Component {
         firstname, 
         mail, 
         GSM, 
-        //date_inscription, 
-        //national_registration_number,
         zip_code,
         adress,
         city,
         street_number
       } = this.state.user
-
+      
+      
       return ( 
-          <Grid container spacing={3} zeroMinWidth style= {{width: '100%'}} >
+        
+          <Grid container spacing={3} >
             <Grid item xs={12} sm={6} >
-              <Typography align="left">
+            
+        <Typography align="left" style= {{fontWeight:"bold"}}>Adresse client </Typography>
+          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Nom</i></Typography> */}
+          <Typography align="left">{lastname}</Typography>
 
-                <h2>Adresse client</h2>
-                <i><font color="grey">Nom</font></i><br/>{lastname}<br/>
-                <i><font color="grey">Prénom</font></i><br/> {firstname} <br/>
-                <i><font color="grey">Email</font></i><br/> {mail} <br/>
-                <i><font color="grey">Gsm</font></i><br/> {GSM} <br/>
-                <i><font color="grey">Adresse</font></i><br/> {adress} <br/>
-                <i><font color="grey">Numéro</font></i><br/> {street_number} <br/>
-                <i><font color="grey">Code postal</font></i><br/> {zip_code} <br/>
-                <i><font color="grey">Ville</font></i><br/> {city} <br/>
+          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Prénom</i></Typography> */}
+          <Typography align="left"> {firstname}</Typography>
 
-              </Typography>  
+          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Email</i></Typography> */}
+          <Typography align="left">{mail} </Typography>
+
+          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Gsm</i></Typography> */}
+          <Typography align="left">{GSM} </Typography>
+
+          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Adresse</i></Typography> */}
+          <Typography align="left">{adress} </Typography>
+
+          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Numéro</i></Typography> */}
+          <Typography align="left">{street_number} </Typography>
+
+          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Code postal</i></Typography> */}
+          <Typography align="left">{zip_code} </Typography>
+
+          {/* <Typography align="left" variant="body2" style= {{color:"grey"}}><i>Ville</i>Vlle</Typography> */}
+          <Typography align="left">{city}</Typography> 
             </Grid>
 
             <Grid item xs={12} sm={6} >
-              <Typography align="left">
-
-                <h2>Liste des commandes</h2>
-
-              </Typography>  
+            <Typography align="left" style= {{fontWeight:"bold"}}>Liste des commandes</Typography>
+            {this.orders.map((item,id ) => (
+              
+                <Card style={{marginBottom:"3px", border:"1px solid black"}}>
+                <CardActionArea>
+                <CardContent>
+                <Typography style={{fontSize:"10px"}}align="left">{item.order_number} / {item.name}</Typography>
+                <Typography style={{fontSize:"10px"}}align="left">{item.date_status}</Typography> 
+                </CardContent>
+                </CardActionArea>
+                </Card> 
+                
+              
+            ))
+            } 
             </Grid>
           </Grid>
         );
