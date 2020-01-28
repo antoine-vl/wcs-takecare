@@ -93,6 +93,29 @@ class FormulaireCommande extends Component {
       }
     }
 
+    this.testMedicaments = [
+      {
+        name:'medoc1',
+        price:'10',
+        quantity:'2'
+      },
+      {
+        name:'medoc2',
+        price:'5',
+        quantity:'3'
+      },
+      {
+        name:'medoc3',
+        price:'9',
+        quantity:'1'
+      },
+      {
+        name:'medoc4',
+        price:'18',
+        quantity:'20'
+      },
+    ]
+
     this.steps = [{
         name: 'Informations du client',
         path: 'client',

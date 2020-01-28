@@ -17,12 +17,12 @@ import { Typography } from '@material-ui/core';
 class FormulaireResumeMedicaments extends Component {
     constructor(props) {
         super(props);
-        this.state = { }
+        this.state = {  }
     }
 
 
     render() {
-        const { deleteMedicament , medicaments , editMedicament, recap} = this.props;
+        const { deleteMedicament , medicaments , editMedicament, readRecap} = this.props;
 
         return ( 
             <Typography variant="h3">
@@ -36,13 +36,14 @@ class FormulaireResumeMedicaments extends Component {
                             Quantité
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            Prix/unité
+                            Prix
                         </Grid>
-                        <Grid item xs={12} sm={4}>
-                            Catégorie
-                        </Grid>
-
-                        {recap ? null : (
+                        {readRecap ? null : (
+                            <Grid item xs={12} sm={4}>
+                                Catégorie
+                            </Grid>
+                        )}
+                        {readRecap ? null : (
                             <Grid item xs={12} sm={3}>
                                 Action
                             </Grid>
@@ -50,10 +51,17 @@ class FormulaireResumeMedicaments extends Component {
                     </div>
                 </Grid>
                 <Grid container spacing={3}>
-                    <Grid item xs={12}>
+                    <Grid 
+                        item xs={12}
+                        style={{
+                            //height:"20vh",
+                            overflowY: 'scroll',
+                        }}
+                    >
+
                         {medicaments.map((item,id) =>
-                            <div key={id} className="resumeMedicament">
-                                <Grid item xs={12} sm={3}>
+                            <div key={id} className={id%2 == 0 ? "resumeMedicament" : "resumeMedicamentbis"}>
+                                <Grid item xs={1} sm={3}>
                                     <div className="resumeMedicamentName">{item.name}</div>
                                 </Grid>
                                 <Grid item xs={12} sm={4}>
@@ -62,14 +70,16 @@ class FormulaireResumeMedicaments extends Component {
                                 <Grid item xs={12} sm={4}>
                                     <div className="resumeMedicamentQuantity">{item.price}€</div>
                                 </Grid>
-                                <Grid item xs={12} sm={4}>
-                                    <div className="resumeMedicamentQuantity">{item.categorie || item.category}</div>
-                                </Grid>
-                                {recap ? null : (
+                                {readRecap ? null : (
+                                    <Grid item xs={12} sm={4}>
+                                        <div className="resumeMedicamentQuantity">{item.categorie || item.category}</div>
+                                    </Grid>
+                                )}
+                                {readRecap ? null : (
                                     <Grid item xs={6} sm={4}>
                                         <div className='test'>
-                                            <Button variant="contained" style={{backgroundColor: 'rgb(32,173,143)', color:'#fff', marginRight:'5px', borderRadius:'50%'}} onClick={() => deleteMedicament(id)}>< DeleteOutlineIcon /></Button>  
-                                            <Button variant="contained" style={{backgroundColor: 'rgb(32,173,143)', color:'#fff', borderRadius:'50%'}} onClick={() => editMedicament(id)}>< CreateIcon /></Button>
+                                            <Button variant="contained" style={{backgroundColor: 'rgba(32,173,143,0.900)', color:'#fff', marginRight:'5px', borderRadius:'50%'}} onClick={() => deleteMedicament(id)}>< DeleteOutlineIcon /></Button>  
+                                            <Button variant="contained" style={{backgroundColor: 'rgb(32,173,143, 0.900)', color:'#fff', borderRadius:'50%'}} onClick={() => editMedicament(id)}>< CreateIcon /></Button>
                                         </div>
                                     </Grid>
                                 )}
