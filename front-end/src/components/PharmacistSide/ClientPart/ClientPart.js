@@ -4,8 +4,6 @@ import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom';
 
 // MATERIAL UI
-import { Divider } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
 
 // COMPONENTS
 import AfficheClients from './AfficheClients';
@@ -15,13 +13,6 @@ import ViewClient from './ViewClient';
 
 /* ============================== */
 
-
-
-const styles = theme => ({
-    section1: {
-        marginBottom: "20px"
-    }
-});
 
 class ClientPart extends Component {
   constructor(props) {
@@ -39,17 +30,15 @@ class ClientPart extends Component {
 
 
   render() {
-    const { match, classes } = this.props;
+    const { match } = this.props;
 
     return (
         <>  
-            <div className={classes.section1}>
-                <h1>Partie Client</h1>
+            <div style={{bold:'none', width:'80vh'}}>
+                <h2> Partie Client</h2>
             </div>
 
-            <Divider />
-
-            <div className={classes.section1}>
+            <div>
                 <Switch>
                     <Route 
                         path={`${match.path}`}
@@ -69,4 +58,4 @@ class ClientPart extends Component {
 }
 
 
-export default withStyles(styles)(ClientPart);
+export default (ClientPart);

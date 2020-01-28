@@ -4,7 +4,7 @@
     width: 60vw;
 
     border: 2px solid black;
-    background-color: rgba(128, 128, 128, 0.158);
+    background-color: rgba(128, 128, 128, 0.589);
 }
 
 /* .test button {
@@ -74,7 +74,7 @@
     border: 1px solid rgba(128, 128, 128, 0.26);
     box-shadow: rgba(128, 128, 128, 0.411) 0px 0px 4px;
     border-radius: 5px;
-    background-color: rgba(108, 167, 108, 0.233);
+    background-color: rgba(108, 167, 108, 0.568);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -153,7 +153,7 @@
 
 .commandeStatus{
     /* border: 2px solid black; */
-    background: linear-gradient(150deg, #1ea08456 0%, #fff 70%);
+    background: linear-gradient(150deg, #1ea084d7 0%, #fff 70%);
     display: flex;
     justify-content: flex-start;
     width: 100%;
@@ -174,8 +174,8 @@
 }
 
 .titleResumeCommande{
-    background-color: #1ea08456;
-    color: rgb(53, 53, 52);
+    background-color: #1ea084;
+    color: #fff;
     border-radius: 10px 10px 0px 0px;
     padding-left: 10px;
 }
@@ -187,6 +187,15 @@
     background-color: white;
     border-radius: 0px 0px 10px 10px;
     padding: 10px 0px 10px 10px;
+}
+
+.adressResumeClient{
+        /* border: 2px solid black; */
+        min-height: 15vh;
+        max-height: 25vh;
+        background-color: white;
+        border-radius: 0px 0px 10px 10px;
+        padding: 10px 0px 10px 10px;
 }
 
 .prixResume{

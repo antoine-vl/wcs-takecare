@@ -191,7 +191,12 @@ class FormulaireRecap extends Component {
       
             <form>
 
-                <Typography variant="h4" align="left" > Récapitulatif de la commande </Typography>
+                <Typography 
+                    variant="h4" 
+                    align="left" 
+                > 
+                    Récapitulatif de la commande 
+                </Typography>
                 <br/>
                 <Grid container spacing={3}>
                     <Grid container  item xs={12} sm={12}>
