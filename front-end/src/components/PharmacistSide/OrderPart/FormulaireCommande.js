@@ -88,7 +88,8 @@ class FormulaireCommande extends Component {
 
         orderInformation: {
           receipt: '',
-          delivery_comment: ''
+          delivery_comment: '',
+          order_number: ''
         }
       }
     }
@@ -483,7 +484,7 @@ class FormulaireCommande extends Component {
               />
               <Route 
                 path={`${match.path}/${this.steps[4].path}`}
-                render={props => <FormulaireRecap {...props} recap={this.state.commande} />}
+                render={props => <FormulaireRecap {...props} recap={this.state.commande} displayNewOrder />}
               />
             </Switch>
 

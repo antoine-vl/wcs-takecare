@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 // COMPONENTS
 import AfficheCommande from './AfficheCommande';
-import Recap from './Recap';
+import FormulaireRecap from './FormulaireRecap';
 
 
 
@@ -38,8 +38,13 @@ class OrderPart extends Component {
 
 
 
+
   render() {
-    const { match, classes } = this.props;
+    const { match, classes, location, history } = this.props;
+    
+    console.log('match :', match.params)
+    console.log('location :', location)
+    console.log('history :', history)
 
     return (
         <>  
@@ -58,7 +63,7 @@ class OrderPart extends Component {
                     />
                     <Route 
                         path={`${match.path}/:id_order`}
-                        render={props => <Recap {...props} />}
+                        render={props => <FormulaireRecap {...props} />}
                     />
                 </Switch>
             </div>

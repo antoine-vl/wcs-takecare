@@ -68,50 +68,175 @@ app.get('/dashboard/orders/:id', (req, res) => {
     });
   }
   else {
-    const sql = `
+    const resultOrderSelected = {}
+    const orderID = req.params.id
+
+    // Query of front state: orderInformation
+    const sqlOrder = `
     SELECT 
-      Orders.order_number AS 'Numéro de commande', 
-      Users.lastname AS 'Nom client',
-      Users.firstname AS 'Prénom client',
-      Users.mail AS 'Email client', 
-      Users.GSM, 
-      Adress.adress AS 'Adresse client',
-      Adress.street_number AS 'Numéro client', 
-      Adress.zip_code AS 'Code postal client', 
-      Adress.city AS 'Ville client',
-      pharmacist.lastname AS 'Nom pharmacien', 
-      pharmacist.firstname AS 'Prénom pharmacien',
-      pharmacist.mail AS 'Email pharmacien', 
-      pharmacist.GSM AS 'GSM pharmacien', 
-      pharmacist.pharmacy_name AS 'Nom de la pharmacie',
-      primAdPharma.adress AS 'Adresse pharmacie', 
-      primAdPharma.street_number AS 'Numéro pharmacie',
-      primAdPharma.zip_code AS 'Code postal du pharmacien',
-      primAdPharma.city AS 'Ville pharmacie',
-      Orders.delivery_comment AS 'Commentaire de livraison'
+      Orders.order_number,
+      Orders.delivery_comment
     FROM Orders
-      JOIN Users ON Users.id = Orders.client_id
-      JOIN Adress ON Adress.id = Users.primary_adress_id
-      JOIN Users AS pharmacist ON pharmacist.id = Orders.pharmacist_id
-      JOIN Adress AS primAdPharma ON primAdPharma.id = pharmacist.id   
     WHERE Orders.order_number = ?
     `
 
-    const orderID = req.params.id
-
-    connection.query(sql, orderID, (err, results) => {
+    connection.query(sqlOrder, orderID, (err, results) => {
       if (err) {
-        // Si une erreur est survenue, alors on informe l'utilisateur de l'erreur
-        res.status(500).send('Erreur lors de la récupération des commandes');
+        res.status(500).send(`Erreur lors de la récupération des information de la commande ${orderID}`);
       }
       if (results.length === 0) {
         return res.status(404).send('Order not found');
       }
-      // Si tout s'est bien passé, on envoie le résultat de la requête SQL en tant que JSON.
-      return res.json(results);
+
+      resultOrderSelected.orderInformation = {...results[0]};
+
+
+      // Query of front state: clientAdress
+      const sqlClient = `
+      SELECT 
+        Users.lastname,
+        Users.firstname,
+        Users.mail, 
+        Users.GSM
+      FROM Users
+        JOIN Orders ON Orders.client_id = Users.id
+      WHERE Orders.order_number = ?
+      `
+
+      connection.query(sqlClient, orderID, (err, results) => {
+        if (err) {
+          res.status(500).send(`Erreur lors de la récupération des informations du client de la commande ${orderID}`);
+        }
+        if (results.length === 0) {
+          return res.status(404).send('Order not found');
+        }
+
+        resultOrderSelected.clientAdress = {...results[0]};
+
+
+        // Query of front state: clientAdress.primary_adress
+        const sqlAdressClient = `
+        SELECT 
+          Adress.adress,
+          Adress.street_number, 
+          Adress.zip_code, 
+          Adress.city
+        FROM Adress
+          JOIN Users ON Users.primary_adress_id = Adress.id
+          JOIN Orders ON Orders.client_id = Users.id
+        WHERE Orders.order_number = ?
+        `
+
+        connection.query(sqlAdressClient, orderID, (err, results) => {
+          if (err) {
+            res.status(500).send(`Erreur lors de la récupération des informations de l'adresse du client de la commande ${orderID}`);
+          }
+          if (results.length === 0) {
+            return res.status(404).send('Order not found');
+          }
+
+          resultOrderSelected.clientAdress.primary_adress = {...results[0]};
+
+
+          // Query of front state: pharmacistAdress
+          const sqlPharmacist = `
+          SELECT 
+            Users.lastname,
+            Users.firstname,
+            Users.mail, 
+            Users.GSM
+          FROM Users
+            JOIN Orders ON Orders.pharmacist_id = Users.id
+          WHERE Orders.order_number = ?
+          `
+
+          connection.query(sqlPharmacist, orderID, (err, results) => {
+            if (err) {
+              res.status(500).send(`Erreur lors de la récupération des informations de l'adresse du client de la commande ${orderID}`);
+            }
+            if (results.length === 0) {
+              return res.status(404).send('Order not found');
+            }
+            
+            resultOrderSelected.pharmacistAdress = {...results[0]};
+
+
+            // Query of front state: pharmacistAdress.primary_adress
+            const sqlAdressPharmacist = `
+            SELECT 
+              Adress.adress,
+              Adress.street_number, 
+              Adress.zip_code, 
+              Adress.city
+            FROM Adress
+              JOIN Users ON Users.primary_adress_id = Adress.id
+              JOIN Orders ON Orders.pharmacist_id = Users.id
+            WHERE Orders.order_number = ?
+            `
+
+            connection.query(sqlAdressPharmacist, orderID, (err, results) => {
+              if (err) {
+                res.status(500).send(`Erreur lors de la récupération des informations de l'adresse du client de la commande ${orderID}`);
+              }
+              if (results.length === 0) {
+                return res.status(404).send('Order not found');
+              }
+    
+              resultOrderSelected.pharmacistAdress.primary_adress = {...results[0]};
+
+
+              // Query of front state: clientAdress.secondary_adress
+              const sqlSecondaryAdressClient = `
+              SELECT 
+                Adress.adress,
+                Adress.street_number, 
+                Adress.zip_code, 
+                Adress.city
+              FROM Adress
+                JOIN Users ON Users.secondary_adress_id = Adress.id
+                JOIN Orders ON Orders.client_id = Users.id
+              WHERE Orders.order_number = ?
+              `
+
+              connection.query(sqlSecondaryAdressClient, orderID, (err, results) => {
+                if (err) {
+                  res.status(500).send(`Erreur lors de la récupération des informations de l'adresse du client de la commande ${orderID}`);
+                }
+                
+                if (results.length === 0) {
+                  resultOrderSelected.clientAdress.secondary_adress = {
+                    adress: '',
+                    street_number: '',
+                    zip_code: '',
+                    city: ''
+                  }
+
+                  //return res.status(404).send('Order not found');
+                }
+                else{
+                  resultOrderSelected.clientAdress.secondary_adress = {...results[0]};
+                }
+                
+                console.log('RESULT FINAL: ', resultOrderSelected)
+      
+                return res.json([resultOrderSelected]);
+              });
+
+            });
+            
+          });
+
+        });
+
+      });
+
     });
   }
 });
+
+
+
+
 
 app.get('/dashboard/orders/:id/pharmaceuticals', (req, res) => {
 
@@ -162,7 +287,6 @@ app.get('/dashboard/orders/:id/status', (req, res) => {
     if (results.length === 0) {
       return res.status(404).send('Order not found');
     }
-    console.log('results :', results)
     return res.json(results);
   });
 

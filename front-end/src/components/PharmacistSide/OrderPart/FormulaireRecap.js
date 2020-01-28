@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 // MATERIAL UI
 //import { makeStyles } from '@material-ui/core/styles';
@@ -23,10 +24,58 @@ import TitleComponent from "../../TitleComponent"
 class FormulaireRecap extends Component {
     constructor(props) {
         super(props);
+
         this.state = {  
-            count: this.countPharmaceuticals(props.recap.pharmaceuticals),
+            count: 0,
             anchorEl: null,
+
+            orderData: {
+                clientAdress: {
+                    lastname: '',
+                    firstname: '',
+                    mail: '',
+                    GSM: '',
+                    primary_adress: {
+                        adress: '',
+                        street_number: '',
+                        zip_code: '',
+                        city: ''
+                    },
+                    secondary_adress: {
+                        adress: '',
+                        street_number: '',
+                        zip_code: '',
+                        city: ''
+                    }
+        
+                },
+        
+                pharmacistAdress: {
+                    lastname: '',
+                    firstname: '',
+                    mail: '',
+                    GSM: '',
+                    pharmacy_name: '',
+                    primary_adress: {
+                        adress: '',
+                        street_number: '',
+                        zip_code: '',
+                        city: ''
+                    }
+                },
+        
+                orderInformation: {
+                    delivery_comment: '',
+                    order_number: ''
+                },
+            },
+
+            pharmaceuticals: []
         }
+
+        //this.order='123456789';
+        this.order=this.props.match.params.id_order
+
         this.open = Boolean(this.state.anchorEl)
     }
 
@@ -45,24 +94,98 @@ class FormulaireRecap extends Component {
       };
     
     countPharmaceuticals = (details) => {
-        console.log(details)
         let result= 0;
         for (let i = 0; i < details.length; i ++){
-            console.log(details[i].price)
             result = result + (parseInt(details[i].price, 10) * parseInt(details[i].quantity, 10))
         }
-        console.log(result)
         return result
     }
 
+    componentDidMount() {
+
+        if(!this.props.displayNewOrder){
+            axios
+            .get(`http://localhost:5000/dashboard/orders/${this.order}`)
+            .then(response => {
+                const orderData = response.data[0];
+
+                axios
+                .get(`http://localhost:5000/dashboard/orders/${this.order}/pharmaceuticals`)
+                .then(res => {
+                    const pharmaceuticals = res.data;
+
+                    /*
+                    axios
+                    .get(`http://localhost:5000/dashboard/orders/${this.order}/status`)
+                    .then(res => {
+
+                        const status = res.data.map((item, index) => {
+                            switch(item.status){
+                                case 'New_order':
+                                    return {...this.status[0], id: item.status, date:item.date_status };
+                            
+
+                                case 'Paid':
+                                    return {...this.status[1], id: item.status, date:item.date_status };
+                                
+
+                                case 'Order_prepared':
+                                    return {...this.status[2], id: item.status, date:item.date_status };
+                                
+
+                                case 'Order_picked_up_by_Couriier':
+                                    return {...this.status[3], id: item.status, date:item.date_status };
+                                
+
+                                case 'Delivered':
+                                    return {...this.status[4], id: item.status, date:item.date_status };
+                                
+
+                                case 'Returned_prescription':
+                                    return {...this.status[5], id: item.status, date:item.date_status };
+                                
+
+                                default:
+                                    return {...this.status[6], id:item.status, date:item.date_status };
+                            }
+                        })
+                    })
+                    */
+
+                    console.log('orderInformation :', orderData)
+                    console.log('pharmaceuticals :', pharmaceuticals)
+
+                    
+                    this.setState({
+                        ...this.state,
+                        orderData: orderData,
+                        pharmaceuticals: pharmaceuticals,
+                        count: this.countPharmaceuticals(pharmaceuticals)
+                    })
+
+                    
+                })
+            })
+        }
+        else {
+            this.setState({
+                ...this.state,
+                orderData: this.props.recap,
+                pharmaceuticals: this.props.recap.pharmaceuticals,
+                count: this.countPharmaceuticals(this.props.recap.pharmaceuticals)
+            })
+        }
+    }
+
     render() { 
-        const {pharmaceuticals}  = this.props.recap;
-        const {price}            = this.props.recap.pharmaceuticals;
-        const {clientAdress}     = this.props.recap;
-        const {pharmacistAdress} = this.props.recap;
-        const {orderInformation} = this.props.recap;
         
-        console.log('mon state :', this.state.anchorEl)
+        const {clientAdress} = this.state.orderData;
+        const {pharmacistAdress} = this.state.orderData;
+        const {orderInformation} = this.state.orderData;
+
+        const {pharmaceuticals} = this.state;
+
+        console.log('STATE :', this.state)
 
         return (
       

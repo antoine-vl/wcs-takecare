@@ -231,18 +231,18 @@ class DisplayMarkerStatus extends Component {
 
             <Paper>
                 <Container>
-                <Grid container alignItems="center">
-                    
-                    <Typography>{this.state.status[3].markerName}</Typography>
+                    <Grid container alignItems="center">
+                        
+                        <Typography>{this.state.status[3].markerName}</Typography>
 
-                    <Divider  />
+                        <Divider orientation="vertical" />
 
-                    <Typography variant="caption">
-                        {this.state.status[3].dateMarker  
-                        ? <Moment >{this.state.status[3].dateMarker}</Moment> 
-                        : '...'}
-                    </Typography> 
-                </Grid>
+                        <Typography variant="caption">
+                            {this.state.status[3].dateMarker  
+                            ? <Moment >{this.state.status[3].dateMarker}</Moment> 
+                            : '...'}
+                        </Typography> 
+                    </Grid>
                 </Container>
 
             </Paper>

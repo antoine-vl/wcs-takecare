@@ -134,7 +134,13 @@ class Recap extends Component {
 
     render() { 
 
-        const {pharmaceuticals, status} = this.state
+        const { pharmaceuticals, status } = this.state
+
+        const { match, location, history } = this.props;
+
+        console.log('match :', match.params)
+        console.log('location :', location)
+        console.log('history :', history)
 
         return (
       
