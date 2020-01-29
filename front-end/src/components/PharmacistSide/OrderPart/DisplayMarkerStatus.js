@@ -123,131 +123,170 @@ class DisplayMarkerStatus extends Component {
             },
           ]
 
-          this.orderNumber = 157523696;
+          this.orderNumber = this.props.orderNumber;
     }
 
     componentDidMount = () => {
 
-        axios
-        .get(`http://localhost:5000/dashboard/orders/${this.orderNumber}/status`)
-        .then(res => {
+        if(!this.props.displayNewOrder){
+            axios
+            .get(`http://localhost:5000/dashboard/orders/${this.orderNumber}/status`)
+            .then(res => {
 
-            console.log('res Data: ', res.data);
+                //console.log('res Data: ', res.data);
 
-            console.log('state status', this.state.status)
+                //console.log('state status', this.state.status)
 
+                const updateStatus = [...this.state.status];
+
+                updateStatus.map((statu, index) => {
+                    res.data.map(data => {
+                        if(statu.bddName === data.status){
+                            console.log('OK ', statu.bddName)
+                            statu.dateMarker = data.date_status
+                            console.log('statu.dateMarker ', statu.dateMarker)
+                            statu.colorStatus = this.colorStatus[index].color
+                            console.log('statu.colorStatus ', statu.colorStatus)
+                        }
+                    })
+
+                    //console.log('STATU: ', statu)
+                })
+
+
+                //console.log('state status AFTER', this.state.status)
+                //console.log('updateStatus', updateStatus);
+                
+                this.setState({
+                    ...this.state,
+                    status: updateStatus
+                })
+            })
+        }
+        else {
             const updateStatus = [...this.state.status];
 
             updateStatus.map((statu, index) => {
-                res.data.map(data => {
-                    if(statu.bddName === data.status){
-                        console.log('OK ', statu.bddName)
-                        statu.dateMarker = data.date_status
-                        console.log('statu.dateMarker ', statu.dateMarker)
-                        statu.colorStatus = this.colorStatus[index].color
-                        console.log('statu.colorStatus ', statu.colorStatus)
-                    }
-                })
+                if(statu.bddName === 'New_order'){
+                    statu.dateMarker = Date.now();
+                    //console.log('statu.dateMarker ', statu.dateMarker)
+                    statu.colorStatus = this.colorStatus[index].color
+                }
 
-                console.log('STATU: ', statu)
+                //console.log('STATU: ', statu)
             })
-
-
-            console.log('state status AFTER', this.state.status)
             console.log('updateStatus', updateStatus);
-            
+
             this.setState({
                 ...this.state,
                 status: updateStatus
             })
-        })
+        }
     }
 
     render() { 
         const { classes } = this.props
 
         return ( 
-            <>
 
-            <div style ={{
-                //width: '1500px',
-                display: 'flex',
-                justifyContent: 'space-around'
-            }}>
-            
-            {this.state.status.map(statu => (
-                 
-                    <Card 
-                        //sclassName={classes.card} 
+            // <div style ={{
+            //     //width: '1500px',
+            //     display: 'flex',
+            //     justifyContent: 'space-around'
+            // }}>
+            //     {this.state.status.map(statu => (
+            //         <Card 
+            //             //sclassName={classes.card} 
+            //             key={statu.numStatus} 
+            //             style={{
+            //                 color: 'white',
+            //                 textShadow: '1px 0.5px 1px rgba(0,0,0,0.8)',
+            //                 backgroundColor: `${statu.colorStatus}`,
+            //                 //width: 125,
+            //                 marginLeft: 20
+            //             }}
+            //         >
+            //             <CardContent>
+            //             <Grid container alignItems="center">
+            //                 <Typography>{statu.markerName}</Typography>
+                        
+
+            //             <Divider orientation="vertical" />
+
+                        
+            //                 <Typography variant="caption">
+            //                     {statu.dateMarker  
+            //                     ? <Moment >{statu.dateMarker}</Moment> 
+            //                     : '...'}
+            //                 </Typography> 
+            //                 </Grid>
+            //             </CardContent>
+            //         </Card>
+            //     ))}       
+            // </div>
+
+            <Grid container alignItems="center">
+                {this.state.status.map(statu => (
+                    <Paper
                         key={statu.numStatus} 
                         style={{
                             color: 'white',
+                            textShadow: '1px 0.5px 1px rgba(0,0,0,0.8)',
                             backgroundColor: `${statu.colorStatus}`,
-                            //width: 125,
-                            marginLeft: 20
+                            width: 135,
+                            height: '130px',
+                            padding: 8,
+                            margin: 15,
+                            boxShadow: '2px 2px 4px rgba(0,0,0,0.7)'
                         }}
                     >
-                        
+                        <Typography
+                            style={{
+                                height: '70px',
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            {statu.markerName}
+                        </Typography>
 
-                            <CardContent>
-                            <Grid container alignItems="center">
-                                <Typography>{statu.markerName}</Typography>
+                        <Divider 
+                            style={{
+                                marginTop: 6
+                            }}
+                        />
+
+                        <Typography 
+                            variant="body2"
                             
-
-                            <Divider orientation="vertical" />
-
-                            
-                                <Typography variant="caption">
-                                    {statu.dateMarker  
-                                    ? <Moment >{statu.dateMarker}</Moment> 
-                                    : '...'}
-                                </Typography> 
-                                </Grid>
-                            </CardContent>
-
-                        
-                    </Card>
-
-                
-            ))}
-
-            <Paper>
-            
-                    
-                        <Typography>{this.state.status[3].markerName}</Typography>
-
-                        {/* <Divider orientation="vertical" /> */}
-
-                        <Typography variant="caption">
-                            {this.state.status[3].dateMarker  
-                            ? <Moment >{this.state.status[3].dateMarker}</Moment> 
+                            style={{
+                                height: '46px'
+                            }}
+                        >
+                            {statu.dateMarker  
+                            ? <Moment >{statu.dateMarker}</Moment> 
                             : '...'}
                         </Typography> 
-                   
-               
-            </Paper>
-                
-            </div>
+                    </Paper>
+                ))}       
+            </Grid>
 
-            <Paper>
-                <Container>
-                    <Grid container alignItems="center">
-                        
-                        <Typography>{this.state.status[3].markerName}</Typography>
-
-                        <Divider orientation="vertical" />
-
-                        <Typography variant="caption">
-                            {this.state.status[3].dateMarker  
-                            ? <Moment >{this.state.status[3].dateMarker}</Moment> 
-                            : '...'}
-                        </Typography> 
-                    </Grid>
-                </Container>
-
-            </Paper>
         
-            </>
+            // <Paper>
+            //     <Container>
+            //         <Grid container alignItems="center">
+                        
+            //             <Typography>{this.state.status[3].markerName}</Typography>
+
+            //             <Divider orientation="vertical" />
+
+            //             <Typography variant="caption">
+            //                 {this.state.status[3].dateMarker  
+            //                 ? <Moment >{this.state.status[3].dateMarker}</Moment> 
+            //                 : '...'}
+            //             </Typography> 
+            //         </Grid>
+            //     </Container>
+            // </Paper>
         );
     }
 }

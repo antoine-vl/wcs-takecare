@@ -137,7 +137,7 @@ export default function Dashboard({match}) {
           </Link>
         </List>
 
-        <List>
+        {/* <List>
           <NavLink  activeClassName="active" to={`${match.url}/test-DisplayMarkerStatus`} > 
             <ListItem button>
               <ListItemIcon><DescriptionIcon /></ListItemIcon>
@@ -153,7 +153,8 @@ export default function Dashboard({match}) {
               <ListItemText primary="test-DisplayCurrentStatus"/>
             </ListItem>
           </NavLink>
-        </List>
+        </List> */}
+
       </Drawer>
       
       <div className={classes.content}>

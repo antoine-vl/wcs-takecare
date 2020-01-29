@@ -122,6 +122,7 @@ class AfficheCommande extends Component {
 
             .then(res => {
 
+              //console.log('Res Data :', res.data)
               const headTitle = Object.keys(res.data[0]).map((serverTitle, index) => {
                 return {
                   title: this.columnName[index],
@@ -129,14 +130,33 @@ class AfficheCommande extends Component {
                 }
               })
 
+              //console.log('headTitle :', headTitle)
+
               const rows = res.data
 
+              /*
+              const rows = res.data.map((order, index) => {
+                const urlLastStatus = `http://localhost:5000/dashboard/orders/${order.order_number}/laststatus`;
+                axios
+                .get(urlLastStatus)
+                .then(res => {
+                  console.log('Status DATA', res.data)
+                  order.status = res.data.status;
+                  order.date_status = res.data.date_status;
+                })
+              })
+              */
+
+              //console.log('Rows :', rows)
+
+              
               this.setState({
                 ...this.state,
                 headTitle: headTitle,
                 rows: rows,
                 totRows: cpt
               })
+              
             })
         })
     }
@@ -310,6 +330,8 @@ class AfficheCommande extends Component {
                         </TableSortLabel>
                       </TableCell>
                     ))}
+                    <TableCell>{this.columnName[3]}</TableCell>
+                    <TableCell>{this.columnName[4]}</TableCell>
                     <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
@@ -320,11 +342,11 @@ class AfficheCommande extends Component {
                     <TableCell>{row[headTitle[0].sqlTitle] /*Numéro de commande*/ }</TableCell>
                     <TableCell>{row[headTitle[1].sqlTitle] /*Prénom*/ }</TableCell>
                     <TableCell>{row[headTitle[2].sqlTitle] /*Nom*/ }</TableCell>
-                    <TableCell>{row[headTitle[3].sqlTitle] /*Date de status*/ }</TableCell>
+                    <TableCell>{/*Date de status*/ }15 janv. 2020 10:00</TableCell>
                     <TableCell 
                       //className={classes.status}
                       style={{
-                        backgroundColor: `${this.statusColor(row[headTitle[4].sqlTitle])}`,
+                        backgroundColor: '#073A9D',
                         //backgroundColor: 'grey',
                         color: 'white',
                         borderRadius: '5px',
@@ -333,7 +355,7 @@ class AfficheCommande extends Component {
                         //flexDirection: 'column'
                       }}
                     >
-                      {this.statusName(row[headTitle[4].sqlTitle]) /*Status*/ }
+                      Nouvelle commande
                     </TableCell>
                     <TableCell>
                       <Button

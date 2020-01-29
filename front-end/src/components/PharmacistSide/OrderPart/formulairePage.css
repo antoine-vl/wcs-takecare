@@ -154,8 +154,8 @@
 .commandeStatus{
     /* border: 2px solid black; */
     background: linear-gradient(150deg, #1ea084d7 0%, #fff 70%);
-    display: flex;
-    justify-content: flex-start;
+    /*display: flex;
+    justify-content: flex-start;*/
     width: 100%;
     padding-left: 10px;
     /* margin-bottom: -10%; */

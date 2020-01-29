@@ -31,6 +31,7 @@ class FormulaireCommande extends Component {
 
     this.state = {
       orderComplete: true,
+      displayNewOrder: true,
 
       activePage: {
         activeStep: 0,
@@ -484,7 +485,7 @@ class FormulaireCommande extends Component {
               />
               <Route 
                 path={`${match.path}/${this.steps[4].path}`}
-                render={props => <FormulaireRecap {...props} recap={this.state.commande} displayNewOrder />}
+                render={props => <FormulaireRecap {...props} recap={this.state.commande} displayNewOrder={this.state.displayNewOrder} />}
               />
             </Switch>
 

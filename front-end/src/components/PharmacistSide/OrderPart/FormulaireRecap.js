@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // COMPONENTS
 import FormulaireResumeMedicaments from './FormulaireResumeMedicaments'
-import TitleComponent from "../../TitleComponent"
+import DisplayMarkerStatus from "./DisplayMarkerStatus"
 
 
 
@@ -199,9 +199,21 @@ class FormulaireRecap extends Component {
                 </Typography>
                 <br/>
                 <Grid container spacing={3}>
-                    <Grid container  item xs={12} sm={12}>
+                    <Grid container  item xs={12} sm={12} alignItems="center">
                         <div className="commandeStatus">
-                            < TitleComponent />
+                            <Typography 
+                                variant="h6" 
+                                style={{
+                                    fontWeight: 'bold'
+                                }}
+                            >
+                                Status de la commande
+                            </Typography>
+
+                            <DisplayMarkerStatus 
+                                displayNewOrder={this.props.displayNewOrder} 
+                                orderNumber={this.props.match.params.id_order}
+                            />
                         </div>
                     </Grid>
                     <Grid container item xs={12} sm={4} alignContent="center">

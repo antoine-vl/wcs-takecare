@@ -21,6 +21,7 @@ let sqlQuerry = `${orderSql.GET} ORDER BY ${req.query.orderby} ${req.query.order
 
 app.get('/dashboard/orders', (req,res) => {
 
+    /*
     let sqlQuerry = `
       SELECT 
         od.order_number, 
@@ -31,7 +32,19 @@ app.get('/dashboard/orders', (req,res) => {
       FROM Users AS us 
         JOIN Orders AS od ON od.client_id=us.id
         JOIN Orders_has_Status AS ohs ON ohs.orders_order_number = od.order_number
-        JOIN Status AS st ON st.id=ohs.status_id`;
+        JOIN Status AS st ON st.id=ohs.status_id
+      `
+    */
+
+    
+    let sqlQuerry = `
+    SELECT 
+      od.order_number, 
+      us.firstname, 
+      us.lastname    
+    FROM Users AS us 
+      JOIN Orders AS od ON od.client_id=us.id
+    `
     
 
     if(req.query.order){
@@ -41,6 +54,7 @@ app.get('/dashboard/orders', (req,res) => {
         OFFSET ${req.query.offset}`;
     }
 
+    console.log('sqlQuerry :', sqlQuerry)
 
     connection.query(sqlQuerry, (err, results) => {
         if (err) {
@@ -278,6 +292,35 @@ app.get('/dashboard/orders/:id/status', (req, res) => {
   WHERE Orders.order_number = ?
   `
 
+  const orderID = req.params.id
+
+  connection.query(sql, orderID, (err, results) => {
+    if (err) {
+      res.status(500).send('Erreur lors de la récupération des status de la commande');
+    }
+    if (results.length === 0) {
+      return res.status(404).send('Order not found');
+    }
+    return res.json(results);
+  });
+
+});
+
+
+app.get('/dashboard/orders/:id/laststatus', (req, res) => {
+
+  const sql = `
+  SELECT
+    st.name AS status,
+    ohs.date_status AS date_status
+  FROM Orders
+    JOIN Orders_has_Status AS ohs ON ohs.orders_order_number = Orders.order_number
+    JOIN Status AS st ON st.id = ohs.status_id
+  WHERE Orders.order_number = ?
+  ORDER BY date_status desc 
+  LIMIT 1 
+  `
+  
   const orderID = req.params.id
 
   connection.query(sql, orderID, (err, results) => {
