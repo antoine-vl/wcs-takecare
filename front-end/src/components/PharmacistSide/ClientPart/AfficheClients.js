@@ -13,6 +13,8 @@ import Paper from '@material-ui/core/Paper';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { Button } from '@material-ui/core';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import PopupClientDelete from './PopupClientDelete';
 
 
 
@@ -173,6 +175,17 @@ class AfficheClients extends Component {
         }
       })
     }
+    //  deleteClient = (event, client) => {
+      
+    //    axios
+    //           .delete(`http://localhost:5000/dashboard/client${client}`)
+    //           .then(response => {
+    //             console.log(response.data)
+    //             this.setState({
+    //               ...this.state
+    //             })
+    //           })
+    //  }
 
     render() { 
         const { classes, handleLook } = this.props;
@@ -232,12 +245,15 @@ class AfficheClients extends Component {
                         variant="contained" 
                         style={{
                             backgroundColor: 'rgb(32,173,143)', 
-                            color:'#fff'
+                            color:'#fff',
+                            marginRight:'5px',
+                            marginBottom:'5px'
                         }} 
                         onClick={(e) => handleLook(e, row['id'])}
                       >
                         Voir
                       </Button>
+                      <PopupClientDelete client = {row['id']}/>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -14,9 +14,12 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
+import { Button } from '@material-ui/core';
+import { NavLink } from 'react-router-dom';
 // COMPONENTS
 import FormulaireResumeMedicaments from './FormulaireResumeMedicaments'
 import DisplayMarkerStatus from "./DisplayMarkerStatus"
+import OrderPart from './OrderPart';
 
 
 
@@ -200,13 +203,36 @@ class FormulaireRecap extends Component {
         return (
       
             <form>
+                <div style={{
+                        display:"flex",
+                        justifyContent:"space-between",
+                        marginTop:"5px"
 
+                    }}>
                 <Typography 
                     variant="h4" 
                     align="left" 
-                > 
-                    Récapitulatif de la commande 
+                >
+                Récapitulatif de la commande
                 </Typography>
+                
+                    <Button
+                        variant="contained" 
+                        style={{
+                            backgroundColor: 'rgb(32,173,143)',
+                            
+                        
+                        }} 
+                      >
+                    <NavLink
+                        to="/dashboard/orders"
+                        activeClassName="selectedLink"
+                        style={{textDecoration: 'none',color:'#fff'}}>
+                        Retour
+                    </NavLink>
+                    </Button>
+            
+                </div>
                 <br/>
                 <Grid container spacing={3}>
                     <Grid container  item xs={12} sm={12} alignItems="center">
@@ -327,15 +353,15 @@ class FormulaireRecap extends Component {
                     </Grid>
                     {this.props.displayNewOrder ?
                     <Grid item xs={12} sm={12} align="center">
-                    <FormGroup >
-                        <FormControlLabel
-                            control={
-                            <Switch checked={this.props.recap.orderInformation.paid} onChange={this.props.isPaid} value={this.props.recap.orderInformation.paid} />
-                            }
-                            color="Secondary"
-                            label="Commande payée"
-                        />
-                    </FormGroup>
+                        <FormGroup >
+                            <FormControlLabel
+                                control={
+                                <Switch checked={this.props.recap.orderInformation.paid} onChange={this.props.isPaid} value={this.props.recap.orderInformation.paid} />
+                                }
+                                color="Secondary"
+                                label="Commande payée"
+                            />
+                        </FormGroup>
                     </Grid>
                     :null}
                     

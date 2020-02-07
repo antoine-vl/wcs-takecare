@@ -8,6 +8,8 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 //import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import { Button } from '@material-ui/core';
+import { NavLink } from 'react-router-dom';
 
 /* ============================== */
 
@@ -67,7 +69,32 @@ class ViewClient extends Component {
       
       return ( 
         
+        
           <Grid container spacing={3} >
+            <div style={{
+                        display:"flex",
+                        justifyContent:"space-between",
+                        marginBottom:"5px"
+
+                    }}>
+                
+                    <Button
+                        variant="contained" 
+                        style={{
+                            backgroundColor: 'rgb(32,173,143)',
+                            
+                        
+                        }} 
+                      >
+                    <NavLink
+                        to="/dashboard/client"
+                        activeClassName="selectedLink"
+                        style={{textDecoration: 'none',color:'#fff'}}>
+                        Retour
+                    </NavLink>
+                    </Button>
+            
+                </div>
             <div className="containerFormRecap">
               <Grid item xs={12} sm={12}>
                 <Typography className="titleResumeCommande" align="left" variant='h4'>{lastname} {firstname}</Typography>
@@ -99,7 +126,7 @@ class ViewClient extends Component {
             ))
             } 
             </Grid>
-          </Grid>
+            </Grid>
         );
     }
 }

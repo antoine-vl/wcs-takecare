@@ -18,6 +18,35 @@ test:
 http://localhost:5000/dashboard/orders/?orderby=name&order=asc&limit=2&offset=0&
 let sqlQuerry = `${orderSql.GET} ORDER BY ${req.query.orderby} ${req.query.order}`;
 */
+app.delete("/dashboard/orders/:id", (req, res) => {
+  const commande = req.params.id;
+  connection.query(
+      "DELETE FROM Orders WHERE order_number= ?",
+      [commande],
+      (error, results, fields) => {
+          if (error) {
+              res.status(501).send("couldn't delete order" + error);
+          } else {
+              res.json(commande);
+          }
+      }
+  );
+});
+
+app.delete("/dashboard/client:id", (req, res) => {
+  const client = req.params.id;
+  connection.query(
+      "DELETE FROM Users WHERE id= ?",
+      [client],
+      (error, results, fields) => {
+          if (error) {
+              res.status(501).send("couldn't delete client" + error);
+          } else {
+              res.json(client);
+          }
+      }
+  );
+});
 
 app.get('/dashboard/orders', (req,res) => {
 

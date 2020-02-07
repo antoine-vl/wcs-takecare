@@ -13,6 +13,11 @@ import Paper from '@material-ui/core/Paper';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { Button } from '@material-ui/core';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import PopupCommandeDelete from "./PopupCommandeDelete"
 
 // Component
 import DisplayCurrentStatus from './DisplayCurrentStatus';
@@ -58,7 +63,8 @@ class AfficheCommande extends Component {
         orderby: 'lastname',
         order: 'asc',
         limit: 5,
-        offset: 0
+        offset: 0,
+        
       }
     }
 
@@ -232,7 +238,6 @@ class AfficheCommande extends Component {
       })
     }
 
-
     render() { 
         const { classes, handleLook } = this.props;
         const { 
@@ -295,12 +300,14 @@ class AfficheCommande extends Component {
                         variant="contained" 
                         style={{
                             backgroundColor: 'rgb(32,173,143)', 
-                            color:'#fff'
-                        }} 
+                            color:'#fff',
+                            marginBottom:'5px'
+                        }}
                         onClick={(e) => handleLook(e, row[headTitle[0].sqlTitle])}
                       >
                         Voir
-                      </Button>
+                      </Button>    
+                      <PopupCommandeDelete order_number = {row[headTitle[0].sqlTitle] /*Numéro de commande*/ }/>
                     </TableCell>
                   </TableRow>
                 ))}
