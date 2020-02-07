@@ -10,6 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import Popover from '@material-ui/core/Popover';
 import { makeStyles } from '@material-ui/core/styles';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 // COMPONENTS
 import FormulaireResumeMedicaments from './FormulaireResumeMedicaments'
@@ -66,7 +69,8 @@ class FormulaireRecap extends Component {
         
                 orderInformation: {
                     delivery_comment: '',
-                    order_number: ''
+                    order_number: '',
+                    paid: false,
                 },
             },
 
@@ -78,6 +82,13 @@ class FormulaireRecap extends Component {
 
         this.open = Boolean(this.state.anchorEl)
     }
+
+    // handleChange = event => {
+    //     this.setState({ 
+    //         ...this.state.orderData.orderInformation, 
+    //         paid: false ? false : true
+    //     });
+    //   };
 
     handlePopoverOpen = event => {
         this.setState({
@@ -178,14 +189,13 @@ class FormulaireRecap extends Component {
     }
 
     render() { 
-        
         const {clientAdress} = this.state.orderData;
         const {pharmacistAdress} = this.state.orderData;
         const {orderInformation} = this.state.orderData;
 
         const {pharmaceuticals} = this.state;
 
-        console.log('STATE :', this.state)
+        // console.log('STATE :', this.state)
 
         return (
       
@@ -314,6 +324,17 @@ class FormulaireRecap extends Component {
                                 </Grid>
                             </Grid>
                         </div>
+                    </Grid>
+                    <Grid item xs={12} sm={12} align="center">
+                        <FormGroup >
+                            <FormControlLabel
+                                control={
+                                <Switch checked={this.props.recap.orderInformation.paid} onChange={this.props.isPaid} value={this.props.recap.orderInformation.paid} />
+                                }
+                                color="Secondary"
+                                label="Commande payée"
+                            />
+                        </FormGroup>
                     </Grid>
                 </Grid>
             </form>            
