@@ -10,6 +10,11 @@ import StepLabel from '@material-ui/core/StepLabel';
 import StepButton from '@material-ui/core/StepButton'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+// import Dialog from '@material-ui/core/Dialog';
+// import DialogActions from '@material-ui/core/DialogActions';
+// import DialogContent from '@material-ui/core/DialogContent';
+// import DialogContentText from '@material-ui/core/DialogContentText';
+// import DialogTitle from '@material-ui/core/DialogTitle';
 
 // COMPONENTS
 import FormulaireMedicament from './FormulaireMedicament';
@@ -17,6 +22,7 @@ import FormulaireClient from '../ClientPart/FormulaireClient';
 import FormulairePharmacien from './FormulairePharmacien';
 import FormulaireRecap from './FormulaireRecap';
 import FormulaireSupplementaire from './FormulaireSupplementaire';
+import PopUpSendCommandeToCouriier from './PopUpSendCommandeToCouriier';
 
 
 
@@ -32,6 +38,8 @@ class FormulaireCommande extends Component {
     this.state = {
       orderComplete: true,
       displayNewOrder: true,
+      openPopUpSendCommandeToCouriier: false,
+      is_other_adress: false,
 
       activePage: {
         activeStep: 0,
@@ -58,6 +66,7 @@ class FormulaireCommande extends Component {
           firstname: 'Pascaline',
           mail: 'PascalineGingras@teleworm.us',
           GSM: '0484950494',
+          national_registration_number: '03058751934',
           primary_adress: {
             adress: 'Rue du Cornet',
             street_number: '335',
@@ -65,7 +74,7 @@ class FormulaireCommande extends Component {
             city: 'Attert',
           },
           secondary_adress: {
-            adress: '',
+            adress: 'aaaaa',
             street_number: '',
             zip_code: '',
             city: '',
@@ -333,7 +342,33 @@ class FormulaireCommande extends Component {
     alert('Il est impossible d\'uploader une image pour le moment')
   }
 
+  handleChangeIsPaid = () => {
+    this.setState(prevState => ({
+      commande: {
+                  ...prevState.commande, 
+                  orderInformation: {
+                                      ...prevState.commande.orderInformation, 
+                                      paid: !prevState.commande.orderInformation.paid
+                                    }
+                }
+    }))
+  };
 
+  handleClickOpen = () => {
+    this.setState ({
+      openPopUpSendCommandeToCouriier : true,
+    })
+  };
+
+  handleClose = () => {
+    this.setState ({
+      openPopUpSendCommandeToCouriier : false,
+    })
+  };
+
+  checkboxChange = () => {
+    this.setState({is_other_adress : !this.state.is_other_adress}) 
+  }
 
   // Gestion stepper
   getStepContent = (stepIndex, match) => {
@@ -471,7 +506,10 @@ class FormulaireCommande extends Component {
             <Switch>
               <Route 
                 path={`${match.path}/${this.steps[0].path}`}
-                render={(props) => <FormulaireClient {...props} PFC={propsFormulaireClient}/>}
+                render={(props) => <FormulaireClient {...props} 
+                PFC={propsFormulaireClient} 
+                checkboxChange={this.checkboxChange} 
+                is_other_adress={this.state.is_other_adress}/>}
               />
               <Route 
                 path={`${match.path}/${this.steps[1].path}`}
@@ -487,7 +525,11 @@ class FormulaireCommande extends Component {
               />
               <Route 
                 path={`${match.path}/${this.steps[4].path}`}
-                render={props => <FormulaireRecap {...props} recap={this.state.commande} displayNewOrder={this.state.displayNewOrder} />}
+                render={props => <FormulaireRecap {...props} 
+                  recap={this.state.commande} 
+                  displayNewOrder={this.state.displayNewOrder} 
+                  isPaid={this.handleChangeIsPaid} 
+                />}
               />
             </Switch>
 
@@ -501,9 +543,44 @@ class FormulaireCommande extends Component {
                 Précédent
               </Button>
 
-              <Button variant="contained" color="primary" onClick={this.handleNext}>
-                {this.state.activePage.activeStep === this.steps.length - 1 ? 'Terminer' : 'Suivant'}
-              </Button>
+              
+                {this.state.activePage.activeStep === 4 
+                ? null 
+                :<Button 
+                  variant="contained" 
+                  color="primary" 
+                  onClick={this.handleNext}
+                  >Suivant
+                </Button> 
+                }
+
+                {this.state.activePage.activeStep === 4 
+                ?<Button 
+                  variant="contained" 
+                  color="primary" 
+                  >Sauvegarder
+                </Button> 
+                :null
+                }
+
+                {this.state.activePage.activeStep === 4 && this.state.commande.orderInformation.paid === true
+                ?
+                <>
+                  <Button 
+                    style={{margin:'30px'}}
+                    variant="contained" 
+                    color="primary" 
+                    onClick={this.handleClickOpen}>
+                    Envoyer la commande au livreur
+                  </Button>
+                  <div>
+                    <PopUpSendCommandeToCouriier open={this.state.openPopUpSendCommandeToCouriier} handleClose={this.handleClose}/>
+                    
+                  </div>
+                </>
+                :null
+                }
+
             </div>
           </div>
         )

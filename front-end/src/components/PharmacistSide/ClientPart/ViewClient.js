@@ -84,20 +84,18 @@ class ViewClient extends Component {
               </div>
             </div>
 
-            <Grid item xs={12} sm={6} >
+            <Grid item xs={12} sm={12} >
             <Typography align="left" style= {{fontWeight:"bold"}}>Liste des commandes</Typography>
             {this.orders.map((item,id ) => (
-              
                 <Card style={{marginBottom:"3px", border:"1px solid black"}}>
                   <CardActionArea>
                     <CardContent>
-                      <Typography style={{fontSize:"10px"}}align="left">{item.order_number} / {item.name}</Typography>
-                      <Typography style={{fontSize:"10px"}}align="left">{item.date_status}</Typography> 
+                      <Typography style={{fontSize:"10px"}} align="left">{item.order_number}</Typography>
+                      <Typography style={{fontSize:"10px"}} align="right">{item.name}</Typography>
+                      <Typography style={{fontSize:"10px"}} align="left">{item.date_status}</Typography> 
                     </CardContent>
                   </CardActionArea>
                 </Card> 
-                
-              
             ))
             } 
             </Grid>

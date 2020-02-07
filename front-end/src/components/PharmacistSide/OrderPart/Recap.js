@@ -264,13 +264,13 @@ class Recap extends Component {
                         </Typography>   
                     </Grid>
 
-                    <Grid item xs={12} sm={4}>
-                        <FormulaireResumeMedicaments medicaments={pharmaceuticals} recap={true} />   
+                    <Grid item xs={12} sm={4} >
+                        <FormulaireResumeMedicaments medicaments={pharmaceuticals} readRecap={true}/>   
                     </Grid>
 
                     <Grid item xs={12} sm={4}>
                         <Typography align="left" variant="h2">
-                            Payement
+                            Payements
                             {pharmaceuticals.map((item,id) =>
                                 <div key={id} className="resumeMedicament">
                                     <div className="resumeMedicamentName">{item.name}</div>
@@ -285,7 +285,6 @@ class Recap extends Component {
                     </Grid>
 
                     <Grid item xs={12} >
-                        
                     </Grid>
 
                 </Grid>

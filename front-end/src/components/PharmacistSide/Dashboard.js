@@ -148,14 +148,14 @@ export default function Dashboard(props) {
           </NavLink>
         </List> */}
 
-        <List>
+        {/* <List>
           <NavLink  activeClassName="active" to={`${match.url}/test-DisplayCurrentStatus`} > 
             <ListItem button>
               <ListItemIcon><DescriptionIcon /></ListItemIcon>
               <ListItemText primary="test-DisplayCurrentStatus"/>
             </ListItem>
           </NavLink>
-        </List>
+        </List> */}
 
       </Drawer>
       

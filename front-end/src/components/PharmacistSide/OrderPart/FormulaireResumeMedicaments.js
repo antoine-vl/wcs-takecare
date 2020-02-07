@@ -26,7 +26,7 @@ class FormulaireResumeMedicaments extends Component {
 
         return ( 
             <Typography variant="h3">
-            <div className="contentResumeMedicament">
+            <div className="contentResumeMedicament" >
                 <Grid container spacing={3}>
                     <div className="titleResumeMedicament">
                         <Grid item xs={12} sm={4} >
@@ -50,13 +50,9 @@ class FormulaireResumeMedicaments extends Component {
                         )}
                     </div>
                 </Grid>
-                <Grid container spacing={3}>
-                    <Grid 
-                        item xs={12}
-                        style={{
-                            //height:"20vh",
-                            overflowY: 'scroll',
-                        }}
+                <Grid container spacing={3} className={readRecap ? "resumeMedicamentScroll" : "resumeMedicamentScrollBis"}>
+                    <Grid
+                        item xs={12}                 
                     >
 
                         {medicaments.map((item,id) =>
