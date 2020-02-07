@@ -306,18 +306,40 @@ app.get('/dashboard/orders/:id/status', (req, res) => {
 
 });
 
+app.get('/dashboard/orders/:id/prescription', (req, res) => {
 
-app.get('/dashboard/orders/:id/laststatus', (req, res) => {
+  const sql = `
+  SELECT
+    prescription
+  FROM Orders
+  WHERE Orders.order_number = ?
+  `
+
+  const orderID = req.params.id
+
+  connection.query(sql, orderID, (err, results) => {
+    if (err) {
+      res.status(500).send('Erreur lors de la récupération des status de la commande');
+    }
+    if (results.length === 0) {
+      return res.status(404).send('Order not found');
+    }
+    return res.json(results);
+  });
+
+});
+
+app.get('/dashboard/orders/:id/currentstatus', (req, res) => {
 
   const sql = `
   SELECT
     st.name AS status,
-    ohs.date_status AS date_status
+    ohs.date_status
   FROM Orders
     JOIN Orders_has_Status AS ohs ON ohs.orders_order_number = Orders.order_number
     JOIN Status AS st ON st.id = ohs.status_id
   WHERE Orders.order_number = ?
-  ORDER BY date_status desc 
+  ORDER BY ohs.date_status desc 
   LIMIT 1 
   `
   
@@ -330,6 +352,7 @@ app.get('/dashboard/orders/:id/laststatus', (req, res) => {
     if (results.length === 0) {
       return res.status(404).send('Order not found');
     }
+    console.log('Result: ', results)
     return res.json(results);
   });
 

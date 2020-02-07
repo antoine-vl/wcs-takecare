@@ -7,9 +7,8 @@ import Moment from 'react-moment';
 import axios from 'axios';
 
 // MATERIAL-UI
-import Card from '@material-ui/core/Card';
 import { withStyles } from '@material-ui/core/styles';
-import { CardContent, Divider, Container, Paper } from '@material-ui/core';
+import { Card, CardContent, Divider, Container, Paper, LinearProgress, Fade, Grow} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
@@ -22,9 +21,19 @@ import Grid from '@material-ui/core/Grid';
 // MATERIAL-UI STYLES
 const styles = {
     card: {
-      width: 125,
-      marginLeft: 20
-    }
+        width: 125,
+        marginLeft: 20
+    },
+    root: {
+        height: 10,
+        borderRadius: 20,
+        backgroundColor: 'yellow',
+        boxShadow: '2px 2px 4px rgba(0,0,0,0.7)',
+    },
+    bar: {
+        borderRadius: 20,
+        backgroundColor: '#1ea084d7',
+    },
   };
 
 class DisplayMarkerStatus extends Component {
@@ -32,6 +41,12 @@ class DisplayMarkerStatus extends Component {
         super(props);
 
         this.state = { 
+            animation: false,
+            animProgress: 0,
+            progressOfStatus: 0,
+
+            prescription: false,
+
             status: [
             {
                 bddName:'New_order',
@@ -52,7 +67,7 @@ class DisplayMarkerStatus extends Component {
             {
                 bddName:'Order_prepared',
                 dateMarker: '',
-                markerName:'Commande prête pour la livraison',
+                markerName:'Prête pour livraison',
                 colorStatus:'#AAA',
                 numStatus: 3,
                 currentStatusName: 'En cours de préparation'
@@ -127,7 +142,10 @@ class DisplayMarkerStatus extends Component {
     }
 
     componentDidMount = () => {
+        
 
+
+        // Query Back when component is displayed in order part 
         if(!this.props.displayNewOrder){
             axios
             .get(`http://localhost:5000/dashboard/orders/${this.orderNumber}/status`)
@@ -138,28 +156,89 @@ class DisplayMarkerStatus extends Component {
                 //console.log('state status', this.state.status)
 
                 const updateStatus = [...this.state.status];
+                let numberOfStatus = 0;
+                let percentOfProgress = 0;
 
                 updateStatus.map((statu, index) => {
                     res.data.map(data => {
                         if(statu.bddName === data.status){
-                            console.log('OK ', statu.bddName)
+                            //console.log('OK ', statu.bddName)
                             statu.dateMarker = data.date_status
-                            console.log('statu.dateMarker ', statu.dateMarker)
+                            //console.log('statu.dateMarker ', statu.dateMarker)
                             statu.colorStatus = this.colorStatus[index].color
-                            console.log('statu.colorStatus ', statu.colorStatus)
+                            //console.log('statu.colorStatus ', statu.colorStatus)
+                            numberOfStatus ++;
+
                         }
                     })
 
                     //console.log('STATU: ', statu)
                 })
 
+                console.log('number of status: ', numberOfStatus)
+
+                
 
                 //console.log('state status AFTER', this.state.status)
                 //console.log('updateStatus', updateStatus);
                 
+                /*
                 this.setState({
                     ...this.state,
                     status: updateStatus
+                })
+                */
+
+                axios
+                .get(`http://localhost:5000/dashboard/orders/${this.orderNumber}/prescription`)
+                .then(res => {   
+                    console.log('Prescription: ', res.data[0].prescription)
+                    console.log('Update STATUS: ', updateStatus)
+
+                    let statutFiltered = []
+                    if(res.data[0].prescription){
+                        statutFiltered = updateStatus.filter(item => item.numStatus !== 7)
+                    }
+                    else{
+                        statutFiltered = updateStatus.filter(item => item.numStatus !== 5 && item.numStatus !== 6 )
+                    }
+                    
+                    percentOfProgress = Math.floor((numberOfStatus*100)/statutFiltered.length);
+                    console.log('percentOfProgress: ', percentOfProgress)
+
+
+                    this.setState({
+                        ...this.state,
+                        progressOfStatus: percentOfProgress,
+                        status: statutFiltered,
+                        prescription: res.data[0].prescription
+                    })
+
+                    // animated progress bar display
+                    let progress = 0;
+                    const completion = percentOfProgress;
+                    const intervalID = setInterval(() => {
+                        if(progress<completion){
+                            progress += Math.floor(completion/5)
+                            this.setState({
+                                ...this.state,
+                                animProgress: progress
+                            })
+                            
+                            console.log('Progress: ', progress)
+                        }                
+                        else{
+                            clearInterval(intervalID)
+                            
+                            this.setState({
+                                ...this.state,
+                                animProgress: progress
+                            })
+                            
+                        console.log('Progress: ', progress)
+                        }  
+                    }, 100)
+
                 })
             })
         }
@@ -169,11 +248,8 @@ class DisplayMarkerStatus extends Component {
             updateStatus.map((statu, index) => {
                 if(statu.bddName === 'New_order'){
                     statu.dateMarker = Date.now();
-                    //console.log('statu.dateMarker ', statu.dateMarker)
                     statu.colorStatus = this.colorStatus[index].color
                 }
-
-                //console.log('STATU: ', statu)
             })
             console.log('updateStatus', updateStatus);
 
@@ -182,111 +258,92 @@ class DisplayMarkerStatus extends Component {
                 status: updateStatus
             })
         }
+
+        // animated tile display
+        this.setState({
+            ...this.state,
+            animation: true
+        })
     }
 
     render() { 
         const { classes } = this.props
+        const { animation, animProgress, status, prescription } = this.state
 
-        return ( 
+        console.log('State Prescription :', prescription)
 
-            // <div style ={{
-            //     //width: '1500px',
-            //     display: 'flex',
-            //     justifyContent: 'space-around'
-            // }}>
-            //     {this.state.status.map(statu => (
-            //         <Card 
-            //             //sclassName={classes.card} 
-            //             key={statu.numStatus} 
-            //             style={{
-            //                 color: 'white',
-            //                 textShadow: '1px 0.5px 1px rgba(0,0,0,0.8)',
-            //                 backgroundColor: `${statu.colorStatus}`,
-            //                 //width: 125,
-            //                 marginLeft: 20
-            //             }}
-            //         >
-            //             <CardContent>
-            //             <Grid container alignItems="center">
-            //                 <Typography>{statu.markerName}</Typography>
-                        
+        return (
 
-            //             <Divider orientation="vertical" />
+            <div>
+                {/* <Typography
+                    style={{
+                        color: prescription ? 'green' : 'red'
+                    }}
+                >
+                    Prescription
+                </Typography> */}
+                <Grid 
+                    container 
+                    alignItems="center"
+                    justify="center"
+                >
+                    {status.map((statu, index) => (
+                        <Grow
+                            in={animation}
+                            style={{ transformOrigin: '0 0 0' }}
+                            {...(animation ? { timeout: index * 300 } : {})}
+                        >
+                            <Grid
+                                item
+                                key={statu.numStatus} 
+                                style={{
+                                    color: 'white',
+                                    textShadow: '1px 0.5px 1px rgba(0,0,0,0.8)',
+                                    backgroundColor: `${statu.colorStatus}`,
+                                    width: 150,
+                                    padding: 10,
+                                    margin: 10,
+                                    boxShadow: '2px 2px 4px rgba(0,0,0,0.7)'  
+                                }}
+                            >
+                                <Typography
+                                    style={{
+                                        fontWeight: 'bold'
+                                    }}
+                                >
+                                    {statu.markerName}
+                                </Typography>
 
-                        
-            //                 <Typography variant="caption">
-            //                     {statu.dateMarker  
-            //                     ? <Moment >{statu.dateMarker}</Moment> 
-            //                     : '...'}
-            //                 </Typography> 
-            //                 </Grid>
-            //             </CardContent>
-            //         </Card>
-            //     ))}       
-            // </div>
+                                <Typography 
+                                    variant="body2"
+                                >
+                                    {statu.dateMarker  
+                                    ? <Moment >{statu.dateMarker}</Moment> 
+                                    : '...'}
+                                </Typography> 
+                            </Grid>
+                        </Grow>
+                    ))}    
 
-            <Grid container alignItems="center">
-                {this.state.status.map(statu => (
-                    <Paper
-                        key={statu.numStatus} 
+                    <Grid 
+                        item
                         style={{
-                            color: 'white',
-                            textShadow: '1px 0.5px 1px rgba(0,0,0,0.8)',
-                            backgroundColor: `${statu.colorStatus}`,
-                            width: 135,
-                            height: '130px',
-                            padding: 8,
-                            margin: 15,
-                            boxShadow: '2px 2px 4px rgba(0,0,0,0.7)'
-                        }}
+                            width: prescription ? 1000 : 825
+                        }} 
                     >
-                        <Typography
-                            style={{
-                                height: '70px',
-                                fontWeight: 'bold'
+                        <LinearProgress 
+                            classes={{
+                                root: classes.root,
+                                bar: classes.bar,
                             }}
-                        >
-                            {statu.markerName}
-                        </Typography>
-
-                        <Divider 
-                            style={{
-                                marginTop: 6
-                            }}
+                            variant='determinate'
+                            value={animProgress}
                         />
-
-                        <Typography 
-                            variant="body2"
-                            
-                            style={{
-                                height: '46px'
-                            }}
-                        >
-                            {statu.dateMarker  
-                            ? <Moment >{statu.dateMarker}</Moment> 
-                            : '...'}
-                        </Typography> 
-                    </Paper>
-                ))}       
-            </Grid>
-
-        
-            // <Paper>
-            //     <Container>
-            //         <Grid container alignItems="center">
                         
-            //             <Typography>{this.state.status[3].markerName}</Typography>
-
-            //             <Divider orientation="vertical" />
-
-            //             <Typography variant="caption">
-            //                 {this.state.status[3].dateMarker  
-            //                 ? <Moment >{this.state.status[3].dateMarker}</Moment> 
-            //                 : '...'}
-            //             </Typography> 
-            //         </Grid>
-            //     </Container>
-            // </Paper>
+                        <Typography >{animProgress} %</Typography>   
+                    </Grid>
+                </Grid>
+            </div>    
         );
     }
 }

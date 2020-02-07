@@ -90,7 +90,9 @@ class FormulaireCommande extends Component {
         orderInformation: {
           receipt: '',
           delivery_comment: '',
-          order_number: ''
+          order_number: '',
+          paid: false,
+          prescription: false
         }
       }
     }

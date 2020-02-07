@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom';
 
 // MATERIAL UI
+import { Typography } from '@material-ui/core';
 
 // COMPONENTS
 import AfficheClients from './AfficheClients';
@@ -34,9 +35,16 @@ class ClientPart extends Component {
 
     return (
         <>  
-            <div style={{bold:'none', width:'80vh'}}>
-                <h2> Partie Client</h2>
-            </div>
+            <Typography
+                variant='h4'
+                align='left'
+                style={{
+                    fontWeight: 'bold',
+                    marginBottom: '20px'
+                }}
+            >
+                Partie Client
+            </Typography>
 
             <div>
                 <Switch>

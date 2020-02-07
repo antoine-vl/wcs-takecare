@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom';
 
 // MATERIAL UI
-import { Divider } from '@material-ui/core';
+import { Divider, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 // COMPONENTS
@@ -32,7 +32,14 @@ class OrderPart extends Component {
   }
 
   handleLook = (e, selectedOrder) => {
-    this.props.history.push(`${this.props.match.url}/${selectedOrder}`);
+    console.log('Match.url: ', this.props.match.url)
+    let pathOrder = this.props.match.url;
+    if(pathOrder === '/dashboard'){
+        pathOrder = pathOrder+'/orders';
+    }
+
+    console.log('pathOrder: ', pathOrder)
+    this.props.history.push(`${pathOrder}/${selectedOrder}`);
   }
 
 
@@ -42,15 +49,23 @@ class OrderPart extends Component {
   render() {
     const { match, classes, location, history } = this.props;
     
-    console.log('match :', match.params)
+    console.log('match url:', match.url)
+    console.log('match path:', match.path)
     console.log('location :', location)
     console.log('history :', history)
 
     return (
         <>  
-            <div className={classes.section1}>
-                <h1>Partie Commande</h1>
-            </div>
+            <Typography
+                variant='h4'
+                align='left'
+                style={{
+                    fontWeight: 'bold',
+                    marginBottom: '20px'
+                }}
+            >
+                Partie Commande
+            </Typography>
 
             <Divider />
 

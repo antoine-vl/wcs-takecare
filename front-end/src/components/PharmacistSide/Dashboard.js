@@ -26,6 +26,7 @@ import ClientPart from './ClientPart/ClientPart';
 import OrderPart from './OrderPart/OrderPart';
 import DisplayCurrentStatus from './OrderPart/DisplayCurrentStatus';
 import DisplayMarkerStatus from './OrderPart/DisplayMarkerStatus';
+//import OrderPart from './OrderPart/OrderPart';
 
 
 
@@ -75,8 +76,9 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Dashboard({match}) {
+export default function Dashboard(props) {
   const classes = useStyles();
+  const { match } = props;
 
   return (
     <div className={classes.root}>
@@ -144,7 +146,7 @@ export default function Dashboard({match}) {
               <ListItemText primary="test-DisplayMarkerStatus"/>
             </ListItem>
           </NavLink>
-        </List>
+        </List> */}
 
         <List>
           <NavLink  activeClassName="active" to={`${match.url}/test-DisplayCurrentStatus`} > 
@@ -153,16 +155,17 @@ export default function Dashboard({match}) {
               <ListItemText primary="test-DisplayCurrentStatus"/>
             </ListItem>
           </NavLink>
-        </List> */}
+        </List>
 
       </Drawer>
       
       <div className={classes.content}>
         <Switch>
-          {/* <Route 
-            path='/dashboard'
-            component={CommandPage} 
-          s/> */}
+          <Route 
+            path={`${match.path}`}
+            exact
+            component={props => <OrderPart {...props} />}
+          />
 
           <Route 
             path={`${match.path}/orders`}
@@ -188,8 +191,10 @@ export default function Dashboard({match}) {
             path={`${match.path}/test-DisplayCurrentStatus`}
             render={props => <DisplayCurrentStatus {...props} />}
           />  
-
         </Switch>
+        
+        {/* <OrderPart {...props} /> */}
+
       </div>  
     </div>
   );

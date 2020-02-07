@@ -14,6 +14,9 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { Button } from '@material-ui/core';
 
+// Component
+import DisplayCurrentStatus from './DisplayCurrentStatus';
+
 
 
 /* ============================== */
@@ -122,7 +125,7 @@ class AfficheCommande extends Component {
 
             .then(res => {
 
-              //console.log('Res Data :', res.data)
+              console.log('Res Data :', res.data)
               const headTitle = Object.keys(res.data[0]).map((serverTitle, index) => {
                 return {
                   title: this.columnName[index],
@@ -130,7 +133,7 @@ class AfficheCommande extends Component {
                 }
               })
 
-              //console.log('headTitle :', headTitle)
+              console.log('headTitle :', headTitle)
 
               const rows = res.data
 
@@ -156,6 +159,7 @@ class AfficheCommande extends Component {
                 rows: rows,
                 totRows: cpt
               })
+              
               
             })
         })
@@ -228,68 +232,6 @@ class AfficheCommande extends Component {
       })
     }
 
-    statusColor = (status) => {
-      switch (status) {
-        case 'New_order':
-          return '#073A9D';
-
-
-        case 'Paid':
-          return '#8C318B';
-
-
-        case 'Order_prepared':
-          return '#FC0D20';
-
-
-        case 'Order_picked_up_by_Couriier':
-          return 'Récupérer par Couriier';
-
-
-        case 'Delivered':
-          return 'Commande livrée';
-
-
-        case 'Returned_prescription':
-          return 'Prescription retournée';
-
-
-        default:
-          return 'Inconnu';
-      }
-    }
-
-    statusName = (status) => {
-      switch (status) {
-        case 'New_order':
-          return 'Nouvelle commande';
-
-
-        case 'Paid':
-          return 'Payement effectué';
-
-
-        case 'Order_prepared':
-          return 'Commande prête pour la livraison';
-
-
-        case 'Order_picked_up_by_Couriier':
-          return '#F36A20';
-
-
-        case 'Delivered':
-          return '#F7F536';
-
-
-        case 'Returned_prescription':
-          return '#2AFD31';
-
-
-        default:
-          return '#AAA';
-      }
-    }
-
 
     render() { 
         const { classes, handleLook } = this.props;
@@ -304,6 +246,8 @@ class AfficheCommande extends Component {
             order,
           }
         } = this.state;
+
+        console.log('ROWS :', rows)
 
         return ( 
           <>
@@ -330,7 +274,7 @@ class AfficheCommande extends Component {
                         </TableSortLabel>
                       </TableCell>
                     ))}
-                    <TableCell>{this.columnName[3]}</TableCell>
+                    {/* <TableCell>{this.columnName[3]}</TableCell> */}
                     <TableCell>{this.columnName[4]}</TableCell>
                     <TableCell>Actions</TableCell>
                   </TableRow>
@@ -342,20 +286,9 @@ class AfficheCommande extends Component {
                     <TableCell>{row[headTitle[0].sqlTitle] /*Numéro de commande*/ }</TableCell>
                     <TableCell>{row[headTitle[1].sqlTitle] /*Prénom*/ }</TableCell>
                     <TableCell>{row[headTitle[2].sqlTitle] /*Nom*/ }</TableCell>
-                    <TableCell>{/*Date de status*/ }15 janv. 2020 10:00</TableCell>
-                    <TableCell 
-                      //className={classes.status}
-                      style={{
-                        backgroundColor: '#073A9D',
-                        //backgroundColor: 'grey',
-                        color: 'white',
-                        borderRadius: '5px',
-                        //padding: '5px',
-                        //display: 'flex',
-                        //flexDirection: 'column'
-                      }}
-                    >
-                      Nouvelle commande
+                    {/* <TableCell>15 janv. 2020 10:00</TableCell> */}
+                    <TableCell>
+                      <DisplayCurrentStatus orderNumber={row[headTitle[0].sqlTitle]} />
                     </TableCell>
                     <TableCell>
                       <Button

@@ -30,7 +30,8 @@ function App() {
             <header className="App-header">
                 <Switch>
                     <Route
-                        exact path='/'
+                        exact 
+                        path='/'
                         render ={props => < HeroHeader {...props} />}
                     />
                     <Route 
