@@ -22,7 +22,8 @@ import Grid from '@material-ui/core/Grid';
 const styles = {
     card: {
         width: 125,
-        marginLeft: 20
+        marginLeft: 20,
+        borderRadius:'20px',
     },
     root: {
         height: 10,
@@ -303,7 +304,9 @@ class DisplayMarkerStatus extends Component {
                                     width: 150,
                                     padding: 10,
                                     margin: 10,
-                                    boxShadow: '2px 2px 4px rgba(0,0,0,0.7)'  
+                                    boxShadow: '2px 2px 4px rgba(0,0,0,0.7)',
+                                    borderRadius:'20px',
+
                                 }}
                             >
                                 <Typography

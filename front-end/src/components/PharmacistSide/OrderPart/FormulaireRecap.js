@@ -198,6 +198,10 @@ class FormulaireRecap extends Component {
 
         const {pharmaceuticals} = this.state;
 
+        const deliveryAdress = clientAdress.secondary_adress 
+        ?clientAdress.secondary_adress 
+        :clientAdress.primary_adress
+            
         // console.log('STATE :', this.state)
 
         return (
@@ -254,14 +258,30 @@ class FormulaireRecap extends Component {
                     </Grid>
                     <Grid container item xs={12} sm={4} alignContent="center">
                         <div className="containerFormRecap">
-                            <Typography className="titleResumeCommande" align="left" variant="h6" style= {{fontWeight:"bold"}}>Adresse de facturation</Typography>
+                            <Typography className="titleResumeCommande" align="left" variant="h6" style= {{fontWeight:"bold"}}>Adresse client</Typography>
+                    <Grid container item xs={12} sm={12} alignContent="center">
+                            <Grid item xs={12} sm={6}>
                             <div className="adressResume height">
-                                <Typography align="left">{clientAdress.lastname} {clientAdress.firstname}</Typography>
-                                <Typography align="left">{clientAdress.primary_adress.adress}, {clientAdress.primary_adress.street_number}</Typography>
-                                <Typography align="left">{clientAdress.primary_adress.zip_code} - {clientAdress.primary_adress.city}</Typography>
-                                <Typography align="left">{clientAdress.mail}</Typography>
-                                <Typography align="left">{clientAdress.GSM}</Typography>
+                                <Typography style={{float:'left'}}>Facturation</Typography> <br/>
+                                <Typography align="left" style={{fontSize:"10px"}}>{clientAdress.lastname} {clientAdress.firstname}</Typography>
+                                <Typography align="left"style={{fontSize:"10px"}}>{clientAdress.primary_adress.adress}, {clientAdress.primary_adress.street_number}</Typography>
+                                <Typography align="left"style={{fontSize:"10px"}}>{clientAdress.primary_adress.zip_code} - {clientAdress.primary_adress.city}</Typography>
+                                <Typography align="left"style={{fontSize:"10px"}}>{clientAdress.mail}</Typography>
+                                <Typography align="left"style={{fontSize:"10px"}}>{clientAdress.GSM}</Typography>
                             </div>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                             <div className="adressResume height">
+                             <Typography style={{float:'left'}}>Livraison</Typography> <br/>
+                                <Typography align="left" style={{fontSize:"10px"}}>{clientAdress.lastname} {clientAdress.firstname}</Typography>
+                                
+                                <Typography align="left"style={{fontSize:"10px"}}>{deliveryAdress.adress}, {deliveryAdress.street_number}</Typography>
+                                <Typography align="left"style={{fontSize:"10px"}}>{deliveryAdress.zip_code } - {deliveryAdress.city}</Typography>
+                                <Typography align="left"style={{fontSize:"10px"}}>{clientAdress.mail}</Typography>
+                                <Typography align="left"style={{fontSize:"10px"}}>{clientAdress.GSM}</Typography>   
+                            </div>
+                            </Grid>
+                        </Grid>
                         </div>
                     </Grid>
                     
@@ -279,9 +299,9 @@ class FormulaireRecap extends Component {
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <div className="containerFormRecap" style={{height:"29vh", overflowY: "auto"}}>
+                        <div className="containerFormRecap" style={{height:"29vh", overflowY: "auto",}}>
                             <Typography align="left" className="titleResumeCommande" variant="h6" style={{fontWeight:"bold"}}>Médicaments</Typography>
-                            <FormulaireResumeMedicaments className="adressResume height" medicaments={pharmaceuticals} readRecap={true} />
+                            <FormulaireResumeMedicaments className="adressResume height" medicaments={pharmaceuticals} readRecap={true}  />
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={4}>

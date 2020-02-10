@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './formulairePage.css';
 
+
 // MATERIAL UI
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -36,6 +37,8 @@ class InputsMedicament extends Component {
     handleOpen = () => {
         this.setState({open:true})
       };
+    
+    
 
     render() { 
         const { 
@@ -119,7 +122,9 @@ class InputsMedicament extends Component {
                         <Grid item xs={6}>
                             <FormControl fullWidth id="categorie">
                                 <InputLabel id="categorie-label">Catégorie</InputLabel>
-                            <Select 
+                                
+                            <Select
+                                
                                 labelId="categorie-label"
                                 fullWidth 
                                 className="inputs" 
@@ -131,10 +136,12 @@ class InputsMedicament extends Component {
                                 onOpen={this.handleOpen}  
                                 required  
                             >
-                                {/* <MenuItem value={''}></MenuItem> */}
+                                
+                                <MenuItem value={''}></MenuItem>
                                 <MenuItem value={'RX'}>RX</MenuItem>
                                 <MenuItem value={'OTC'}>OTC</MenuItem>
                                 <MenuItem value={'PARA'}>PARA</MenuItem>
+                                
                             </Select>
                         </FormControl>
                         </Grid>

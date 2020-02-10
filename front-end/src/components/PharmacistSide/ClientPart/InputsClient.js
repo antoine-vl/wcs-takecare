@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
+import { Button, Fade } from '@material-ui/core';
 
 // COMPONENT
 import SearchBarClient from './SearchBarClients.js';
@@ -23,10 +24,6 @@ class InputsClient extends Component {
           is_other_adress: false,
         }
     }
-
-    // checkboxChange = () => {
-    //   this.setState({is_other_adress : !this.state.is_other_adress}) 
-    // }
 
     render() { 
         const {
@@ -191,71 +188,90 @@ class InputsClient extends Component {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6} >
                 <div className="checkbox">
                   <Checkbox color="secondary" checked={is_other_adress} name="saveAddress" onChange={(e) => checkboxChange(e)} /> 
                   Cocher uniquement si adresse de livraison différente
                 </div>
               </Grid>
-              
-              <Grid container spacing={3} style={!is_other_adress ? {display: 'none'} : null}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    value={secondary_adress.adress} 
-                    onChange={(e) => updateSecondaryAdressFormClient(e)}
-                    required
-                    id="adress"
-                    label="Adresse"
-                    fullWidth
-                    inputProps={{
-                      style: { textAlign: "left", paddingLeft: "3px" }
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    value={secondary_adress.street_number} 
-                    onChange={(e) => updateSecondaryAdressFormClient(e)}
-                    required
-                    id="street_number"
-                    label="Numéro"
-                    fullWidth
-                    inputProps={{
-                      style: { textAlign: "left", paddingLeft: "3px" }
-                    }}
-                  />
-                </Grid>
 
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    value={secondary_adress.zip_code} 
-                    onChange={(e) => updateSecondaryAdressFormClient(e)}
-                    required
-                    id="zip_code"
-                    label="Code postale"
-                    fullWidth
-                    inputProps={{
-                      style: { textAlign: "left", paddingLeft: "3px" }
-                    }}
-                  />
-                </Grid>
+              <Grid item xs={12} sm={6} >
+                <Button
+                  variant="contained" 
+                  style={{
+                      backgroundColor: 'rgb(32,173,143)', 
+                      color:'#fff',
+                      float:'right'
 
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    value={secondary_adress.city} 
-                    onChange={(e) => updateSecondaryAdressFormClient(e)}
-                    required
-                    id="city"
-                    label="Ville"
-                    fullWidth
-                    inputProps={{
-                      style: { textAlign: "left", paddingLeft: "3px" }
-                    }}
-                  />
-                </Grid>
+                  }} 
+                >
+                  Ajouter un nouveau client
+                </Button>
               </Grid>
-            </Grid>
 
+              <Fade 
+                in={is_other_adress}
+                timeout={300}
+              >
+                <Grid container spacing={3} style={!is_other_adress ? {visibility: 'hidden'} : {visibility: 'visible'}}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      value={secondary_adress.adress} 
+                      onChange={(e) => updateSecondaryAdressFormClient(e)}
+                      required
+                      id="adress"
+                      label="Adresse"
+                      fullWidth
+                      inputProps={{
+                        style: { textAlign: "left", paddingLeft: "3px" }
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      value={secondary_adress.street_number} 
+                      onChange={(e) => updateSecondaryAdressFormClient(e)}
+                      required
+                      id="street_number"
+                      label="Numéro"
+                      fullWidth
+                      inputProps={{
+                        style: { textAlign: "left", paddingLeft: "3px" }
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      value={secondary_adress.zip_code} 
+                      onChange={(e) => updateSecondaryAdressFormClient(e)}
+                      required
+                      id="zip_code"
+                      label="Code postale"
+                      fullWidth
+                      inputProps={{
+                        style: { textAlign: "left", paddingLeft: "3px" }
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      value={secondary_adress.city} 
+                      onChange={(e) => updateSecondaryAdressFormClient(e)}
+                      required
+                      id="city"
+                      label="Ville"
+                      fullWidth
+                      inputProps={{
+                        style: { textAlign: "left", paddingLeft: "3px" }
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+              </Fade>
+              
+            </Grid>
           </>             
          );
     }
