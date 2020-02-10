@@ -11,6 +11,7 @@ import Moment from 'react-moment';
 // COMPONENTS
 import Dashboard from './components/PharmacistSide/Dashboard';
 import HeroHeader from './components/HomeSide/HeroHeader';
+import SignIn from './components/HomeSide/SignIn';
 
 
 
@@ -37,6 +38,10 @@ function App() {
                     <Route 
                         path='/dashboard' 
                         render ={props => < Dashboard {...props} />} 
+                    />
+                    <Route 
+                        path='/signIn' 
+                        render ={props => < SignIn {...props} />} 
                     />
                 </Switch>
             </header>

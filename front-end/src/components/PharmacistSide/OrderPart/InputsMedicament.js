@@ -118,7 +118,7 @@ class InputsMedicament extends Component {
                                 onOpen={this.handleOpen}  
                                 required  
                             >
-                                <MenuItem value={''}></MenuItem>
+                                {/* <MenuItem value={''}></MenuItem> */}
                                 <MenuItem value={'RX'}>RX</MenuItem>
                                 <MenuItem value={'OTC'}>OTC</MenuItem>
                                 <MenuItem value={'PARA'}>PARA</MenuItem>
