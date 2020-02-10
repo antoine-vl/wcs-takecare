@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './FormulaireClient.css'
+import './InputsClient.css'
 
 // MATERIAL UI
 import TextField from '@material-ui/core/TextField';
@@ -49,7 +49,11 @@ class InputsClient extends Component {
 
         return (    
           <>
-            <Grid container justify="space-between">
+            <Grid 
+              container 
+              justify="space-between"
+              style={{marginBottom: 20}}
+              >
               <Grid item xs={12} sm={6}>
                 <Typography variant="h5" align="left" >Adresse du client</Typography>
                 <Typography align="left" gutterBottom >Veuillez entrer l'adresse du client. Ce sera l'adresse d'arrivé de la livraison de Couriier</Typography>

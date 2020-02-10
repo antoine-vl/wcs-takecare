@@ -29,7 +29,7 @@ import PopUpPrescription from './PopUpPrescription';
 
 
 
-class FormulaireCommande extends Component {
+class InputsOrders extends Component {
   constructor(props) {
 
     super(props);
@@ -712,5 +712,4 @@ class FormulaireCommande extends Component {
   }
 }
 
-
-export default FormulaireCommande;
+export default InputsOrders;

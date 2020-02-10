@@ -21,7 +21,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 
 // COMPONENTS
-import FormulaireCommande from './OrderPart/FormulaireCommande';
+import InputsOrders from './OrderPart/InputsOrders';
 import ClientPart from './ClientPart/ClientPart';
 import OrderPart from './OrderPart/OrderPart';
 import DisplayCurrentStatus from './OrderPart/DisplayCurrentStatus';
@@ -139,14 +139,14 @@ export default function Dashboard(props) {
           </Link>
         </List>
 
-        <List>
+        {/* <List>
           <NavLink  activeClassName="active" to={`${match.url}/SearchBarClients`} > 
             <ListItem button>
               <ListItemIcon><DescriptionIcon /></ListItemIcon>
               <ListItemText primary="SearchBarClients"/>
             </ListItem>
           </NavLink>
-        </List>
+        </List> */}
 
         {/* <List>
           <NavLink  activeClassName="active" to={`${match.url}/test-DisplayCurrentStatus`} > 
@@ -179,7 +179,7 @@ export default function Dashboard(props) {
 
           <Route 
             path={`${match.path}/new-order`}
-            render={props => <FormulaireCommande {...props} />}
+            render={props => <InputsOrders {...props} />}
           />
 
           <Route 
