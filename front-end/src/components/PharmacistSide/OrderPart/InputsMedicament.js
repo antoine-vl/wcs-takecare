@@ -38,7 +38,20 @@ class InputsMedicament extends Component {
       };
 
     render() { 
-         const { medicament: {name, id, comment, quantity , categorie, isEdit, price }, updateFormMedicament , inputSubmit, clearMedoc } = this.props;
+        const { 
+            medicament: {
+                name, 
+                id, 
+                comment, 
+                quantity, 
+                categorie, 
+                isEdit, 
+                price 
+            }, 
+            updateFormMedicament, 
+            inputSubmit, 
+            clearMedoc 
+        } = this.props;
         
         return ( 
                 <form className="formulaireMed" onSubmit={(e) => inputSubmit(e)} autoComplete="on"> 

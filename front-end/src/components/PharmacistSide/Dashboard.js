@@ -26,7 +26,7 @@ import ClientPart from './ClientPart/ClientPart';
 import OrderPart from './OrderPart/OrderPart';
 import DisplayCurrentStatus from './OrderPart/DisplayCurrentStatus';
 import DisplayMarkerStatus from './OrderPart/DisplayMarkerStatus';
-//import OrderPart from './OrderPart/OrderPart';
+import SearchBarClients from './ClientPart/SearchBarClients';
 
 
 
@@ -139,14 +139,14 @@ export default function Dashboard(props) {
           </Link>
         </List>
 
-        {/* <List>
-          <NavLink  activeClassName="active" to={`${match.url}/test-DisplayMarkerStatus`} > 
+        <List>
+          <NavLink  activeClassName="active" to={`${match.url}/SearchBarClients`} > 
             <ListItem button>
               <ListItemIcon><DescriptionIcon /></ListItemIcon>
-              <ListItemText primary="test-DisplayMarkerStatus"/>
+              <ListItemText primary="SearchBarClients"/>
             </ListItem>
           </NavLink>
-        </List> */}
+        </List>
 
         {/* <List>
           <NavLink  activeClassName="active" to={`${match.url}/test-DisplayCurrentStatus`} > 
@@ -183,8 +183,8 @@ export default function Dashboard(props) {
           />
 
           <Route 
-            path={`${match.path}/test-DisplayMarkerStatus`}
-            render={props => <DisplayMarkerStatus {...props} />}
+            path={`${match.path}/SearchBarClients`}
+            render={props => <SearchBarClients {...props} />}
           />
 
           <Route 

@@ -7,13 +7,16 @@ import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 
+// COMPONENT
+import SearchBarClient from './SearchBarClients.js';
+
 
 
 /* ============================== */
 
 
 
-class FormulaireClient extends Component {
+class InputsClient extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -33,26 +36,34 @@ class FormulaireClient extends Component {
             mail, 
             GSM,  
             national_registration_number,
-            primary_adress: {
-              adress,
-              street_number,
-              zip_code,
-              city
-            },
+            primary_adress,
+            secondary_adress,
           },
           updateFormClient,
-          updateAdressFormClient
-        } = this.props.PFC;
+          updateAdressFormClient,
+          updateSecondaryAdressFormClient,
+          is_other_adress,
+          selectClient,
+          checkboxChange,
+        } = this.props.propsClientInputs;
 
         return (    
-          <form>
-            <Typography variant="h5" align="left" >Adresse du client</Typography>
-            <Typography align="left" gutterBottom >Veuillez entrer l'adresse du client. Ce sera l'adresse d'arrivé de la livraison de Couriier</Typography>
+          <>
+            <Grid container justify="space-between">
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h5" align="left" >Adresse du client</Typography>
+                <Typography align="left" gutterBottom >Veuillez entrer l'adresse du client. Ce sera l'adresse d'arrivé de la livraison de Couriier</Typography>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <SearchBarClient selectClient={selectClient}/>
+              </Grid>
+            </Grid>
 
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  defaultValue={lastname} 
+                  value={lastname} 
                   onChange={(e) => updateFormClient(e)}
                   required
                   id="lastname"
@@ -122,7 +133,7 @@ class FormulaireClient extends Component {
 
               <Grid item xs={12} sm={6}>
                 <TextField
-                  defaultValue={adress} 
+                  value={primary_adress.adress} 
                   onChange={(e) => updateAdressFormClient(e)}
                   required
                   id="adress"
@@ -136,7 +147,7 @@ class FormulaireClient extends Component {
 
               <Grid item xs={12} sm={6}>
                 <TextField
-                  defaultValue={street_number} 
+                  value={primary_adress.street_number} 
                   onChange={(e) => updateAdressFormClient(e)}
                   required
                   id="street_number"
@@ -150,7 +161,7 @@ class FormulaireClient extends Component {
 
               <Grid item xs={12} sm={6}>
                 <TextField
-                  value={zip_code} 
+                  value={primary_adress.zip_code} 
                   onChange={(e) => updateAdressFormClient(e)}
                   required
                   id="zip_code"
@@ -164,7 +175,7 @@ class FormulaireClient extends Component {
 
               <Grid item xs={12} sm={6}>
                 <TextField
-                  value={city} 
+                  value={primary_adress.city} 
                   onChange={(e) => updateAdressFormClient(e)}
                   required
                   id="city"
@@ -178,15 +189,16 @@ class FormulaireClient extends Component {
 
               <Grid item xs={12}>
                 <div className="checkbox">
-                  <Checkbox color="secondary" checked={this.props.is_other_adress} name="saveAddress" onChange={this.props.checkboxChange} /> Cocher uniquement si adresse de livraison différente
+                  <Checkbox color="secondary" checked={is_other_adress} name="saveAddress" onChange={(e) => checkboxChange(e)} /> 
+                  Cocher uniquement si adresse de livraison différente
                 </div>
               </Grid>
               
-              <Grid container spacing={3} style={!this.props.is_other_adress ? {display: 'none'} : null} /*className={this.state.is_other_adress ? "adressAdd" : null}*/>
+              <Grid container spacing={3} style={!is_other_adress ? {display: 'none'} : null}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    defaultValue={adress} 
-                    onChange={(e) => updateAdressFormClient(e)}
+                    value={secondary_adress.adress} 
+                    onChange={(e) => updateSecondaryAdressFormClient(e)}
                     required
                     id="adress"
                     label="Adresse"
@@ -198,8 +210,8 @@ class FormulaireClient extends Component {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    defaultValue={street_number} 
-                    onChange={(e) => updateAdressFormClient(e)}
+                    value={secondary_adress.street_number} 
+                    onChange={(e) => updateSecondaryAdressFormClient(e)}
                     required
                     id="street_number"
                     label="Numéro"
@@ -212,8 +224,8 @@ class FormulaireClient extends Component {
 
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    value={zip_code} 
-                    onChange={(e) => updateAdressFormClient(e)}
+                    value={secondary_adress.zip_code} 
+                    onChange={(e) => updateSecondaryAdressFormClient(e)}
                     required
                     id="zip_code"
                     label="Code postale"
@@ -226,8 +238,8 @@ class FormulaireClient extends Component {
 
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    value={city} 
-                    onChange={(e) => updateAdressFormClient(e)}
+                    value={secondary_adress.city} 
+                    onChange={(e) => updateSecondaryAdressFormClient(e)}
                     required
                     id="city"
                     label="Ville"
@@ -240,9 +252,9 @@ class FormulaireClient extends Component {
               </Grid>
             </Grid>
 
-          </form>             
+          </>             
          );
     }
 }
  
-export default FormulaireClient;
+export default InputsClient;

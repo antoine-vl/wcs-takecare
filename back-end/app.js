@@ -446,7 +446,7 @@ app.get('/dashboard/clients/:id', (req, res) => {
         mail, 
         GSM, 
         date_inscription, 
-        national_registration_number ,
+        national_registration_number,
         zip_code,
         adress,
         city,

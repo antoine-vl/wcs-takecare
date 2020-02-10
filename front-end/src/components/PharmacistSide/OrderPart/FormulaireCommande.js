@@ -3,6 +3,9 @@ import React, { Component } from 'react'
 // ROUTER
 import { Redirect, Switch, Route } from 'react-router-dom';
 
+//AXIOS
+import axios from 'axios';
+
 // MATERIAL UI
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -10,15 +13,10 @@ import StepLabel from '@material-ui/core/StepLabel';
 import StepButton from '@material-ui/core/StepButton'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-// import Dialog from '@material-ui/core/Dialog';
-// import DialogActions from '@material-ui/core/DialogActions';
-// import DialogContent from '@material-ui/core/DialogContent';
-// import DialogContentText from '@material-ui/core/DialogContentText';
-// import DialogTitle from '@material-ui/core/DialogTitle';
 
 // COMPONENTS
 import FormulaireMedicament from './FormulaireMedicament';
-import FormulaireClient from '../ClientPart/FormulaireClient';
+import InputsClient from '../ClientPart/InputsClient';
 import FormulairePharmacien from './FormulairePharmacien';
 import FormulaireRecap from './FormulaireRecap';
 import FormulaireSupplementaire from './FormulaireSupplementaire';
@@ -74,7 +72,7 @@ class FormulaireCommande extends Component {
             city: 'Attert',
           },
           secondary_adress: {
-            adress: 'aaaaa',
+            adress: '',
             street_number: '',
             zip_code: '',
             city: '',
@@ -157,6 +155,8 @@ class FormulaireCommande extends Component {
     ];
   }
 
+
+
   /*componentWillUnmount(){
     if(this.state.orderComplete){
       alert('Ola manant tu na point fini de remplir la commande!!!')
@@ -164,7 +164,191 @@ class FormulaireCommande extends Component {
     }
   }*/
 
-  // Partie médicaments
+
+
+  // =*=*=*=*=*=*=*=*=*= Gestion of the InputsOrders =*=*=*=*=*=*=*=*=*= //
+
+  getStepContent = (stepIndex, match) => {
+    switch (stepIndex) {
+      case 0:
+        return <Redirect to = {
+          `${match.url}/${this.steps[0].path}`
+        }
+        push /> ;
+
+      case 1:
+        return <Redirect to = {
+          `${match.url}/${this.steps[1].path}`
+        }
+        push /> ;
+
+      case 2:
+        return <Redirect to = {
+          `${match.url}/${this.steps[2].path}`
+        }
+        push /> ;
+
+      case 3:
+        return <Redirect to = {
+          `${match.url}/${this.steps[3].path}`
+        }
+        push /> ;
+
+      case 4:
+        return <Redirect to = {
+          `${match.url}/${this.steps[4].path}`
+        }
+        push /> ;
+
+      default:
+        return 'Unknown stepIndex';
+    }
+  }
+
+  handleNext = () => {
+    this.setState({
+      activePage: {
+        activeStep: this.state.activePage.activeStep + 1
+      }
+    })
+  }
+
+  handleBack = () => {
+    this.setState({
+      activePage: {
+        activeStep: this.state.activePage.activeStep - 1
+      }
+    })
+  }
+
+  handleReset = () => {
+    this.setState({
+      activePage: {
+        activeStep: 0
+      }
+    })
+  }
+
+  handleGoTo = (event, step) => {
+    this.setState({
+      activePage: {
+        activeStep: step
+      }
+    })
+  }
+
+  handleChangeIsPaid = () => {
+    this.setState(prevState => ({
+      commande: {
+        ...prevState.commande, 
+        orderInformation: {
+          ...prevState.commande.orderInformation, 
+          paid: !prevState.commande.orderInformation.paid
+        }
+      }
+    }))
+  };
+
+  handleClickOpen = () => {
+    this.setState ({
+      openPopUpSendCommandeToCouriier : true,
+    })
+  };
+
+  handleClose = () => {
+    this.setState ({
+      openPopUpSendCommandeToCouriier : false,
+    })
+  };
+
+
+
+  // =*=*=*=*=*=*=*=*=*= Client's Methods =*=*=*=*=*=*=*=*=*= //
+
+  updateFormClient = event => {
+    event.preventDefault();
+    this.setState({
+      commande: {
+        ...this.state.commande,
+        clientAdress: {
+          ...this.state.commande.clientAdress,
+          [event.target.id]: event.target.value
+        }
+      }
+    })
+  }
+
+  updateAdressFormClient = event => {
+    event.preventDefault();
+    this.setState({
+      commande: {
+        ...this.state.commande,
+        clientAdress: {
+          ...this.state.commande.clientAdress,
+          primary_adress: {
+            ...this.state.commande.clientAdress.primary_adress,
+            [event.target.id]: event.target.value
+          }
+        }
+      }
+    })
+  }
+
+  updateSecondaryAdressFormClient = event => {
+    event.preventDefault();
+    this.setState({
+      commande: {
+        ...this.state.commande,
+        clientAdress: {
+          ...this.state.commande.clientAdress,
+          secondary_adress: {
+            ...this.state.commande.clientAdress.secondary_adress,
+            [event.target.id]: event.target.value
+          }
+        }
+      }
+    })
+  }
+
+  checkboxChange = () => {
+    this.setState({is_other_adress : !this.state.is_other_adress}) 
+  }
+
+  selectClient = (event, value) => {
+    if(value){
+      axios
+      .get(`http://localhost:5000/dashboard/clients/${value.id}`)
+      .then(res => {
+        const client = res.data[0];
+
+        this.setState({
+          commande: {
+            ...this.state.commande,
+            clientAdress: {
+              ...this.state.commande.clientAdress,
+              lastname: client.lastname,
+              firstname: client.firstname,
+              mail: client.mail,
+              GSM: client.GSM,
+              national_registration_number: client.national_registration_number,
+              primary_adress: {
+                adress: client.adress,
+                street_number: client.street_number,
+                zip_code: client.zip_code,
+                city: client.city,
+              }
+            }
+          }
+        });
+
+      })
+    }
+  }
+
+
+
+  // =*=*=*=*=*=*=*=*=*= Pharmaceutical's Methods =*=*=*=*=*=*=*=*=*= //
+
   clearMedoc = () => {
     this.setState({
       medicament: {
@@ -259,39 +443,8 @@ class FormulaireCommande extends Component {
 
 
 
-  // Partie adresse client
-  updateFormClient = event => {
-    event.preventDefault();
-    this.setState({
-      commande: {
-        ...this.state.commande,
-        clientAdress: {
-          ...this.state.commande.clientAdress,
-          [event.target.id]: event.target.value
-        }
-      }
-    })
-  }
+  // =*=*=*=*=*=*=*=*=*= Pharmacyst's Methods =*=*=*=*=*=*=*=*=*= //
 
-  updateAdressFormClient = event => {
-    event.preventDefault();
-    this.setState({
-      commande: {
-        ...this.state.commande,
-        clientAdress: {
-          ...this.state.commande.clientAdress,
-          primary_adress: {
-            ...this.state.commande.clientAdress.primary_adress,
-            [event.target.id]: event.target.value
-          }
-        }
-      }
-    })
-  }
-
-
-
-  // Partie adresse pharmacien
   updateFormPharmacist = event => {
     event.preventDefault();
     this.setState({
@@ -323,7 +476,8 @@ class FormulaireCommande extends Component {
 
 
 
-  // Partie autres informations
+  // =*=*=*=*=*=*=*=*=*= Others Information's Methods =*=*=*=*=*=*=*=*=*= //
+
   updateFormAutre = event => {
     event.preventDefault();
     this.setState({
@@ -342,140 +496,54 @@ class FormulaireCommande extends Component {
     alert('Il est impossible d\'uploader une image pour le moment')
   }
 
-  handleChangeIsPaid = () => {
-    this.setState(prevState => ({
-      commande: {
-                  ...prevState.commande, 
-                  orderInformation: {
-                                      ...prevState.commande.orderInformation, 
-                                      paid: !prevState.commande.orderInformation.paid
-                                    }
-                }
-    }))
-  };
-
-  handleClickOpen = () => {
-    this.setState ({
-      openPopUpSendCommandeToCouriier : true,
-    })
-  };
-
-  handleClose = () => {
-    this.setState ({
-      openPopUpSendCommandeToCouriier : false,
-    })
-  };
-
-  checkboxChange = () => {
-    this.setState({is_other_adress : !this.state.is_other_adress}) 
-  }
-
-  // Gestion stepper
-  getStepContent = (stepIndex, match) => {
-    switch (stepIndex) {
-      case 0:
-        return <Redirect to = {
-          `${match.url}/${this.steps[0].path}`
-        }
-        push / > ;
-      case 1:
-        return <Redirect to = {
-          `${match.url}/${this.steps[1].path}`
-        }
-        push / > ;
-      case 2:
-        return <Redirect to = {
-          `${match.url}/${this.steps[2].path}`
-        }
-        push / > ;
-      case 3:
-        return <Redirect to = {
-          `${match.url}/${this.steps[3].path}`
-        }
-        push / > ;
-      case 4:
-        return <Redirect to = {
-          `${match.url}/${this.steps[4].path}`
-        }
-        push / > ;
-      default:
-        return 'Unknown stepIndex';
-    }
-  }
-
-  handleNext = () => {
-    this.setState({
-      activePage: {
-        activeStep: this.state.activePage.activeStep + 1
-      }
-    })
-  }
-
-  handleBack = () => {
-    this.setState({
-      activePage: {
-        activeStep: this.state.activePage.activeStep - 1
-      }
-    })
-  }
-
-  handleReset = () => {
-    this.setState({
-      activePage: {
-        activeStep: 0
-      }
-    })
-  }
-
-  handleGoTo = (event, step) => {
-    this.setState({
-      activePage: {
-        activeStep: step
-      }
-    })
-  }
 
 
+  // =*=*=*=*=*=*=*=*=*= Render's =*=*=*=*=*=*=*=*=*= //
 
-  // Render
   render() {
-      //props router
-      const {
-        match
-      } = this.props;
+    //props router
+    const {
+      match
+    } = this.props;
 
-      //props step 1 - medicaments
-      const propsFormulaireMedicament = {
-        inputSubmitMed: event => this.inputSubmitMed(event),
-        deleteMedicament: id => this.deleteMedicament(id),
-        updateFormMedicament: event => this.updateFormMedicament(event),
-        handleChangeCheckboxMed: () => this.handleChangeCheckboxMed(),
-        editMedicament: id => this.editMedicament(id),
-        clearMedoc: () => this.clearMedoc(),
-        listeMedicament: this.state.commande.pharmaceuticals,
-        medicament: this.state.medicament
-      }
+    //props step 1 - adresse client
+    const propsClientInputs = {
+      currentClient: this.state.commande.clientAdress,
+      is_other_adress: this.state.is_other_adress,
+      updateFormClient: event => this.updateFormClient(event),
+      updateAdressFormClient: event => this.updateAdressFormClient(event),
+      updateSecondaryAdressFormClient: event => this.updateSecondaryAdressFormClient(event),
+      checkboxChange: () => this.checkboxChange(),
+      selectClient: (event, value) => this.selectClient(event, value)
+    }
 
-      //props step 2 - adresse client
-      const propsFormulaireClient = {
-        currentClient: this.state.commande.clientAdress,
-        updateFormClient: event => this.updateFormClient(event),
-        updateAdressFormClient: event => this.updateAdressFormClient(event)
-      }
+    //props step 2 - medicaments
+    const propsFormulaireMedicament = {
+      inputSubmitMed: event => this.inputSubmitMed(event),
+      deleteMedicament: id => this.deleteMedicament(id),
+      updateFormMedicament: event => this.updateFormMedicament(event),
+      handleChangeCheckboxMed: () => this.handleChangeCheckboxMed(),
+      editMedicament: id => this.editMedicament(id),
+      clearMedoc: () => this.clearMedoc(),
+      listeMedicament: this.state.commande.pharmaceuticals,
+      medicament: this.state.medicament
+    }
 
-      //props step 3 - adresse pharmacien
-      const propsFormulairePharmacien = {
-        currentPharmacist: this.state.commande.pharmacistAdress,
-        updateFormPharmacist: event => this.updateFormPharmacist(event),
-        updateAdressFormPharmacist: event => this.updateAdressFormPharmacist(event)
-      }
+    //props step 3 - adresse pharmacien
+    const propsFormulairePharmacien = {
+      currentPharmacist: this.state.commande.pharmacistAdress,
+      updateFormPharmacist: event => this.updateFormPharmacist(event),
+      updateAdressFormPharmacist: event => this.updateAdressFormPharmacist(event)
+    }
 
-      //props step 4 - autres informations
-      const propsFormulaireAutre = {
-        updateFormAutre: event => this.updateFormAutre(event),
-        alertFalseButton: event => this.alertFalseButton(event),
-        currentOtherInfos: this.state.commande.orderInformation
-      }
+    //props step 4 - autres informations
+    const propsFormulaireAutre = {
+      updateFormAutre: event => this.updateFormAutre(event),
+      alertFalseButton: event => this.alertFalseButton(event),
+      currentOtherInfos: this.state.commande.orderInformation
+    }
+
+    console.log('STATE :', this.state)
 
     return (
       <div className="f">
@@ -503,34 +571,56 @@ class FormulaireCommande extends Component {
           <div>
 
             <Typography>{this.getStepContent(this.state.activePage.activeStep, match)}</Typography>
+
             <Switch>
+
               <Route 
                 path={`${match.path}/${this.steps[0].path}`}
-                render={(props) => <FormulaireClient {...props} 
-                PFC={propsFormulaireClient} 
-                checkboxChange={this.checkboxChange} 
-                is_other_adress={this.state.is_other_adress}/>}
+                render={(props) => 
+                  <InputsClient 
+                    {...props} 
+                    propsClientInputs={propsClientInputs} 
+                  />}
               />
+
               <Route 
                 path={`${match.path}/${this.steps[1].path}`}
-                render={props => <FormulaireMedicament {...props} PFM={propsFormulaireMedicament} />}
+                render={props => 
+                  <FormulaireMedicament 
+                    {...props} 
+                    PFM={propsFormulaireMedicament} 
+                  />}
               />
+
               <Route 
                 path={`${match.path}/${this.steps[2].path}`}
-                render={props => <FormulairePharmacien {...props} PFP={propsFormulairePharmacien} />}
+                render={props => 
+                  <FormulairePharmacien 
+                    {...props} 
+                    PFP={propsFormulairePharmacien} 
+                  />}
               />
+
               <Route 
                 path={`${match.path}/${this.steps[3].path}`}
-                render={props => <FormulaireSupplementaire {...props} PFO={propsFormulaireAutre} />}
+                render={props => 
+                  <FormulaireSupplementaire 
+                    {...props} 
+                    PFO={propsFormulaireAutre} 
+                  />}
               />
+
               <Route 
                 path={`${match.path}/${this.steps[4].path}`}
-                render={props => <FormulaireRecap {...props} 
-                  recap={this.state.commande} 
-                  displayNewOrder={this.state.displayNewOrder} 
-                  isPaid={this.handleChangeIsPaid} 
-                />}
+                render={props => 
+                  <FormulaireRecap 
+                    {...props} 
+                    recap={this.state.commande} 
+                    displayNewOrder={this.state.displayNewOrder} 
+                    isPaid={this.handleChangeIsPaid} 
+                  />}
               />
+
             </Switch>
 
             
@@ -547,10 +637,12 @@ class FormulaireCommande extends Component {
                 {this.state.activePage.activeStep === 4 
                 ? null 
                 :<Button 
-                  variant="contained" 
-                  color="primary" 
-                  onClick={this.handleNext}
-                  >Suivant
+                    variant="contained" 
+                    color="primary" 
+                    
+                    onClick={this.handleNext}
+                  >
+                    Suivant
                 </Button> 
                 }
 
