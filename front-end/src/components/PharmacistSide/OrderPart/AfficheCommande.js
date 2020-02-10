@@ -301,7 +301,8 @@ class AfficheCommande extends Component {
                         style={{
                             backgroundColor: 'rgb(32,173,143)', 
                             color:'#fff',
-                            marginBottom:'5px'
+                            marginBottom:'5px',
+                            
                         }}
                         onClick={(e) => handleLook(e, row[headTitle[0].sqlTitle])}
                       >

@@ -74,10 +74,10 @@ class FormulaireCommande extends Component {
             city: 'Attert',
           },
           secondary_adress: {
-            adress: 'aaaaa',
-            street_number: '',
-            zip_code: '',
-            city: '',
+            adress: 'Rue du pc',
+            street_number: '23',
+            zip_code: '7000',
+            city: 'Mons',
           }
 
         },

@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
-
+import { Button } from '@material-ui/core';
 
 
 /* ============================== */
@@ -178,10 +178,20 @@ class FormulaireClient extends Component {
 
               <Grid item xs={12}>
                 <div className="checkbox">
-                  <Checkbox color="secondary" checked={this.props.is_other_adress} name="saveAddress" onChange={this.props.checkboxChange} /> Cocher uniquement si adresse de livraison différente
+                  <Checkbox color="secondary" checked={this.props.is_other_adress} name="saveAddress" onChange={this.props.checkboxChange}  /> Cocher uniquement si adresse de livraison différente
+                  <Button
+                        variant="contained" 
+                        style={{
+                            backgroundColor: 'rgb(32,173,143)', 
+                            color:'#fff',
+                            float:'right'
+
+                        }} 
+                      >
+                        Ajouter un nouveau client
+                      </Button>
                 </div>
               </Grid>
-              
               <Grid container spacing={3} style={!this.props.is_other_adress ? {display: 'none'} : null} /*className={this.state.is_other_adress ? "adressAdd" : null}*/>
                 <Grid item xs={12} sm={6}>
                   <TextField
