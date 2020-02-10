@@ -21,6 +21,7 @@ import FormulairePharmacien from './FormulairePharmacien';
 import FormulaireRecap from './FormulaireRecap';
 import FormulaireSupplementaire from './FormulaireSupplementaire';
 import PopUpSendCommandeToCouriier from './PopUpSendCommandeToCouriier';
+import PopUpPrescription from './PopUpPrescription';
 
 
 
@@ -37,6 +38,7 @@ class FormulaireCommande extends Component {
       orderComplete: true,
       displayNewOrder: true,
       openPopUpSendCommandeToCouriier: false,
+      openPopUpPrescription: false,
       is_other_adress: false,
 
       activePage: {
@@ -441,6 +443,29 @@ class FormulaireCommande extends Component {
     })
   }
 
+  dontPrescription = () => {
+    console.log(this.state.commande.pharmaceuticals)
+    let isDontRx = true
+    this.state.commande.pharmaceuticals.map((medicament, index) =>
+      medicament.categorie === 'RX' 
+      ? isDontRx = false
+      : null
+   )
+   return isDontRx
+  }
+
+  openPopUpPrescription = () => {
+    this.setState ({
+      openPopUpPrescription : true,
+    })
+  };
+
+  closePopUpPrescription = () => {
+    this.setState ({
+      openPopUpPrescription : false,
+    })
+  };
+
 
 
   // =*=*=*=*=*=*=*=*=*= Pharmacyst's Methods =*=*=*=*=*=*=*=*=*= //
@@ -637,10 +662,12 @@ class FormulaireCommande extends Component {
                 {this.state.activePage.activeStep === 4 
                 ? null 
                 :<Button 
-                    variant="contained" 
-                    color="primary" 
-                    
-                    onClick={this.handleNext}
+                  variant="contained" 
+                  color="primary" 
+                  onClick=
+                          {this.state.activePage.activeStep === 1 && this.dontPrescription() 
+                          ? this.openPopUpPrescription
+                          : this.handleNext }
                   >
                     Suivant
                 </Button> 
@@ -667,11 +694,13 @@ class FormulaireCommande extends Component {
                   </Button>
                   <div>
                     <PopUpSendCommandeToCouriier open={this.state.openPopUpSendCommandeToCouriier} handleClose={this.handleClose}/>
-                    
                   </div>
                 </>
                 :null
                 }
+                <div>
+                    <PopUpPrescription open={this.state.openPopUpPrescription} handleClose={this.closePopUpPrescription}/>
+                  </div>
 
             </div>
           </div>
