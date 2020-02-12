@@ -13,18 +13,6 @@ class PopUpPrescription extends Component {
         this.state = {  }
     }
 
-    // handleClickOpen = () => {
-    //     this.setState ({
-    //         open : true,
-    //     })
-    //   };
-    
-    // handleClose = () => {
-    //     this.setState({
-    //         open : false,
-    //     })
-    // };
-
     render() { 
         return ( 
             <div>
@@ -34,21 +22,22 @@ class PopUpPrescription extends Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">{"Aucune prescription demandée, êtes-vous sûr ?"}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{"Aucune prescription demandée"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            Le livreur ne vous retournera pas de prescription
+                            Aucun de vos médicaments n'a besoin d'une prescription,
+                            le livreur ne vous retournera pas de prescription.<br/><br/>
+                            Êtes-vous sûr ?
+
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.props.handleClose} color="primary">
                             Annuler
                         </Button>
-                        <Link style={{textDecoration: 'none'}} to={`/dashboard/orders`} >
-                            <Button color="primary" autoFocus>
-                                Oui, je suis sûr
-                            </Button>
-                        </Link>
+                        <Button color="primary" autoFocus onClick={this.props.handleNext}>
+                            Oui, je suis sûr
+                        </Button>
                     </DialogActions>
                 </Dialog>
             </div>

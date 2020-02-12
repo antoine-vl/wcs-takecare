@@ -206,6 +206,16 @@ class FormulaireCommande extends Component {
         return 'Unknown stepIndex';
     }
   }
+  handleNextAndClosePopUp = () => {
+    this.setState({
+      activePage: {
+        activeStep: this.state.activePage.activeStep + 1
+      }
+    })
+    this.setState ({
+      openPopUpPrescription : false,
+    })
+  }
 
   handleNext = () => {
     this.setState({
@@ -699,8 +709,8 @@ class FormulaireCommande extends Component {
                 :null
                 }
                 <div>
-                    <PopUpPrescription open={this.state.openPopUpPrescription} handleClose={this.closePopUpPrescription}/>
-                  </div>
+                  <PopUpPrescription open={this.state.openPopUpPrescription} handleNext={this.handleNextAndClosePopUp} handleClose={this.closePopUpPrescription}/>
+                </div>
 
             </div>
           </div>

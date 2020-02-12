@@ -109,31 +109,31 @@ class DisplayMarkerStatus extends Component {
 
         this.colorStatus = [
             {
-                color:'#073A9D',
+                color:'#CCCCCC',
                 numStatus: 1
             },
             {
-                color:'#8C318B',
+                color:'#fcaaaa',
                 numStatus: 2
             },
             {
-                color:'#FC0D20',
+                color:'#2cbccd',
                 numStatus: 3
             },
             {
-                color:'#F36A20',
+                color:'#a9dba0',
                 numStatus: 4
             },
             {
-                color:'#F7F536',
+                color:'#48823e',
                 numStatus: 5
             },
             {
-                color:'#2AFD31',
+                color:'#ee3e2e',
                 numStatus: 6
             },
             {
-                color:'#2AFD31',
+                color:'#a272dc',
                 numStatus: 7
             },
           ]
@@ -268,20 +268,30 @@ class DisplayMarkerStatus extends Component {
 
     render() { 
         const { classes } = this.props
-        const { animation, animProgress, status, prescription } = this.state
+        const { animation, animProgress, status, prescription, progressOfStatus } = this.state
 
-        console.log('State Prescription :', prescription)
+        console.log('status :', progressOfStatus)
 
         return (
 
+            //faire un ternaire pour chaque li du genre {status === status[1] ? alors met la couleur en rouge : sinon en gris}
+
             <div>
+                <ul style={{display:'flex', listStyleType:'none'}}>
+                    <li style={{borderTop:'5px solid gray'}}>Nouvelle commande</li>                    
+                    <li style={{borderTop:'5px solid gray'}}>Paiement effectué</li>
+                    <li style={{borderTop:'5px solid gray'}}>pret pour livraison</li>
+                    <li style={{borderTop:'5px solid gray'}}>Récupéré par couriier</li>
+                    <li style={{borderTop:'5px solid gray'}}>Commande livrée</li>
+                    <li style={{borderTop:'5px solid gray'}}>Prescription retournée</li>
+                </ul>
                 {/* <Typography
                     style={{
                         color: prescription ? 'green' : 'red'
                     }}
                 >
                     Prescription
-                </Typography> */}
+                </Typography>
                 <Grid 
                     container 
                     alignItems="center"
@@ -323,7 +333,7 @@ class DisplayMarkerStatus extends Component {
                                 </Typography> 
                             </Grid>
                         </Grow>
-                    ))}    
+                    ))}
 
                     <Grid 
                         item
@@ -342,8 +352,8 @@ class DisplayMarkerStatus extends Component {
                         
                         <Typography >{animProgress} %</Typography>   
                     </Grid>
-                </Grid>
-            </div>    
+                </Grid> */}
+            </div>     
         );
     }
 }

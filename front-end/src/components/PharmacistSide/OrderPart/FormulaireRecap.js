@@ -208,34 +208,36 @@ class FormulaireRecap extends Component {
                         justifyContent:"space-between",
                         marginTop:"5px"
 
-                    }}>
-                <Typography 
-                    variant="h4" 
-                    align="left" 
+                    }}
                 >
-                Récapitulatif de la commande
-                </Typography>
-                
-                    <Button
+                    <Typography 
+                        variant="h4" 
+                        align="left" 
+                    >
+                        Récapitulatif de la commande
+                    </Typography>
+                    {this.props.displayNewOrder 
+                    ? null
+                    : <Button
                         variant="contained" 
                         style={{
                             backgroundColor: 'rgb(32,173,143)',
-                            
-                        
                         }} 
-                      >
-                    <NavLink
-                        to="/dashboard/orders"
-                        activeClassName="selectedLink"
-                        style={{textDecoration: 'none',color:'#fff'}}>
-                        Retour
-                    </NavLink>
+                    >
+                        <NavLink
+                            to="/dashboard/orders"
+                            activeClassName="selectedLink"
+                            style={{textDecoration: 'none',color:'#fff'}}>
+                            Retour
+                        </NavLink> 
                     </Button>
-            
+                    }
                 </div>
                 <br/>
                 <Grid container spacing={3}>
-                    <Grid container  item xs={12} sm={12} alignItems="center">
+                {this.props.displayNewOrder 
+                ? null
+                :    <Grid container  item xs={12} sm={12} alignItems="center">
                         <div className="commandeStatus">
                             <Typography 
                                 variant="h6" 
@@ -245,13 +247,13 @@ class FormulaireRecap extends Component {
                             >
                                 Status de la commande
                             </Typography>
-
                             <DisplayMarkerStatus 
                                 displayNewOrder={this.props.displayNewOrder} 
                                 orderNumber={this.props.match.params.id_order}
                             />
+                              
                         </div>
-                    </Grid>
+                    </Grid> }
                     <Grid container item xs={12} sm={4} alignContent="center">
                         <div className="containerFormRecap">
                             <Typography className="titleResumeCommande" align="left" variant="h6" style= {{fontWeight:"bold"}}>Adresse de facturation</Typography>
@@ -285,7 +287,7 @@ class FormulaireRecap extends Component {
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <div className="containerFormRecap">
+                        <div className="containerFormRecap" style={{wordWrap: 'break-word', overflow: "auto"}}>
                             <Typography align="left" className="titleResumeCommande" variant="h6" style={{fontWeight:"bold"}}>Autres informations </Typography>
                             <div className="adressResume height">{orderInformation.delivery_comment}</div>
                         </div>
