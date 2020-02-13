@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import ViewClient from './ViewClient'
 
 // MATERIAL-UI
 import { withStyles } from '@material-ui/core/styles';
@@ -250,9 +251,11 @@ class AfficheClients extends Component {
                             marginBottom:'5px'
                         }} 
                         onClick={(e) => handleLook(e, row['id'])}
+                        
                       >
                         Voir
                       </Button>
+                      
                       <PopupClientDelete client = {row['id']}/>
                     </TableCell>
                   </TableRow>
