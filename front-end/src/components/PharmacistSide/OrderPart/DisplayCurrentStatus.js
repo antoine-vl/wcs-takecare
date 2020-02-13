@@ -85,31 +85,31 @@ class DisplayCurrentStatus extends Component {
 
         this.colorStatus = [
             {
-                color:'#073A9D',
+                color:'rgba(7, 57, 157, 0.900)',
                 numStatus: 1
             },
             {
-                color:'#8C318B',
+                color:'rgba(140, 49, 138, 0.800)',
                 numStatus: 2
             },
             {
-                color:'#FC0D20',
+                color:'rgba(252, 13, 33, 0.850)',
                 numStatus: 3
             },
             {
-                color:'#F36A20',
+                color:'rgba(243, 106, 32, 0.880)',
                 numStatus: 4
             },
             {
-                color:'#F7F536',
+                color:'rgba(247, 244, 54, 0.800)',
                 numStatus: 5
             },
             {
-                color:'#2AFD31',
+                color:'rgba(42, 253, 49, 0.856)',
                 numStatus: 6
             },
             {
-                color:'#2AFD31',
+                color:'rgba(42, 253, 49, 0.856)',
                 numStatus: 7
             },
         ]
@@ -158,9 +158,11 @@ class DisplayCurrentStatus extends Component {
                     item
                     key={status[0].numStatus} 
                     style={{
-                        color: 'white',
-                        textShadow: '1px 0.5px 1px rgba(0,0,0,0.8)',
-                        backgroundColor: `${status[0].colorStatus}`,
+                        color: 'rgb(53, 53, 52)',
+                        textShadow: '1px 0.5px 1px rgba(255,255,255,0.8)',
+                        // `${status[0].colorStatus}`
+                        // backgroundColor: `${status[0].colorStatus}`,
+                        background: `linear-gradient(100deg, #fff 80%, ${status[0].colorStatus} 60%)`,
                         width: 150,
                         padding: 10,
                         margin: 10,

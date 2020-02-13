@@ -277,13 +277,14 @@ class DisplayMarkerStatus extends Component {
             //faire un ternaire pour chaque li du genre {status === status[1] ? alors met la couleur en rouge : sinon en gris}
 
             <div>
-                <ul style={{display:'flex', listStyleType:'none'}}>
-                    <li style={{borderTop:'5px solid gray'}}>Nouvelle commande</li>                    
-                    <li style={{borderTop:'5px solid gray'}}>Paiement effectué</li>
-                    <li style={{borderTop:'5px solid gray'}}>pret pour livraison</li>
-                    <li style={{borderTop:'5px solid gray'}}>Récupéré par couriier</li>
-                    <li style={{borderTop:'5px solid gray'}}>Commande livrée</li>
-                    <li style={{borderTop:'5px solid gray'}}>Prescription retournée</li>
+                <ul className='ulMarkerNameStatus'>
+                    {status.map((elem, index) => (
+                        <div className='divMarkerNameStatus'>
+                            <li className={ elem.dateMarker ? 'liMarkerNameStatus' : 'liMarkerNameStatusNo'}>{elem.markerName}</li>   
+                            {elem.dateMarker ? <li className={ elem.dateMarker ? 'liMarkerNameStatus' : 'liMarkerNameStatusNo'} style={{border:'none'}}><Moment className='pMarkerNameStatus'>{elem.dateMarker}</Moment></li> : null }
+                        </div>
+                    ))
+                    }                 
                 </ul>
                 {/* <Typography
                     style={{

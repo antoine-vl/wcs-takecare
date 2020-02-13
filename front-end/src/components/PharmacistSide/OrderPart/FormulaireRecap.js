@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import { Button } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
@@ -34,6 +35,7 @@ class FormulaireRecap extends Component {
         this.state = {  
             count: 0,
             anchorEl: null,
+            popUpHelpPriceOpen: false,
 
             orderData: {
                 clientAdress: {
@@ -92,6 +94,20 @@ class FormulaireRecap extends Component {
     //         paid: false ? false : true
     //     });
     //   };
+
+    popUpHelpPriceOpen = () => {
+        this.setState({
+            ...this.state, 
+            popUpHelpPriceOpen: true
+        })
+    }
+
+    popUpHelpPriceClose = () => {
+        this.setState({
+            ...this.state, 
+            popUpHelpPriceOpen: false
+        })
+    }
 
     handlePopoverOpen = event => {
         this.setState({
@@ -307,8 +323,12 @@ class FormulaireRecap extends Component {
                             <Grid className="height" style={{fontSize:'0.9rem'}} container spacing={3}>
                                 <Grid item xs={12} sm={9} align="right" className="titlePrixResume">
                                     <p>Sous-total : </p>
-                                    <p>Livraison < HelpOutlineIcon /></p>
-
+                                    <p onMouseOut={this.popUpHelpPriceClose} onMouseOver={this.popUpHelpPriceOpen} >Livraison < HelpOutlineIcon /></p>
+                                    <Snackbar
+                                        anchorOrigin={{ vertical:'bottom', horizontal:'right'}}
+                                        open={this.state.popUpHelpPriceOpen}
+                                        message="Livraison gratuite dès 35,00€"
+                                    />
                                     {/* <Typography
                                         aria-owns={this.open ? 'mouse-over-popover' : undefined}
                                         aria-haspopup="true"

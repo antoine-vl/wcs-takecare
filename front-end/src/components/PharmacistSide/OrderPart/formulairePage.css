@@ -7,12 +7,6 @@
     background-color: rgba(128, 128, 128, 0.589);
 }
 
-/* .test button {
-    width: 3vw;
-    height: 6vh;
-    min-width: 1vw;
-} */
-
 /* .formInfoClient {
     background-color: rgba(105, 105, 105, 0.295);
 }
@@ -167,7 +161,8 @@
 
 .commandeStatus{
     /* border: 2px solid black; */
-    background: linear-gradient(150deg, #1ea084d7 0%, #fff 70%);
+    /* background: linear-gradient(150deg, #1ea084d7 0%, #fff 70%); */
+    background-color: #fffbfb2c;
     /*display: flex;
     justify-content: flex-start;*/
     width: 100%;
@@ -175,7 +170,8 @@
     /* margin-bottom: -10%; */
     font-size: 1.5rem; 
     color: rgb(53, 53, 52);
-    box-shadow: rgba(102, 99, 99, 0.479) 0px 0px 10px;
+    /* box-shadow: rgba(102, 99, 99, 0.479) 0px 0px 10px; */
+    box-shadow: black 2px 2px 4px;
     border-radius: 10px;
 }
 
@@ -233,4 +229,33 @@
 
 .titlePrixResume p{
     padding-right: 40px;
+}
+
+.ulMarkerNameStatus{
+    width: auto;
+    margin-top: 10px;
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-around;
+    list-style-type: none;
+    font-size: 1rem;
+}
+
+.liMarkerNameStatus{
+    width: 100%;
+    border-top: 5px solid rgba(114, 114, 114, 0.938)
+}
+
+.liMarkerNameStatusNo{
+    width: 100%;
+    border-top: 5px solid rgba(128, 128, 128, 0.300);
+    color: rgba(0, 0, 0, 0.300);
+}
+
+.pMarkerNameStatus{
+    font-size: 0.6rem;
+}
+
+.divMarkerNameStatus{
+    width: 100%;
 }
