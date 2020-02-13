@@ -164,71 +164,6 @@ class InputsOrders extends Component {
     ];
   }
 
-  submitClient = event => {
-    event.preventDefault();
-    console.log('submitClient')
-
-    const dataToPost = this.state.commande.clientAdress;
-    console.log('data new Client: ', dataToPost)
-  
-    axios
-      .post(
-        `http://localhost:5000/dashboard/clients`, 
-        { ...dataToPost }
-      )
-      .then(res =>{
-        console.log('Response: ', res.data.message)
-        console.log('Sql_result: ', res.data.sql_result)
-        console.log('Id_insert: ', res.data.sql_result.insertId)
-
-        this.setState({
-          ...this.state,
-          client_added: true,
-          commande:{
-            ...this.state.commande,
-            clientAdress:{
-              ...this.state.commande.clientAdress,
-              id_client: res.data.sql_result.insertId
-            }
-          }
-        })
-      })
-      
-      .catch(error => {
-        console.error('Error_message: ', error.response.data.error_message)
-        console.error('Id_client: ', error.response.data.id_client)
-        console.error('Sql_error: ', error.response.data.sql_error)
-      })
-      
-  }
-
-  submitLivraisonAdressClient = event => {
-    event.preventDefault();
-
-    const dataToPost = this.state.commande.clientAdress.secondary_adress;
-
-    axios
-      .post(
-        `http://localhost:5000/dashboard/clients/${this.state.commande.clientAdress.id_client}/secondary_adress`, 
-        { ...dataToPost }
-      )
-      .then(res =>{
-        console.log('Response: ', res.data.message)
-        console.log('Sql_result: ', res.data.sql_result)
-
-        this.setState({
-          ...this.state,
-          secondary_adress_validate: true
-        })
-      })
-      
-      .catch(error => {
-        console.error('Error_message: ', error.response.data.error_message)
-        console.error('Id_client: ', error.response.data.id_client)
-        console.error('Sql_error: ', error.response.data.sql_error)
-      })
-  }
-
   /*componentWillUnmount(){
     if(this.state.orderComplete){
       alert('Ola manant tu na point fini de remplir la commande!!!')
@@ -275,6 +210,16 @@ class InputsOrders extends Component {
       default:
         return 'Unknown stepIndex';
     }
+  }
+  handleNextAndClosePopUp = () => {
+    this.setState({
+      activePage: {
+        activeStep: this.state.activePage.activeStep + 1
+      }
+    })
+    this.setState ({
+      openPopUpPrescription : false,
+    })
   }
 
   handleNext = () => {
@@ -351,7 +296,70 @@ class InputsOrders extends Component {
 
   // =*=*=*=*=*=*=*=*=*= Client's Methods =*=*=*=*=*=*=*=*=*= //
 
+  submitClient = event => {
+    event.preventDefault();
+    console.log('submitClient')
+
+    const dataToPost = this.state.commande.clientAdress;
+    console.log('data new Client: ', dataToPost)
   
+    axios
+      .post(
+        `http://localhost:5000/dashboard/clients`, 
+        { ...dataToPost }
+      )
+      .then(res =>{
+        console.log('Response: ', res.data.message)
+        console.log('Sql_result: ', res.data.sql_result)
+        console.log('Id_insert: ', res.data.sql_result.insertId)
+
+        this.setState({
+          ...this.state,
+          client_added: true,
+          commande:{
+            ...this.state.commande,
+            clientAdress:{
+              ...this.state.commande.clientAdress,
+              id_client: res.data.sql_result.insertId
+            }
+          }
+        })
+      })
+      
+      .catch(error => {
+        console.error('Error_message: ', error.response.data.error_message)
+        console.error('Id_client: ', error.response.data.id_client)
+        console.error('Sql_error: ', error.response.data.sql_error)
+      })
+      
+  }
+
+  submitLivraisonAdressClient = event => {
+    event.preventDefault();
+
+    const dataToPost = this.state.commande.clientAdress.secondary_adress;
+
+    axios
+      .post(
+        `http://localhost:5000/dashboard/clients/${this.state.commande.clientAdress.id_client}/secondary_adress`, 
+        { ...dataToPost }
+      )
+      .then(res =>{
+        console.log('Response: ', res.data.message)
+        console.log('Sql_result: ', res.data.sql_result)
+
+        this.setState({
+          ...this.state,
+          secondary_adress_validate: true
+        })
+      })
+      
+      .catch(error => {
+        console.error('Error_message: ', error.response.data.error_message)
+        console.error('Id_client: ', error.response.data.id_client)
+        console.error('Sql_error: ', error.response.data.sql_error)
+      })
+  }
 
   updateFormClient = event => {
     event.preventDefault();
@@ -418,6 +426,7 @@ class InputsOrders extends Component {
             this.setState({
               ...this.state,
               is_other_adress:true,
+              secondary_adress_validate: true,
 
               commande: {
                 ...this.state.commande,
@@ -878,7 +887,7 @@ class InputsOrders extends Component {
                 :null
                 }
                 <div>
-                    <PopUpPrescription open={this.state.openPopUpPrescription} handleClose={this.closePopUpPrescription}/>
+                  <PopUpPrescription open={this.state.openPopUpPrescription} handleNext={this.handleNextAndClosePopUp} handleClose={this.closePopUpPrescription}/>
                 </div>
 
             </div>

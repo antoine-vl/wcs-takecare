@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import { Button } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
@@ -34,6 +35,7 @@ class FormulaireRecap extends Component {
         this.state = {  
             count: 0,
             anchorEl: null,
+            popUpHelpPriceOpen: false,
 
             orderData: {
                 clientAdress: {
@@ -92,6 +94,20 @@ class FormulaireRecap extends Component {
     //         paid: false ? false : true
     //     });
     //   };
+
+    popUpHelpPriceOpen = () => {
+        this.setState({
+            ...this.state, 
+            popUpHelpPriceOpen: true
+        })
+    }
+
+    popUpHelpPriceClose = () => {
+        this.setState({
+            ...this.state, 
+            popUpHelpPriceOpen: false
+        })
+    }
 
     handlePopoverOpen = event => {
         this.setState({
@@ -212,34 +228,36 @@ class FormulaireRecap extends Component {
                         justifyContent:"space-between",
                         marginTop:"5px"
 
-                    }}>
-                <Typography 
-                    variant="h4" 
-                    align="left" 
+                    }}
                 >
-                Récapitulatif de la commande
-                </Typography>
-                
-                    <Button
+                    <Typography 
+                        variant="h4" 
+                        align="left" 
+                    >
+                        Récapitulatif de la commande
+                    </Typography>
+                    {this.props.displayNewOrder 
+                    ? null
+                    : <Button
                         variant="contained" 
                         style={{
                             backgroundColor: 'rgb(32,173,143)',
-                            
-                        
                         }} 
-                      >
-                    <NavLink
-                        to="/dashboard/orders"
-                        activeClassName="selectedLink"
-                        style={{textDecoration: 'none',color:'#fff'}}>
-                        Retour
-                    </NavLink>
+                    >
+                        <NavLink
+                            to="/dashboard/orders"
+                            activeClassName="selectedLink"
+                            style={{textDecoration: 'none',color:'#fff'}}>
+                            Retour
+                        </NavLink> 
                     </Button>
-            
+                    }
                 </div>
                 <br/>
                 <Grid container spacing={3}>
-                    <Grid container  item xs={12} sm={12} alignItems="center">
+                {this.props.displayNewOrder 
+                ? null
+                :    <Grid container  item xs={12} sm={12} alignItems="center">
                         <div className="commandeStatus">
                             <Typography 
                                 variant="h6" 
@@ -249,13 +267,13 @@ class FormulaireRecap extends Component {
                             >
                                 Status de la commande
                             </Typography>
-
                             <DisplayMarkerStatus 
                                 displayNewOrder={this.props.displayNewOrder} 
                                 orderNumber={this.props.match.params.id_order}
                             />
+                              
                         </div>
-                    </Grid>
+                    </Grid> }
                     <Grid container item xs={12} sm={4} alignContent="center">
                         <div className="containerFormRecap">
                             <Typography className="titleResumeCommande" align="left" variant="h6" style= {{fontWeight:"bold"}}>Adresse client</Typography>
@@ -305,7 +323,7 @@ class FormulaireRecap extends Component {
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <div className="containerFormRecap">
+                        <div className="containerFormRecap" style={{wordWrap: 'break-word', overflow: "auto"}}>
                             <Typography align="left" className="titleResumeCommande" variant="h6" style={{fontWeight:"bold"}}>Autres informations </Typography>
                             <div className="adressResume height">{orderInformation.delivery_comment}</div>
                         </div>
@@ -325,8 +343,12 @@ class FormulaireRecap extends Component {
                             <Grid className="height" style={{fontSize:'0.9rem'}} container spacing={3}>
                                 <Grid item xs={12} sm={9} align="right" className="titlePrixResume">
                                     <p>Sous-total : </p>
-                                    <p>Livraison < HelpOutlineIcon /></p>
-
+                                    <p onMouseOut={this.popUpHelpPriceClose} onMouseOver={this.popUpHelpPriceOpen} >Livraison < HelpOutlineIcon /></p>
+                                    <Snackbar
+                                        anchorOrigin={{ vertical:'bottom', horizontal:'right'}}
+                                        open={this.state.popUpHelpPriceOpen}
+                                        message="Livraison gratuite dès 35,00€"
+                                    />
                                     {/* <Typography
                                         aria-owns={this.open ? 'mouse-over-popover' : undefined}
                                         aria-haspopup="true"

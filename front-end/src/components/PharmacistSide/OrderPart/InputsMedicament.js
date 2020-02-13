@@ -133,8 +133,7 @@ class InputsMedicament extends Component {
                                 name="categorie"
                                 open={this.state.open}
                                 onClose={this.handleClose}
-                                onOpen={this.handleOpen}  
-                                required  
+                                onOpen={this.handleOpen}
                             >
                                 
                                 <MenuItem value={''}></MenuItem>
