@@ -262,23 +262,23 @@ class FormulaireRecap extends Component {
                     <Grid container item xs={12} sm={12} alignContent="center">
                             <Grid item xs={12} sm={6}>
                             <div className="adressResume height">
-                                <Typography style={{float:'left'}}>Facturation</Typography> <br/>
-                                <Typography align="left" style={{fontSize:"10px"}}>{clientAdress.lastname} {clientAdress.firstname}</Typography>
-                                <Typography align="left"style={{fontSize:"10px"}}>{clientAdress.primary_adress.adress}, {clientAdress.primary_adress.street_number}</Typography>
-                                <Typography align="left"style={{fontSize:"10px"}}>{clientAdress.primary_adress.zip_code} - {clientAdress.primary_adress.city}</Typography>
-                                <Typography align="left"style={{fontSize:"10px"}}>{clientAdress.mail}</Typography>
-                                <Typography align="left"style={{fontSize:"10px"}}>{clientAdress.GSM}</Typography>
+                                <Typography style={{float:'left',fontSize:"20px"}}>Facturation</Typography> <br/>
+                                <Typography align="left" style={{fontSize:"15px"}}>{clientAdress.lastname} {clientAdress.firstname}</Typography>
+                                <Typography align="left"style={{fontSize:"15px"}}>{clientAdress.primary_adress.adress}, {clientAdress.primary_adress.street_number}</Typography>
+                                <Typography align="left"style={{fontSize:"15px"}}>{clientAdress.primary_adress.zip_code} - {clientAdress.primary_adress.city}</Typography>
+                                <Typography align="left"style={{fontSize:"15px"}}>{clientAdress.mail}</Typography>
+                                <Typography align="left"style={{fontSize:"15px"}}>{clientAdress.GSM}</Typography>
                             </div>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                              <div className="adressResume height">
-                             <Typography style={{float:'left'}}>Livraison</Typography> <br/>
-                                <Typography align="left" style={{fontSize:"10px"}}>{clientAdress.lastname} {clientAdress.firstname}</Typography>
+                             <Typography style={{float:'left',fontSize:"20px"}}>Livraison</Typography> <br/>
+                                <Typography align="left" style={{fontSize:"15px"}}>{clientAdress.lastname} {clientAdress.firstname}</Typography>
                                 
-                                <Typography align="left"style={{fontSize:"10px"}}>{deliveryAdress.adress}, {deliveryAdress.street_number}</Typography>
-                                <Typography align="left"style={{fontSize:"10px"}}>{deliveryAdress.zip_code } - {deliveryAdress.city}</Typography>
-                                <Typography align="left"style={{fontSize:"10px"}}>{clientAdress.mail}</Typography>
-                                <Typography align="left"style={{fontSize:"10px"}}>{clientAdress.GSM}</Typography>   
+                                <Typography align="left"style={{fontSize:"15px"}}>{deliveryAdress.adress}, {deliveryAdress.street_number}</Typography>
+                                <Typography align="left"style={{fontSize:"15px"}}>{deliveryAdress.zip_code } - {deliveryAdress.city}</Typography>
+                                <Typography align="left"style={{fontSize:"15px"}}>{clientAdress.mail}</Typography>
+                                <Typography align="left"style={{fontSize:"15px"}}>{clientAdress.GSM}</Typography>   
                             </div>
                             </Grid>
                         </Grid>

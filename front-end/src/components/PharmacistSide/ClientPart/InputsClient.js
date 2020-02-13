@@ -205,7 +205,7 @@ class InputsClient extends Component {
 
                   }} 
                 >
-                  Ajouter un nouveau client
+                  Sauvegarder le client
                 </Button>
               </Grid>
 
