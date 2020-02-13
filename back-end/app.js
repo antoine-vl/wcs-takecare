@@ -10,6 +10,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended:  false }));
 app.use(bodyParser.json());
 
+
 /*
 exemple:
 http://localhost:5000/dashboard/orders/?limit=10&offset=5&orderby=name&order=asc
@@ -18,6 +19,8 @@ test:
 http://localhost:5000/dashboard/orders/?orderby=name&order=asc&limit=2&offset=0&
 let sqlQuerry = `${orderSql.GET} ORDER BY ${req.query.orderby} ${req.query.order}`;
 */
+
+
 app.delete("/dashboard/orders/:id", (req, res) => {
   const commande = req.params.id;
   connection.query(
@@ -33,7 +36,7 @@ app.delete("/dashboard/orders/:id", (req, res) => {
   );
 });
 
-app.delete("/dashboard/client:id", (req, res) => {
+app.delete("/dashboard/clients/:id", (req, res) => {
   const client = req.params.id;
   connection.query(
       "DELETE FROM Users WHERE id= ?",
@@ -450,11 +453,12 @@ app.get('/dashboard/clients/:id', (req, res) => {
         zip_code,
         adress,
         city,
-        street_number
+        street_number,
+        secondary_adress_id
       FROM Users AS us
         JOIN Adress AS ad ON ad.id = us.primary_adress_id
         JOIN Roles AS ro ON ro.id = us.roles_id
-      WHERE us.primary_adress_id = ?
+      WHERE us.id = ?
       AND ro.role = 'client'`
 
     const ClientsID = req.params.id
@@ -465,12 +469,169 @@ app.get('/dashboard/clients/:id', (req, res) => {
         res.status(500).send('Erreur lors de la récupération des clients');
       }
       if (results.length === 0) {
-        return res.status(404).send('Clients not found');
+        return res.status(404).json({ 
+            error_message: "client non trouvé", 
+            sql_error: err,
+            sql_result: results});
       }
       return res.json(results);
     });
   }
 });
+
+app.get('/dashboard/clients/:id/secondary_adress', (req, res) => {
+
+  const sql =
+    `SELECT 
+      zip_code,
+      adress,
+      city,
+      street_number
+    FROM Adress AS ad 
+      JOIN Users AS us ON us.secondary_adress_id = ad.id 
+    WHERE us.id = ?`
+
+  const ClientsID = req.params.id
+
+  connection.query(sql, ClientsID, (err, results) => {
+    if (err) {
+      res.status(500).send('Erreur lors de la récupération des clients');
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ 
+          error_message: "adresse non trouvée", 
+          sql_error: err,
+          sql_result: results});
+    }
+    return res.json(results);
+  });
+});
+
+
+
+app.post('/dashboard/clients/:id_client/secondary_adress', (req, res) => {
+
+  console.log("secondary_adress: ", req.body);
+  console.log("id selected client: ", req.params.id_client);
+
+  const sql =
+    `INSERT INTO 
+      Adress (
+        zip_code, 
+        adress, 
+        city, 
+        street_number) 
+    VALUES 
+    ('${req.body.zip_code}', 
+    '${req.body.adress}', 
+    '${req.body.city}', 
+    '${req.body.street_number}');`
+
+  connection.query(sql, (err, results) => {
+    if (err) {
+      console.log('Error of INSERT secondary adress: ', err);
+      res.status(500).json({ 
+        error_message: "Erreur lors de l'ajout d'une adresse secondaire pour le client", 
+        id_client: req.params.id_client,
+        sql_error: err.sqlMessage})
+    }
+    else{
+      console.log('Results ID of INSERT secondary adress:', results);
+      const id_secondary_adress = results.insertId
+
+      const sql = `
+        UPDATE 
+          Users 
+        SET 
+          secondary_adress_id='${id_secondary_adress}' 
+        WHERE 
+          id='${req.params.id_client}';`
+
+      connection.query(sql, (err, results) => {
+        if (err) {
+          console.log('Error of UPDATE secondary adress IN User table: ', err);
+          res.status(500).json({ 
+            error_message: "Erreur lors de la mise a jour de l'adresse secondaire du client", 
+            id_client: req.params.id_client,
+            sql_error: err.sqlMessage})
+        }
+        else{
+          console.log('Results of UPDATE secondary adress IN User table: ', results)
+          res.status(200).json({
+            message: "Adresse de livraison correctement enregistré",
+            sql_result: results});
+        }
+      });
+    }
+  });
+})
+
+app.post('/dashboard/clients', (req, res) => {
+
+  console.log("New client: ", req.body);
+
+  
+  const sql =
+    `INSERT INTO 
+      Adress (
+        zip_code, 
+        adress, 
+        city, 
+        street_number) 
+    VALUES 
+    ('${req.body.primary_adress.zip_code}', 
+    '${req.body.primary_adress.adress}', 
+    '${req.body.primary_adress.city}', 
+    '${req.body.primary_adress.street_number}');`
+  
+  connection.query(sql, (err, results) => {
+    if (err) {
+      console.log('Error of INSERT primary adress of POST new client: ', err);
+      res.status(500).json({ 
+        error_message: "Erreur lors de l'ajout de l'adresse pendant le POST new client", 
+        sql_error: err.sqlMessage})
+    }
+    else{
+      console.log('Results ID of INSERT primary adress of POST new client: ', results.insertId);
+      const id_primary_adress = results.insertId
+
+      const sql = `
+      INSERT INTO 
+      Users (
+        lastname, 
+        firstname, 
+        mail, 
+        GSM,
+        roles_id,
+        primary_adress_id,
+        national_registration_number) 
+      VALUES 
+      ('${req.body.lastname}', 
+      '${req.body.firstname}', 
+      '${req.body.mail}', 
+      '${req.body.GSM}',
+      1,
+      ${id_primary_adress},
+      '${req.body.national_registration_number}');`
+
+      connection.query(sql, (err, results) => {
+        if (err) {
+          console.log('Error of UPDATE secondary adress IN User table: ', err);
+          res.status(500).json({ 
+            error_message: "Erreur lors de l'ajout d'un nouveau client", 
+            id_client: req.params.id_client,
+            sql_error: err.sqlMessage})
+        }
+        else{
+          console.log('Results of UPDATE secondary adress IN User table: ', results)
+          res.status(200).json({
+            message: "Nouveau client correctement enregistré",
+            sql_result: results});
+        }
+      });
+    }
+  });
+})
 
 
 

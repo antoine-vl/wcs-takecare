@@ -37,10 +37,15 @@ class InputsOrders extends Component {
     this.state = {
       orderComplete: true,
       displayNewOrder: true,
+
       openPopUpSendCommandeToCouriier: false,
       openPopUpPrescription: false,
       is_other_adress: false,
 
+      secondary_adress_validate: false,
+      client_added: false,
+
+      validated_steps: [0],
       activePage: {
         activeStep: 0,
       },
@@ -62,16 +67,17 @@ class InputsOrders extends Component {
         pharmaceuticals: [],
 
         clientAdress: {
-          lastname: 'Gingras',
-          firstname: 'Pascaline',
-          mail: 'PascalineGingras@teleworm.us',
-          GSM: '0484950494',
-          national_registration_number: '03058751934',
+          id_client: '',
+          lastname: '',
+          firstname: '',
+          mail: '',
+          GSM: '',
+          national_registration_number: '',
           primary_adress: {
-            adress: 'Rue du Cornet',
-            street_number: '335',
-            zip_code: '6717',
-            city: 'Attert',
+            adress: '',
+            street_number: '',
+            zip_code: '',
+            city: '',
           },
           secondary_adress: {
             adress: '',
@@ -83,6 +89,7 @@ class InputsOrders extends Component {
         },
 
         pharmacistAdress: {
+          id_pharmacist: '',
           lastname: 'Dupuy',
           firstname: 'Georges',
           mail: 'GeorgesDupuy@armyspy.com',
@@ -157,7 +164,70 @@ class InputsOrders extends Component {
     ];
   }
 
+  submitClient = event => {
+    event.preventDefault();
+    console.log('submitClient')
 
+    const dataToPost = this.state.commande.clientAdress;
+    console.log('data new Client: ', dataToPost)
+  
+    axios
+      .post(
+        `http://localhost:5000/dashboard/clients`, 
+        { ...dataToPost }
+      )
+      .then(res =>{
+        console.log('Response: ', res.data.message)
+        console.log('Sql_result: ', res.data.sql_result)
+        console.log('Id_insert: ', res.data.sql_result.insertId)
+
+        this.setState({
+          ...this.state,
+          client_added: true,
+          commande:{
+            ...this.state.commande,
+            clientAdress:{
+              ...this.state.commande.clientAdress,
+              id_client: res.data.sql_result.insertId
+            }
+          }
+        })
+      })
+      
+      .catch(error => {
+        console.error('Error_message: ', error.response.data.error_message)
+        console.error('Id_client: ', error.response.data.id_client)
+        console.error('Sql_error: ', error.response.data.sql_error)
+      })
+      
+  }
+
+  submitLivraisonAdressClient = event => {
+    event.preventDefault();
+
+    const dataToPost = this.state.commande.clientAdress.secondary_adress;
+
+    axios
+      .post(
+        `http://localhost:5000/dashboard/clients/${this.state.commande.clientAdress.id_client}/secondary_adress`, 
+        { ...dataToPost }
+      )
+      .then(res =>{
+        console.log('Response: ', res.data.message)
+        console.log('Sql_result: ', res.data.sql_result)
+
+        this.setState({
+          ...this.state,
+          secondary_adress_validate: true
+        })
+      })
+      
+      .catch(error => {
+        console.error('Error_message: ', error.response.data.error_message)
+        console.error('Id_client: ', error.response.data.id_client)
+        console.error('Sql_error: ', error.response.data.sql_error)
+      })
+  }
 
   /*componentWillUnmount(){
     if(this.state.orderComplete){
@@ -208,9 +278,16 @@ class InputsOrders extends Component {
   }
 
   handleNext = () => {
+    const step_validate = this.state.validated_steps;
+    const next_step = this.state.activePage.activeStep + 1
+
+    step_validate.push(next_step);
+
     this.setState({
+      ...this.state,
+      validated_steps: step_validate,
       activePage: {
-        activeStep: this.state.activePage.activeStep + 1
+        activeStep: next_step
       }
     })
   }
@@ -232,9 +309,16 @@ class InputsOrders extends Component {
   }
 
   handleGoTo = (event, step) => {
+    let step_to_go = step;
+
+    // if the step is not validated, we remain on the current step
+    if(this.state.validated_steps.filter(item => item === step ? true : false ).length === 0){
+      step_to_go = this.state.activePage.activeStep;
+    }
+
     this.setState({
       activePage: {
-        activeStep: step
+        activeStep: step_to_go
       }
     })
   }
@@ -266,6 +350,8 @@ class InputsOrders extends Component {
 
 
   // =*=*=*=*=*=*=*=*=*= Client's Methods =*=*=*=*=*=*=*=*=*= //
+
+  
 
   updateFormClient = event => {
     event.preventDefault();
@@ -323,26 +409,78 @@ class InputsOrders extends Component {
       .then(res => {
         const client = res.data[0];
 
-        this.setState({
-          commande: {
-            ...this.state.commande,
-            clientAdress: {
-              ...this.state.commande.clientAdress,
-              lastname: client.lastname,
-              firstname: client.firstname,
-              mail: client.mail,
-              GSM: client.GSM,
-              national_registration_number: client.national_registration_number,
-              primary_adress: {
-                adress: client.adress,
-                street_number: client.street_number,
-                zip_code: client.zip_code,
-                city: client.city,
+        if(client.secondary_adress_id){
+          axios
+          .get(`http://localhost:5000/dashboard/clients/${value.id}/secondary_adress`)
+          .then(res => {
+            const livraison_adress = res.data[0];
+
+            this.setState({
+              ...this.state,
+              is_other_adress:true,
+
+              commande: {
+                ...this.state.commande,
+
+                clientAdress: {
+                  ...this.state.commande.clientAdress,
+                  id_client: value.id,
+                  lastname: client.lastname,
+                  firstname: client.firstname,
+                  mail: client.mail,
+                  GSM: client.GSM,
+                  national_registration_number: client.national_registration_number,
+
+                  primary_adress: {
+                    adress: client.adress,
+                    street_number: client.street_number,
+                    zip_code: client.zip_code,
+                    city: client.city,
+                  },
+
+                  secondary_adress: {
+                    adress: livraison_adress.adress,
+                    street_number: livraison_adress.street_number,
+                    zip_code: livraison_adress.zip_code,
+                    city: livraison_adress.city,
+                  }
+                }
+              }
+            });
+          });
+        }
+        else{
+          this.setState({
+            ...this.state,
+            commande: {
+              ...this.state.commande,
+              
+              clientAdress: {
+                ...this.state.commande.clientAdress,
+                id_client: value.id,
+                lastname: client.lastname,
+                firstname: client.firstname,
+                mail: client.mail,
+                GSM: client.GSM,
+                national_registration_number: client.national_registration_number,
+
+                primary_adress: {
+                  adress: client.adress,
+                  street_number: client.street_number,
+                  zip_code: client.zip_code,
+                  city: client.city,
+                },
+
+                secondary_adress: {
+                  adress: '',
+                  street_number: '',
+                  zip_code: '',
+                  city: '',
+                }
               }
             }
-          }
-        });
-
+          });
+        }
       })
     }
   }
@@ -450,8 +588,8 @@ class InputsOrders extends Component {
       medicament.categorie === 'RX' 
       ? isDontRx = false
       : null
-   )
-   return isDontRx
+    )
+    return isDontRx
   }
 
   openPopUpPrescription = () => {
@@ -521,6 +659,41 @@ class InputsOrders extends Component {
     alert('Il est impossible d\'uploader une image pour le moment')
   }
 
+  gestionDuSuivant = (event, stepindex) => {
+    
+    switch (stepindex){
+      case 0:
+        if(this.state.commande.clientAdress.id_client){
+          if(this.state.is_other_adress){
+            if(this.state.secondary_adress_validate){
+              return this.handleNext()
+            }
+            else{
+              console.log('Adresse de livraison incomplète!')
+            }
+          }
+          else{
+            return this.handleNext()
+          }
+        }
+        else{
+          console.log('Donnée du client incomplète!')
+        }
+      break;
+
+      case 1:
+        if(this.dontPrescription()){
+          return this.openPopUpPrescription()
+        }
+        else{
+          return this.handleNext()
+        }
+
+      default:
+        return this.handleNext()
+    }
+  }
+
 
 
   // =*=*=*=*=*=*=*=*=*= Render's =*=*=*=*=*=*=*=*=*= //
@@ -535,11 +708,15 @@ class InputsOrders extends Component {
     const propsClientInputs = {
       currentClient: this.state.commande.clientAdress,
       is_other_adress: this.state.is_other_adress,
+      secondary_adress_validate: this.state.secondary_adress_validate,
       updateFormClient: event => this.updateFormClient(event),
       updateAdressFormClient: event => this.updateAdressFormClient(event),
       updateSecondaryAdressFormClient: event => this.updateSecondaryAdressFormClient(event),
       checkboxChange: () => this.checkboxChange(),
-      selectClient: (event, value) => this.selectClient(event, value)
+      selectClient: (event, value) => this.selectClient(event, value),
+      submitClient: (event) => this.submitClient(event),
+      submitLivraisonAdressClient: (event) => this.submitLivraisonAdressClient(event),
+      //addUser: (event) => this.addUser(event),
     }
 
     //props step 2 - medicaments
@@ -568,7 +745,9 @@ class InputsOrders extends Component {
       currentOtherInfos: this.state.commande.orderInformation
     }
 
-    console.log('STATE :', this.state)
+    console.log('STATE secondary_adress_validate : ', this.state.secondary_adress_validate)
+    console.log('STATE id_client : ', this.state.commande.clientAdress.id_client)
+    console.log('STATE activeStep : ', this.state.activePage.activeStep)
 
     return (
       <div className="f">
@@ -664,10 +843,10 @@ class InputsOrders extends Component {
                 :<Button 
                   variant="contained" 
                   color="primary" 
-                  onClick=
-                          {this.state.activePage.activeStep === 1 && this.dontPrescription() 
-                          ? this.openPopUpPrescription
-                          : this.handleNext }
+                  onClick={(event, step) => this.gestionDuSuivant(event, this.state.activePage.activeStep)}
+                          //{this.state.activePage.activeStep === 1 && this.dontPrescription() 
+                          //? this.openPopUpPrescription
+                          //: this.handleNext }
                   >
                     Suivant
                 </Button> 
@@ -689,18 +868,18 @@ class InputsOrders extends Component {
                     style={{margin:'30px'}}
                     variant="contained" 
                     color="primary" 
-                    onClick={this.handleClickOpen}>
+                    onClick={this.handleClickOpen}
+                  >
                     Envoyer la commande au livreur
                   </Button>
-                  <div>
-                    <PopUpSendCommandeToCouriier open={this.state.openPopUpSendCommandeToCouriier} handleClose={this.handleClose}/>
-                  </div>
+
+                  <PopUpSendCommandeToCouriier open={this.state.openPopUpSendCommandeToCouriier} handleClose={this.handleClose}/>
                 </>
                 :null
                 }
                 <div>
                     <PopUpPrescription open={this.state.openPopUpPrescription} handleClose={this.closePopUpPrescription}/>
-                  </div>
+                </div>
 
             </div>
           </div>

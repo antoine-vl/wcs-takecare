@@ -48,9 +48,13 @@ class ViewClient extends Component {
         axios
             .get(`http://localhost:5000/dashboard/clients/${this.idClient}`)
             .then(res => {
+              console.log('Résultat :', res.data[0])
               this.setState({
                 user: res.data[0]
               })
+            })
+            .catch(error => {
+              console.error('Error_message: ', error.response.data)
             })
       }
 
