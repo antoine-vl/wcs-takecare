@@ -108,6 +108,7 @@ export default function Dashboard(props) {
         </div>
 
         <Divider />
+
         <List>
           <Link style={{textDecoration: 'none'}} to={`${match.url}/client`} >
             <ListItem button key ="Client">
@@ -139,24 +140,6 @@ export default function Dashboard(props) {
           </Link>
         </List>
 
-        {/* <List>
-          <NavLink  activeClassName="active" to={`${match.url}/SearchBarClients`} > 
-            <ListItem button>
-              <ListItemIcon><DescriptionIcon /></ListItemIcon>
-              <ListItemText primary="SearchBarClients"/>
-            </ListItem>
-          </NavLink>
-        </List> */}
-
-        {/* <List>
-          <NavLink  activeClassName="active" to={`${match.url}/test-DisplayCurrentStatus`} > 
-            <ListItem button>
-              <ListItemIcon><DescriptionIcon /></ListItemIcon>
-              <ListItemText primary="test-DisplayCurrentStatus"/>
-            </ListItem>
-          </NavLink>
-        </List> */}
-
       </Drawer>
       
       <div className={classes.content}>
@@ -181,19 +164,7 @@ export default function Dashboard(props) {
             path={`${match.path}/new-order`}
             render={props => <InputsOrders {...props} />}
           />
-
-          <Route 
-            path={`${match.path}/SearchBarClients`}
-            render={props => <SearchBarClients {...props} />}
-          />
-
-          <Route 
-            path={`${match.path}/test-DisplayCurrentStatus`}
-            render={props => <DisplayCurrentStatus {...props} />}
-          />  
         </Switch>
-        
-        {/* <OrderPart {...props} /> */}
 
       </div>  
     </div>

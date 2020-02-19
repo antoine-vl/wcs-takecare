@@ -73,7 +73,7 @@ class AfficheCommande extends Component {
       'Prénom',
       'Nom',
       'Date de status',
-      'Status'
+      'Statuts'
     ]
 
     this.status = [{

@@ -343,7 +343,7 @@ class FormulaireRecap extends Component {
                             <Grid className="height" style={{fontSize:'0.9rem'}} container spacing={3}>
                                 <Grid item xs={12} sm={9} align="right" className="titlePrixResume">
                                     <p>Sous-total : </p>
-                                    <p onMouseOut={this.popUpHelpPriceClose} onMouseOver={this.popUpHelpPriceOpen} >Livraison < HelpOutlineIcon /></p>
+                                    <p onMouseOut={this.popUpHelpPriceClose} onMouseOver={this.popUpHelpPriceOpen} >Livraison < HelpOutlineIcon />:</p>
                                     <Snackbar
                                         anchorOrigin={{ vertical:'bottom', horizontal:'right'}}
                                         open={this.state.popUpHelpPriceOpen}

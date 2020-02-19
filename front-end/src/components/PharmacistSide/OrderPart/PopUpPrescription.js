@@ -27,7 +27,7 @@ class PopUpPrescription extends Component {
                         <DialogContentText id="alert-dialog-description">
                             Aucun de vos médicaments n'a besoin d'une prescription,
                             le livreur ne vous retournera pas de prescription.<br/><br/>
-                            Êtes-vous sûr ?
+                            Êtes-vous sûr(e) ?
 
                         </DialogContentText>
                     </DialogContent>
@@ -36,7 +36,7 @@ class PopUpPrescription extends Component {
                             Annuler
                         </Button>
                         <Button color="primary" autoFocus onClick={this.props.handleNext}>
-                            Oui, je suis sûr
+                            Oui, je suis sûr(e)
                         </Button>
                     </DialogActions>
                 </Dialog>

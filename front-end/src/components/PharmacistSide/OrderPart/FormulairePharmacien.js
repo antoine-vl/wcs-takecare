@@ -41,7 +41,7 @@ class FormulairePharmacien extends Component {
       return ( 
         <form>
           <Typography variant="h5" align="left" >Adresse de la pharmacie</Typography>
-          <Typography align="left" gutterBottom >Veuillez entrer l'adresse de la pharmacie. Ce sera l'adresse de départ pour le coursier de Couriier</Typography>
+          <Typography align="left" gutterBottom >Veuillez entrer l'adresse de la pharmacie. Cette adresse servira d'adresse de depart pour le coursier.</Typography>
 
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>

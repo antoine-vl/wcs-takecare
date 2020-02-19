@@ -167,7 +167,7 @@ class DisplayCurrentStatus extends Component {
                         padding: 10,
                         margin: 10,
                         boxShadow: '2px 2px 4px rgba(0,0,0,0.7)',
-                        borderRadius:'20px',  
+                        borderRadius:'2px',  
                     }}
                 >
                     <Typography

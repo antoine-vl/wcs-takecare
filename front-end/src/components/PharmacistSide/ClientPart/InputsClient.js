@@ -59,11 +59,34 @@ class InputsClient extends Component {
               >
               <Grid item xs={12} sm={6}>
                 <Typography variant="h5" align="left" >Adresse du client</Typography>
-                <Typography align="left" gutterBottom >Veuillez entrer l'adresse du client. Ce sera l'adresse d'arrivé de la livraison de Couriier</Typography>
+                <Typography align="left" gutterBottom >Veuillez entrez l'adresse du client. Cette adresse servira d'adresse de livraison via Couriier.</Typography>
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                <SearchBarClient selectClient={selectClient}/>
+                <Grid
+                  container
+                  alignItems="center"
+                >
+                  <SearchBarClient selectClient={selectClient}/>
+
+                  <Button
+                    disabled = {false ? true : false }
+                    variant="contained" 
+                    style={{
+                        backgroundColor: 'rgb(32,173,143)', 
+                        color:'#fff',
+                        marginLeft: '20px',
+                        visibility: 'hidden'
+                    }} 
+                  >
+                    Déselectionner
+                  </Button>
+                </Grid>
+                
+              </Grid>
+
+              <Grid item xs={12} sm={3} >
+               
               </Grid>
             </Grid>
 
@@ -107,6 +130,7 @@ class InputsClient extends Component {
                     id="mail"
                     label="Email"
                     fullWidth
+                    type="email"
                     required
                     inputProps={{
                       style: { textAlign: "left", paddingLeft: "3px" }
@@ -167,6 +191,7 @@ class InputsClient extends Component {
                     id="street_number"
                     label="Numéro"
                     fullWidth
+                    type="tel"
                     required
                     inputProps={{
                       style: { textAlign: "left", paddingLeft: "3px" }
@@ -180,7 +205,7 @@ class InputsClient extends Component {
                     onChange={(e) => updateAdressFormClient(e)}
                     required
                     id="zip_code"
-                    label="Code postale"
+                    label="Code postal"
                     fullWidth
                     required
                     inputProps={{
@@ -291,7 +316,7 @@ class InputsClient extends Component {
                       onChange={(e) => updateSecondaryAdressFormClient(e)}
                       required
                       id="zip_code"
-                      label="Code postale"
+                      label="Code postal"
                       fullWidth
                       required
                       inputProps={{

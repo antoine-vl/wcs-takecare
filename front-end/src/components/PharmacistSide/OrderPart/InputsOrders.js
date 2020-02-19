@@ -13,6 +13,8 @@ import StepLabel from '@material-ui/core/StepLabel';
 import StepButton from '@material-ui/core/StepButton'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 // COMPONENTS
 import FormulaireMedicament from './FormulaireMedicament';
@@ -35,6 +37,10 @@ class InputsOrders extends Component {
     super(props);
 
     this.state = {
+      openSnack: false,
+      messageSnack: '',
+      typeOfSnack: '',
+
       orderComplete: true,
       displayNewOrder: true,
 
@@ -67,7 +73,7 @@ class InputsOrders extends Component {
         pharmaceuticals: [],
 
         clientAdress: {
-          id_client: '',
+          id_client: null,
           lastname: '',
           firstname: '',
           mail: '',
@@ -89,7 +95,7 @@ class InputsOrders extends Component {
         },
 
         pharmacistAdress: {
-          id_pharmacist: '',
+          id_pharmacist: 38,
           lastname: 'Dupuy',
           firstname: 'Georges',
           mail: 'GeorgesDupuy@armyspy.com',
@@ -97,44 +103,21 @@ class InputsOrders extends Component {
           pharmacy_name: 'Reine Pharma Bvba-Sprl',
           primary_adress: {
             adress: 'Rue de la Montagne',
-            street_number: '25',
-            zip_code: '1000',
+            street_number: 25,
+            zip_code: 1000,
             city: 'Bruxelles'
           }
         },
 
         orderInformation: {
-          receipt: '',
+          receipt: 'path or url of picture of receipt',
           delivery_comment: '',
           order_number: '',
           paid: false,
-          prescription: false
+          prescription: true
         }
       }
     }
-
-    this.testMedicaments = [
-      {
-        name:'medoc1',
-        price:'10',
-        quantity:'2'
-      },
-      {
-        name:'medoc2',
-        price:'5',
-        quantity:'3'
-      },
-      {
-        name:'medoc3',
-        price:'9',
-        quantity:'1'
-      },
-      {
-        name:'medoc4',
-        price:'18',
-        quantity:'20'
-      },
-    ]
 
     this.steps = [{
         name: 'Informations du client',
@@ -142,7 +125,7 @@ class InputsOrders extends Component {
         step: 0
       },
       {
-        name: 'Liste des médiaments',
+        name: 'Liste des médicaments',
         path: 'medicaments',
         step: 1
       },
@@ -152,7 +135,7 @@ class InputsOrders extends Component {
         step: 2
       },
       {
-        name: 'Informations Supplémentaires',
+        name: 'Informations supplémentaires',
         path: 'autre',
         step: 3
       },
@@ -174,6 +157,57 @@ class InputsOrders extends Component {
 
 
   // =*=*=*=*=*=*=*=*=*= Gestion of the InputsOrders =*=*=*=*=*=*=*=*=*= //
+
+  saveNewOrder = () => {
+    const now = new Date;
+    const year = now.getFullYear().toString().substring(2);
+    let month = now.getMonth()+1;
+    month = month.toString();
+    const day = now.getDate().toString();
+    const hour = now.getHours().toString();
+    const minute = now.getMinutes().toString();
+
+    const order_number = `${year}${month}${day}${hour}${minute}${this.generateUniqueId()}`;
+
+    const dataToPost = {
+      id_client: this.state.commande.clientAdress.id_client,
+      id_pharmacist: this.state.commande.pharmacistAdress.id_pharmacist,
+      pharmaceuticals: this.state.commande.pharmaceuticals,
+      orderInformation: {
+        ...this.state.commande.orderInformation,
+        order_number: order_number
+      }
+    }
+
+    console.log('data new Order: ', dataToPost)
+    
+    axios
+      .post(
+        `http://localhost:5000/dashboard/orders`, 
+        { ...dataToPost }
+      )
+      .then(res =>{
+        
+        this.setState({
+          ...this.state,
+          openSnack: true,
+          messageSnack: `${res.data.message} // numéro: ${res.data.order_number}`,
+          typeOfSnack: 'success',
+        })
+        
+      })
+      
+      .catch(error => {
+        console.error('Error_message: ', error.response.data)
+
+        this.setState({
+          ...this.state,
+          openSnack: true,
+          messageSnack: `${error.response.data.error_message}`,
+          typeOfSnack: 'error',
+        })
+      })
+  }
 
   getStepContent = (stepIndex, match) => {
     switch (stepIndex) {
@@ -211,14 +245,69 @@ class InputsOrders extends Component {
         return 'Unknown stepIndex';
     }
   }
-  handleNextAndClosePopUp = () => {
+
+  gestionDuSuivant = (event, stepindex) => {
+    
+    switch (stepindex){
+      case 0:
+        if(this.state.commande.clientAdress.id_client){
+          if(this.state.is_other_adress){
+            if(this.state.secondary_adress_validate){
+              return this.handleNext()
+            }
+            else{
+              console.log('Adresse de livraison incomplète!')
+            }
+          }
+          else{
+            return this.handleNext()
+          }
+        }
+        else{
+          console.log('Donnée du client incomplète!')
+        }
+      break;
+
+      case 1:
+        if(this.dontPrescription()){
+          return this.openPopUpPrescription()
+        }
+        else{
+          return this.handleNext()
+        }
+
+      default:
+        return this.handleNext()
+    }
+  }
+
+  generateUniqueId = () => {
+    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+  }
+
+  handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
     this.setState({
-      activePage: {
-        activeStep: this.state.activePage.activeStep + 1
-      }
+      ...this.state,
+      openSnack: false
     })
+  };
+
+  continueWithoutPrescription = () => {
+    this.handleNext();
     this.setState ({
+      ...this.state,
       openPopUpPrescription : false,
+      commande:{
+        ...this.state.commande,
+        orderInformation:{
+          ...this.state.commande.orderInformation,
+          prescription: false,
+        }
+      }
     })
   }
 
@@ -280,13 +369,13 @@ class InputsOrders extends Component {
     }))
   };
 
-  handleClickOpen = () => {
+  handleClickOpenPopUpCouriier = () => {
     this.setState ({
       openPopUpSendCommandeToCouriier : true,
     })
   };
 
-  handleClose = () => {
+  handleCloseOpenPopUpCouriier = () => {
     this.setState ({
       openPopUpSendCommandeToCouriier : false,
     })
@@ -309,27 +398,37 @@ class InputsOrders extends Component {
         { ...dataToPost }
       )
       .then(res =>{
-        console.log('Response: ', res.data.message)
-        console.log('Sql_result: ', res.data.sql_result)
-        console.log('Id_insert: ', res.data.sql_result.insertId)
 
+        console.log('Res POST: ', res)
+        
         this.setState({
           ...this.state,
+          openSnack: true,
+          messageSnack: `${res.data.message}`,
+          typeOfSnack: 'success',
+
           client_added: true,
           commande:{
             ...this.state.commande,
+
             clientAdress:{
               ...this.state.commande.clientAdress,
+
               id_client: res.data.sql_result.insertId
             }
           }
         })
+        
       })
       
       .catch(error => {
-        console.error('Error_message: ', error.response.data.error_message)
-        console.error('Id_client: ', error.response.data.id_client)
         console.error('Sql_error: ', error.response.data.sql_error)
+        this.setState({
+          ...this.state,
+          openSnack: true,
+          messageSnack: `${error.response.data.error_message}`,
+          typeOfSnack: 'error',
+        })
       })
       
   }
@@ -521,6 +620,7 @@ class InputsOrders extends Component {
     if (this.state.medicament.isEdit) {
       const newMedicaments = [...this.state.commande.pharmaceuticals]
       newMedicaments[this.state.medicament.idEdit] = this.state.medicament;
+
       this.setState({
         commande: {
           ...this.state.commande,
@@ -531,7 +631,12 @@ class InputsOrders extends Component {
 
     // CREATE MEDOC
     else {
-      const newMedicaments = [...this.state.commande.pharmaceuticals, this.state.medicament]
+      // Generate random (potentialy unique, but ...) ID for Database
+      let medicament = this.state.medicament;
+      medicament.id = this.generateUniqueId() + medicament.id;
+
+      const newMedicaments = [...this.state.commande.pharmaceuticals, medicament]
+
       this.setState({
         commande: {
           ...this.state.commande,
@@ -591,7 +696,6 @@ class InputsOrders extends Component {
   }
 
   dontPrescription = () => {
-    console.log(this.state.commande.pharmaceuticals)
     let isDontRx = true
     this.state.commande.pharmaceuticals.map((medicament, index) =>
       medicament.categorie === 'RX' 
@@ -668,44 +772,9 @@ class InputsOrders extends Component {
     alert('Il est impossible d\'uploader une image pour le moment')
   }
 
-  gestionDuSuivant = (event, stepindex) => {
-    
-    switch (stepindex){
-      case 0:
-        if(this.state.commande.clientAdress.id_client){
-          if(this.state.is_other_adress){
-            if(this.state.secondary_adress_validate){
-              return this.handleNext()
-            }
-            else{
-              console.log('Adresse de livraison incomplète!')
-            }
-          }
-          else{
-            return this.handleNext()
-          }
-        }
-        else{
-          console.log('Donnée du client incomplète!')
-        }
-      break;
-
-      case 1:
-        if(this.dontPrescription()){
-          return this.openPopUpPrescription()
-        }
-        else{
-          return this.handleNext()
-        }
-
-      default:
-        return this.handleNext()
-    }
-  }
 
 
-
-  // =*=*=*=*=*=*=*=*=*= Render's =*=*=*=*=*=*=*=*=*= //
+  // =*=*=*=*=*=*=*=*=*= Render =*=*=*=*=*=*=*=*=*= //
 
   render() {
     //props router
@@ -725,7 +794,6 @@ class InputsOrders extends Component {
       selectClient: (event, value) => this.selectClient(event, value),
       submitClient: (event) => this.submitClient(event),
       submitLivraisonAdressClient: (event) => this.submitLivraisonAdressClient(event),
-      //addUser: (event) => this.addUser(event),
     }
 
     //props step 2 - medicaments
@@ -754,9 +822,14 @@ class InputsOrders extends Component {
       currentOtherInfos: this.state.commande.orderInformation
     }
 
-    console.log('STATE secondary_adress_validate : ', this.state.secondary_adress_validate)
-    console.log('STATE id_client : ', this.state.commande.clientAdress.id_client)
-    console.log('STATE activeStep : ', this.state.activePage.activeStep)
+    
+    //console.log('STATE commande : ', this.state.commande)
+    
+    //console.log('STATE id_client : ', this.state.commande.clientAdress.id_client)
+
+    console.log('STATE prescription : ', this.state.commande.orderInformation.prescription)
+    
+    //this.saveNewOrder();
 
     return (
       <div className="f">
@@ -773,128 +846,142 @@ class InputsOrders extends Component {
             </Step>
           ))}
         </Stepper>
-      <div>
-      
-      {this.state.activePage.activeStep === this.steps.length ? (
-          <div>
-              <Typography>All steps completed</Typography>
-              <Button onClick={this.handleReset}>Reset</Button>
-          </div>
-        ) : (
-          <div>
 
-            <Typography>{this.getStepContent(this.state.activePage.activeStep, match)}</Typography>
-
-            <Switch>
-
-              <Route 
-                path={`${match.path}/${this.steps[0].path}`}
-                render={(props) => 
-                  <InputsClient 
-                    {...props} 
-                    propsClientInputs={propsClientInputs} 
-                  />}
-              />
-
-              <Route 
-                path={`${match.path}/${this.steps[1].path}`}
-                render={props => 
-                  <FormulaireMedicament 
-                    {...props} 
-                    PFM={propsFormulaireMedicament} 
-                  />}
-              />
-
-              <Route 
-                path={`${match.path}/${this.steps[2].path}`}
-                render={props => 
-                  <FormulairePharmacien 
-                    {...props} 
-                    PFP={propsFormulairePharmacien} 
-                  />}
-              />
-
-              <Route 
-                path={`${match.path}/${this.steps[3].path}`}
-                render={props => 
-                  <FormulaireSupplementaire 
-                    {...props} 
-                    PFO={propsFormulaireAutre} 
-                  />}
-              />
-
-              <Route 
-                path={`${match.path}/${this.steps[4].path}`}
-                render={props => 
-                  <FormulaireRecap 
-                    {...props} 
-                    recap={this.state.commande} 
-                    displayNewOrder={this.state.displayNewOrder} 
-                    isPaid={this.handleChangeIsPaid} 
-                  />}
-              />
-
-            </Switch>
-
-            
+        <div>
+        
+        {this.state.activePage.activeStep === this.steps.length ? (
             <div>
-              <Button
-                style={{margin:'30px'}}
-                disabled={this.state.activePage.activeStep === 0}
-                onClick={this.handleBack}
-              >
-                Précédent
-              </Button>
+                <Typography>All steps completed</Typography>
+                <Button onClick={this.handleReset}>Reset</Button>
+            </div>
+          ) : (
+            <div>
+
+              <Typography>{this.getStepContent(this.state.activePage.activeStep, match)}</Typography>
+
+              <Switch>
+
+                <Route 
+                  path={`${match.path}/${this.steps[0].path}`}
+                  render={(props) => 
+                    <InputsClient 
+                      {...props} 
+                      propsClientInputs={propsClientInputs} 
+                    />}
+                />
+
+                <Route 
+                  path={`${match.path}/${this.steps[1].path}`}
+                  render={props => 
+                    <FormulaireMedicament 
+                      {...props} 
+                      PFM={propsFormulaireMedicament} 
+                    />}
+                />
+
+                <Route 
+                  path={`${match.path}/${this.steps[2].path}`}
+                  render={props => 
+                    <FormulairePharmacien 
+                      {...props} 
+                      PFP={propsFormulairePharmacien} 
+                    />}
+                />
+
+                <Route 
+                  path={`${match.path}/${this.steps[3].path}`}
+                  render={props => 
+                    <FormulaireSupplementaire 
+                      {...props} 
+                      PFO={propsFormulaireAutre} 
+                    />}
+                />
+
+                <Route 
+                  path={`${match.path}/${this.steps[4].path}`}
+                  render={props => 
+                    <FormulaireRecap 
+                      {...props} 
+                      recap={this.state.commande} 
+                      displayNewOrder={this.state.displayNewOrder} 
+                      isPaid={this.handleChangeIsPaid} 
+                    />}
+                />
+
+              </Switch>
 
               
-                {this.state.activePage.activeStep === 4 
-                ? null 
-                :<Button 
-                  variant="contained" 
-                  color="primary" 
-                  onClick={(event, step) => this.gestionDuSuivant(event, this.state.activePage.activeStep)}
-                          //{this.state.activePage.activeStep === 1 && this.dontPrescription() 
-                          //? this.openPopUpPrescription
-                          //: this.handleNext }
-                  >
-                    Suivant
-                </Button> 
-                }
+              <div>
+                <Button
+                  style={{margin:'30px'}}
+                  disabled={this.state.activePage.activeStep === 0}
+                  onClick={this.handleBack}
+                >
+                  Précédent
+                </Button>
 
-                {this.state.activePage.activeStep === 4 
-                ?<Button 
-                  variant="contained" 
-                  color="primary" 
-                  >Sauvegarder
-                </Button> 
-                :null
-                }
-
-                {this.state.activePage.activeStep === 4 && this.state.commande.orderInformation.paid === true
-                ?
-                <>
-                  <Button 
-                    style={{margin:'30px'}}
+                
+                  {this.state.activePage.activeStep === 4 
+                  ? null 
+                  :<Button 
                     variant="contained" 
                     color="primary" 
-                    onClick={this.handleClickOpen}
+                    onClick={(event, step) => this.gestionDuSuivant(event, this.state.activePage.activeStep)}
                   >
-                    Envoyer la commande au livreur
-                  </Button>
+                      Suivant
+                  </Button> 
+                  }
 
-                  <PopUpSendCommandeToCouriier open={this.state.openPopUpSendCommandeToCouriier} handleClose={this.handleClose}/>
-                </>
-                :null
-                }
-                <div>
-                  <PopUpPrescription open={this.state.openPopUpPrescription} handleNext={this.handleNextAndClosePopUp} handleClose={this.closePopUpPrescription}/>
-                </div>
+                  {this.state.activePage.activeStep === 4 
+                  ?<Button 
+                    variant="contained" 
+                    color="primary" 
+                    onClick={this.saveNewOrder}
+                  >
+                    Sauvegarder
+                  </Button> 
+                  :null
+                  }
 
+                  {this.state.activePage.activeStep === 4 && this.state.commande.orderInformation.paid === true
+                  ?
+                  <>
+                    <Button 
+                      style={{margin:'30px'}}
+                      variant="contained" 
+                      color="primary" 
+                      onClick={this.handleClickOpenPopUpCouriier}
+                    >
+                      Envoyer la commande au livreur
+                    </Button>
+
+                    <PopUpSendCommandeToCouriier 
+                      open={this.state.openPopUpSendCommandeToCouriier} 
+                      handleClose={this.handleCloseOpenPopUpCouriier}
+                    />
+                  </>
+                  :null
+                  }
+                  <div>
+                    <PopUpPrescription 
+                      open={this.state.openPopUpPrescription} 
+                      handleNext={this.continueWithoutPrescription} 
+                      handleClose={this.closePopUpPrescription}
+                    />
+                  </div>
+
+              </div>
             </div>
-          </div>
-        )
-      }
+          )
+        }
         </div>
+
+        <Snackbar open={this.state.openSnack} autoHideDuration={6000} onClose={this.handleCloseSnack}>
+          <MuiAlert elevation={6} variant="filled" onClose={this.handleCloseSnack} severity={this.state.typeOfSnack} >
+            {this.state.messageSnack}
+          </MuiAlert>
+        </Snackbar>
+
       </div>
     );
   }

@@ -47,7 +47,7 @@ class PopUpSendCommandeToCouriier extends Component {
                         </Button>
                         <Link style={{textDecoration: 'none'}} to={`/dashboard/orders`} >
                             <Button color="primary" autoFocus>
-                                Oui, je suis sûr
+                                Oui, je suis sûr(e)
                             </Button>
                         </Link>
                     </DialogActions>

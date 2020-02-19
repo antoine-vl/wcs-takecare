@@ -281,8 +281,8 @@ class DisplayMarkerStatus extends Component {
                 <ul className='ulMarkerNameStatus'>
                     {status.map((elem, index) => (
                         <div className='divMarkerNameStatus'>
-                            <li className={ elem.dateMarker ? 'liMarkerNameStatus' : 'liMarkerNameStatusNo'}>{elem.markerName}</li>   
-                            {elem.dateMarker ? <li className={ elem.dateMarker ? 'liMarkerNameStatus' : 'liMarkerNameStatusNo'} style={{border:'none'}}><Moment className='pMarkerNameStatus'>{elem.dateMarker}</Moment></li> : null }
+                            <li key={elem.numStatus} className={ elem.dateMarker ? 'liMarkerNameStatus' : 'liMarkerNameStatusNo'}>{elem.markerName}</li>   
+                            {elem.dateMarker ? <li key={`A${elem.numStatus}`} className={ elem.dateMarker ? 'liMarkerNameStatus' : 'liMarkerNameStatusNo'} style={{border:'none'}}><Moment className='pMarkerNameStatus'>{elem.dateMarker}</Moment></li> : null }
                         </div>
                     ))
                     }                 

@@ -6,79 +6,31 @@ const cors = require('cors');
 
 const port = process.env.PORT  ||  5000;
 
+
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended:  false }));
 app.use(bodyParser.json());
 
 
-/*
-exemple:
-http://localhost:5000/dashboard/orders/?limit=10&offset=5&orderby=name&order=asc
 
-test:
-http://localhost:5000/dashboard/orders/?orderby=name&order=asc&limit=2&offset=0&
-let sqlQuerry = `${orderSql.GET} ORDER BY ${req.query.orderby} ${req.query.order}`;
-*/
+// ==================== ORDER ==================== //
 
 
-app.delete("/dashboard/orders/:id", (req, res) => {
-  const commande = req.params.id;
-  connection.query(
-      "DELETE FROM Orders WHERE order_number= ?",
-      [commande],
-      (error, results, fields) => {
-          if (error) {
-              res.status(501).send("couldn't delete order" + error);
-          } else {
-              res.json(commande);
-          }
-      }
-  );
-});
 
-app.delete("/dashboard/clients/:id", (req, res) => {
-  const client = req.params.id;
-  connection.query(
-      "DELETE FROM Users WHERE id= ?",
-      [client],
-      (error, results, fields) => {
-          if (error) {
-              res.status(501).send("couldn't delete client" + error);
-          } else {
-              res.json(client);
-          }
-      }
-  );
-});
+// ********** READ ********** //
+
 
 app.get('/dashboard/orders', (req,res) => {
 
-    /*
-    let sqlQuerry = `
-      SELECT 
-        od.order_number, 
-        us.firstname, 
-        us.lastname, 
-        ohs.date_status, 
-        st.name     
-      FROM Users AS us 
-        JOIN Orders AS od ON od.client_id=us.id
-        JOIN Orders_has_Status AS ohs ON ohs.orders_order_number = od.order_number
-        JOIN Status AS st ON st.id=ohs.status_id
-      `
-    */
-
-    
     let sqlQuerry = `
     SELECT 
       od.order_number, 
       us.firstname, 
       us.lastname    
     FROM Users AS us 
-      JOIN Orders AS od ON od.client_id=us.id
-    `
+      JOIN Orders AS od ON od.client_id=us.id`
     
-
     if(req.query.order){
        sqlQuerry += ` 
         ORDER BY ${req.query.orderby} ${req.query.order} 
@@ -96,7 +48,6 @@ app.get('/dashboard/orders', (req,res) => {
           }
     });
 })
-
 
 app.get('/dashboard/orders/:id', (req, res) => {
 
@@ -123,8 +74,7 @@ app.get('/dashboard/orders/:id', (req, res) => {
       Orders.order_number,
       Orders.delivery_comment
     FROM Orders
-    WHERE Orders.order_number = ?
-    `
+    WHERE Orders.order_number = ?`
 
     connection.query(sqlOrder, orderID, (err, results) => {
       if (err) {
@@ -146,8 +96,7 @@ app.get('/dashboard/orders/:id', (req, res) => {
         Users.GSM
       FROM Users
         JOIN Orders ON Orders.client_id = Users.id
-      WHERE Orders.order_number = ?
-      `
+      WHERE Orders.order_number = ?`
 
       connection.query(sqlClient, orderID, (err, results) => {
         if (err) {
@@ -170,8 +119,7 @@ app.get('/dashboard/orders/:id', (req, res) => {
         FROM Adress
           JOIN Users ON Users.primary_adress_id = Adress.id
           JOIN Orders ON Orders.client_id = Users.id
-        WHERE Orders.order_number = ?
-        `
+        WHERE Orders.order_number = ?`
 
         connection.query(sqlAdressClient, orderID, (err, results) => {
           if (err) {
@@ -193,8 +141,7 @@ app.get('/dashboard/orders/:id', (req, res) => {
             Users.GSM
           FROM Users
             JOIN Orders ON Orders.pharmacist_id = Users.id
-          WHERE Orders.order_number = ?
-          `
+          WHERE Orders.order_number = ?`
 
           connection.query(sqlPharmacist, orderID, (err, results) => {
             if (err) {
@@ -217,8 +164,7 @@ app.get('/dashboard/orders/:id', (req, res) => {
             FROM Adress
               JOIN Users ON Users.primary_adress_id = Adress.id
               JOIN Orders ON Orders.pharmacist_id = Users.id
-            WHERE Orders.order_number = ?
-            `
+            WHERE Orders.order_number = ?`
 
             connection.query(sqlAdressPharmacist, orderID, (err, results) => {
               if (err) {
@@ -241,8 +187,7 @@ app.get('/dashboard/orders/:id', (req, res) => {
               FROM Adress
                 JOIN Users ON Users.secondary_adress_id = Adress.id
                 JOIN Orders ON Orders.client_id = Users.id
-              WHERE Orders.order_number = ?
-              `
+              WHERE Orders.order_number = ?`
 
               connection.query(sqlSecondaryAdressClient, orderID, (err, results) => {
                 if (err) {
@@ -279,10 +224,6 @@ app.get('/dashboard/orders/:id', (req, res) => {
     });
   }
 });
-
-
-
-
 
 app.get('/dashboard/orders/:id/pharmaceuticals', (req, res) => {
 
@@ -390,6 +331,185 @@ app.get('/dashboard/orders/:id/currentstatus', (req, res) => {
 
 });
 
+
+// ********** CREATE ********** //
+
+
+app.post('/dashboard/orders', (req, res) => {
+  console.log('New Order : ', req.body);
+
+  const sql =
+    `INSERT INTO 
+      Orders (
+        order_number, 
+        delivery_comment, 
+        client_id, 
+        pharmacist_id,
+        receipt,
+        prescription,
+        paid) 
+    VALUES 
+    (?, ?, ?, ?, ?, ?, ?);`
+  
+  const data = [
+    req.body.orderInformation.order_number,
+    req.body.orderInformation.delivery_comment,
+    req.body.id_client,
+    req.body.id_pharmacist,
+    req.body.orderInformation.receipt,
+    req.body.orderInformation.prescription,
+    req.body.orderInformation.paid
+  ]
+
+  console.log('sql : ', sql);
+  console.log('data : ', data);
+  
+  connection.query(sql, data, (err, results) => {
+    if (err) {
+      console.log('Error of INSERT new order: ', err);
+      res.status(500).json({ 
+        error_message: "Erreur lors de l'ajout d'une nouvelle commande'", 
+        sql_error: err.sqlMessage})
+    }
+    else{
+      console.log('SUCCESS insert Order: ', results)
+
+      // update status
+      const sql =
+        `INSERT INTO 
+          Orders_has_Status (
+            orders_order_number, 
+            status_id) 
+        SELECT 
+          od.order_number, 
+          Status.id
+        FROM 
+          Orders AS od, 
+          Status
+        WHERE 
+          od.order_number = ?
+        AND 
+          Status.id = '1';`
+      
+      const data = [
+        req.body.orderInformation.order_number]
+
+      connection.query(sql, data, (err, results) => {
+        if (err) {
+          console.log('Error of INSERT status of new order: ', err);
+          res.status(500).json({ 
+            error_message: "Erreur lors de l'ajout du status d'une nouvelle commande", 
+            sql_error: err.sqlMessage})
+        }
+        else{
+          console.log('SUCCESS update Status: ', results)
+
+          // insert pharmaceuticals
+          req.body.pharmaceuticals.map(medoc => {
+            const sql =
+              `INSERT INTO 
+                Pharmaceuticals (
+                  id_medicament, 
+                  name, 
+                  comment, 
+                  category,
+                  price) 
+              VALUES 
+              (?, ?, ?, ?, ?);`
+            
+            const data = [
+              medoc.id,
+              medoc.name,
+              medoc.comment,
+              medoc.categorie,
+              medoc.price
+            ]
+
+            connection.query(sql, data, (err, results) => {
+              if (err) {
+                console.log('Error of INSERT pharmaceutical of new order: ', err);
+                res.status(500).json({ 
+                  error_message: "Erreur lors de l'ajout d'un médicament d'une nouvelle commande", 
+                  sql_error: err.sqlMessage})
+              }
+              else{
+                console.log('SUCCESS insert Medoc: ', results)
+
+                // join pharmaceuticals with order
+                const sql =
+                  `INSERT INTO 
+                  Orders_has_Pharmaceuticals (
+                    orders_order_number, 
+                    pharmaceuticals_id_medicament,
+                      quantity) 
+                  SELECT 
+                    od.order_number, 
+                    ph.id_medicament,
+                    ?
+                  FROM 
+                    Orders AS od, 
+                    Pharmaceuticals AS ph
+                  WHERE 
+                    od.order_number = ?
+                  AND 
+                    ph.id_medicament = ?;`
+                
+                const data = [
+                  medoc.quantity,
+                  req.body.orderInformation.order_number,
+                  medoc.id
+                ]
+
+                connection.query(sql, data, (err, results) => {
+                  if (err) {
+                    console.log('Error of INSERT status of new order: ', err);
+                    res.status(500).json({ 
+                      error_message: "Erreur lors de l'ajout du status d'une nouvelle commande", 
+                      sql_error: err.sqlMessage})
+                  }
+                  else{
+                    console.log('SUCCESS associate Medoc to new order: ', results)
+                  }
+                })
+              }
+            })
+          })
+
+          res.status(200).json({
+            message: "Nouvelle commande enregistré",
+            order_number: req.body.orderInformation.order_number});
+        }
+      })
+    }
+  })
+});
+
+
+// ********** DELETE ********** //
+
+
+app.delete("/dashboard/orders/:id", (req, res) => {
+  const commande = req.params.id;
+  connection.query(
+      "DELETE FROM Orders WHERE order_number= ?",
+      [commande],
+      (error, results, fields) => {
+          if (error) {
+              res.status(501).send("couldn't delete order" + error);
+          } else {
+              res.json(commande);
+          }
+      }
+  );
+});
+
+
+
+// ==================== CLIENT ==================== //
+
+
+
+// ********** READ ********** //
 
 
 app.get('/dashboard/clients', (req,res) => {
@@ -508,6 +628,8 @@ app.get('/dashboard/clients/:id/secondary_adress', (req, res) => {
 });
 
 
+// ********** CREATE ********** //
+
 
 app.post('/dashboard/clients/:id_client/secondary_adress', (req, res) => {
 
@@ -521,13 +643,16 @@ app.post('/dashboard/clients/:id_client/secondary_adress', (req, res) => {
         adress, 
         city, 
         street_number) 
-    VALUES 
-    ('${req.body.zip_code}', 
-    '${req.body.adress}', 
-    '${req.body.city}', 
-    '${req.body.street_number}');`
+    VALUES (?, ?, ?, ?);`
 
-  connection.query(sql, (err, results) => {
+  const data = [
+    req.body.zip_code,
+    req.body.adress,
+    req.body.city,
+    req.body.street_number
+  ]
+
+  connection.query(sql, data, (err, results) => {
     if (err) {
       console.log('Error of INSERT secondary adress: ', err);
       res.status(500).json({ 
@@ -543,11 +668,16 @@ app.post('/dashboard/clients/:id_client/secondary_adress', (req, res) => {
         UPDATE 
           Users 
         SET 
-          secondary_adress_id='${id_secondary_adress}' 
+          secondary_adress_id=? 
         WHERE 
-          id='${req.params.id_client}';`
+          id=?;`
 
-      connection.query(sql, (err, results) => {
+      const data = [
+        id_secondary_adress,
+        req.params.id_client
+      ]
+
+      connection.query(sql, data, (err, results) => {
         if (err) {
           console.log('Error of UPDATE secondary adress IN User table: ', err);
           res.status(500).json({ 
@@ -570,7 +700,7 @@ app.post('/dashboard/clients', (req, res) => {
 
   console.log("New client: ", req.body);
 
-  
+  // add client adress
   const sql =
     `INSERT INTO 
       Adress (
@@ -578,21 +708,26 @@ app.post('/dashboard/clients', (req, res) => {
         adress, 
         city, 
         street_number) 
-    VALUES 
-    ('${req.body.primary_adress.zip_code}', 
-    '${req.body.primary_adress.adress}', 
-    '${req.body.primary_adress.city}', 
-    '${req.body.primary_adress.street_number}');`
+    VALUES (?, ?, ?, ?);`
+
+  const data = [
+    req.body.primary_adress.zip_code,
+    req.body.primary_adress.adress,
+    req.body.primary_adress.city,
+    req.body.primary_adress.street_number
+  ]
   
-  connection.query(sql, (err, results) => {
+  connection.query(sql, data, (err, results) => {
     if (err) {
       console.log('Error of INSERT primary adress of POST new client: ', err);
       res.status(500).json({ 
-        error_message: "Erreur lors de l'ajout de l'adresse pendant le POST new client", 
+        error_message: `Erreur lors de l'ajout de l'adresse de ${req.body.firstname} ${req.body.lastname}`, 
         sql_error: err.sqlMessage})
     }
     else{
       console.log('Results ID of INSERT primary adress of POST new client: ', results.insertId);
+
+      // add client
       const id_primary_adress = results.insertId
 
       const sql = `
@@ -606,27 +741,30 @@ app.post('/dashboard/clients', (req, res) => {
         primary_adress_id,
         national_registration_number) 
       VALUES 
-      ('${req.body.lastname}', 
-      '${req.body.firstname}', 
-      '${req.body.mail}', 
-      '${req.body.GSM}',
-      1,
-      ${id_primary_adress},
-      '${req.body.national_registration_number}');`
+      (?, ?, ?, ?, 1, ?, ?);`
 
-      connection.query(sql, (err, results) => {
+      const data = [
+        req.body.lastname,
+        req.body.firstname,
+        req.body.mail,
+        req.body.GSM,
+        id_primary_adress,
+        req.body.national_registration_number
+      ]
+
+      connection.query(sql, data, (err, results) => {
         if (err) {
-          console.log('Error of UPDATE secondary adress IN User table: ', err);
+          console.log('Error of INSERT in User table: ', err);
           res.status(500).json({ 
-            error_message: "Erreur lors de l'ajout d'un nouveau client", 
-            id_client: req.params.id_client,
+            error_message: `Erreur lors de l'ajout de ${req.body.firstname} ${req.body.lastname}`, 
             sql_error: err.sqlMessage})
         }
-        else{
+        else {
           console.log('Results of UPDATE secondary adress IN User table: ', results)
           res.status(200).json({
-            message: "Nouveau client correctement enregistré",
-            sql_result: results});
+            message: `${req.body.firstname} ${req.body.lastname} correctement enregistré`,
+            sql_result: results
+          });
         }
       });
     }
@@ -634,13 +772,33 @@ app.post('/dashboard/clients', (req, res) => {
 })
 
 
+// ********** DELETE ********** //
+
+
+app.delete("/dashboard/clients/:id", (req, res) => {
+  const client = req.params.id;
+  connection.query(
+      "DELETE FROM Users WHERE id= ?",
+      [client],
+      (error, results, fields) => {
+          if (error) {
+              res.status(501).send("couldn't delete client" + error);
+          } else {
+              res.json(client);
+          }
+      }
+  );
+});
+
+
 
 
 app.use(function(req, res, next) {
-    var  err  =  new  Error('Not Found');
-    err.status  =  404;
-    next(err);
+  var  err  =  new  Error('Not Found');
+  err.status  =  404;
+  next(err);
 });
+
 
 app.listen( port, function(){
   console.log(`Server is listening on ${port}`);

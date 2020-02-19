@@ -49,7 +49,7 @@ export class FormulaireSupplementaire extends Component {
             <form>
                 <div className={classes.section1} >
                     <Typography variant="h5" align="left" >Autres informations</Typography>
-                    <Typography align="left" gutterBottom >Vous pouvez ajoutez des informations complémentaires pour la livraison et ajouter la facture</Typography>
+                    <Typography align="left" gutterBottom >Vous pouvez ajouter des informations complémentaires pour la livraison et ajouter la facture.</Typography>
                 </div>
                 
                 <div className={classes.section1} >

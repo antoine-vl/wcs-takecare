@@ -7,6 +7,7 @@ import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 
@@ -37,7 +38,6 @@ export default function SearchBarClients({selectClient}) {
       try {
         const response = await axios.get('http://localhost:5000/dashboard/clients');
         await sleep(1e3); 
-        console.log('Response :', response.data);
         setOptions(response.data);
 
       } catch(error) {
@@ -56,7 +56,9 @@ export default function SearchBarClients({selectClient}) {
     }
   }, [open]);
 
-
+  const onCloseClick = () => {
+    console.log('Je suis dans le close!!!')
+  }
 
   return (
     <Autocomplete
@@ -70,6 +72,11 @@ export default function SearchBarClients({selectClient}) {
         setOpen(false);
       }}
 
+      loadingText="Chargement..."
+      clearText="COUCOU"
+
+      //closeIcon={<CloseIcon fontSize="small" onClick={onCloseClick} />}
+
       getOptionSelected={(option, value) => option.lastname === value.lastname}
       options={options}
       loading={loading}
@@ -81,7 +88,7 @@ export default function SearchBarClients({selectClient}) {
 
         <TextField
           {...params}
-          label="Selection du client"
+          label="Sélection du client"
           fullWidth
           variant="outlined"
           InputProps={{
