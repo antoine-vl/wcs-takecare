@@ -7,7 +7,6 @@ import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import CloseIcon from '@material-ui/icons/Close';
 
 
 
@@ -21,7 +20,8 @@ function sleep(delay = 0) {
   });
 }
 
-export default function SearchBarClients({selectClient}) {
+export default function SearchBarClients({ selectClient }) {
+  
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = useState([]);
   const loading = open && options.length === 0;
@@ -37,7 +37,7 @@ export default function SearchBarClients({selectClient}) {
 
       try {
         const response = await axios.get('http://localhost:5000/dashboard/clients');
-        await sleep(1e3); 
+        await sleep(6e2); 
         setOptions(response.data);
 
       } catch(error) {
@@ -49,16 +49,13 @@ export default function SearchBarClients({selectClient}) {
 
   }, [loading]);
 
-
+  
   useEffect(() => {
     if (!open) {
       setOptions([]);
     }
   }, [open]);
 
-  const onCloseClick = () => {
-    console.log('Je suis dans le close!!!')
-  }
 
   return (
     <Autocomplete
@@ -73,9 +70,8 @@ export default function SearchBarClients({selectClient}) {
       }}
 
       loadingText="Chargement..."
-      clearText="COUCOU"
 
-      //closeIcon={<CloseIcon fontSize="small" onClick={onCloseClick} />}
+      disableClearable
 
       getOptionSelected={(option, value) => option.lastname === value.lastname}
       options={options}
@@ -85,14 +81,13 @@ export default function SearchBarClients({selectClient}) {
       getOptionLabel={option => `${option.lastname} / ${option.firstname} / ${option.GSM}`}
 
       renderInput={params => (
-
         <TextField
           {...params}
           label="Sélection du client"
           fullWidth
           variant="outlined"
-          InputProps={{
 
+          InputProps={{
             ...params.InputProps,
             endAdornment: (
               <React.Fragment>
@@ -103,7 +98,6 @@ export default function SearchBarClients({selectClient}) {
 
           }}
         />
-
       )}
     />
   );

@@ -1,27 +1,33 @@
 import React, { Component } from 'react'
 
 // ROUTER
-import { Redirect, Switch, Route } from 'react-router-dom';
+import { 
+  Redirect, 
+  Switch, 
+  Route 
+} from 'react-router-dom';
 
 //AXIOS
 import axios from 'axios';
 
 // MATERIAL UI
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepButton from '@material-ui/core/StepButton'
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import { 
+  Stepper,
+  Step,
+  StepLabel,
+  StepButton,
+  Button,
+  Typography,
+  Snackbar
+} from '@material-ui/core';
 
 // COMPONENTS
-import FormulaireMedicament from './FormulaireMedicament';
 import InputsClient from '../ClientPart/InputsClient';
-import FormulairePharmacien from './FormulairePharmacien';
-import FormulaireRecap from './FormulaireRecap';
-import FormulaireSupplementaire from './FormulaireSupplementaire';
+import InputsMedication from './InputsMedication';
+import InputsPharmacist from './InputsPharmacist';
+import InputsOtherInformations from './InputsOtherInformations';
+import DisplayOrderInformation from '../OrderPart/DisplayOrderInformation';
 import PopUpSendCommandeToCouriier from './PopUpSendCommandeToCouriier';
 import PopUpPrescription from './PopUpPrescription';
 
@@ -49,7 +55,11 @@ class InputsOrders extends Component {
       is_other_adress: false,
 
       secondary_adress_validate: false,
-      client_added: false,
+      client_selected: false,
+      is_edit_client: false,
+      is_edit_livraison_adress: false,
+
+      client_update_state: false,
 
       validated_steps: [0],
       activePage: {
@@ -147,19 +157,12 @@ class InputsOrders extends Component {
     ];
   }
 
-  /*componentWillUnmount(){
-    if(this.state.orderComplete){
-      alert('Ola manant tu na point fini de remplir la commande!!!')
-      this.setState({orderComplete: true})
-    }
-  }*/
-
 
 
   // =*=*=*=*=*=*=*=*=*= Gestion of the InputsOrders =*=*=*=*=*=*=*=*=*= //
 
   saveNewOrder = () => {
-    const now = new Date;
+    const now = new Date();
     const year = now.getFullYear().toString().substring(2);
     let month = now.getMonth()+1;
     month = month.toString();
@@ -178,8 +181,6 @@ class InputsOrders extends Component {
         order_number: order_number
       }
     }
-
-    console.log('data new Order: ', dataToPost)
     
     axios
       .post(
@@ -212,41 +213,26 @@ class InputsOrders extends Component {
   getStepContent = (stepIndex, match) => {
     switch (stepIndex) {
       case 0:
-        return <Redirect to = {
-          `${match.url}/${this.steps[0].path}`
-        }
-        push /> ;
+        return <Redirect to = {`${match.url}/${this.steps[0].path}`} push /> ;
 
       case 1:
-        return <Redirect to = {
-          `${match.url}/${this.steps[1].path}`
-        }
-        push /> ;
+        return <Redirect to = {`${match.url}/${this.steps[1].path}`} push /> ;
 
       case 2:
-        return <Redirect to = {
-          `${match.url}/${this.steps[2].path}`
-        }
-        push /> ;
+        return <Redirect to = {`${match.url}/${this.steps[2].path}`} push /> ;
 
       case 3:
-        return <Redirect to = {
-          `${match.url}/${this.steps[3].path}`
-        }
-        push /> ;
+        return <Redirect to = {`${match.url}/${this.steps[3].path}`} push /> ;
 
       case 4:
-        return <Redirect to = {
-          `${match.url}/${this.steps[4].path}`
-        }
-        push /> ;
+        return <Redirect to = {`${match.url}/${this.steps[4].path}`} push /> ;
 
       default:
         return 'Unknown stepIndex';
     }
   }
 
-  gestionDuSuivant = (event, stepindex) => {
+  nextManagement = (event, stepindex) => {
     
     switch (stepindex){
       case 0:
@@ -256,7 +242,12 @@ class InputsOrders extends Component {
               return this.handleNext()
             }
             else{
-              console.log('Adresse de livraison incomplète!')
+              this.setState({
+                ...this.state,
+                openSnack: true,
+                messageSnack: `Veuillez entrer une adresse de livraison`,
+                typeOfSnack: 'warning',
+              })
             }
           }
           else{
@@ -264,17 +255,33 @@ class InputsOrders extends Component {
           }
         }
         else{
-          console.log('Donnée du client incomplète!')
+          this.setState({
+            ...this.state,
+            openSnack: true,
+            messageSnack: `Veuillez choisir ou ajouter un client`,
+            typeOfSnack: 'warning',
+          })
         }
       break;
 
       case 1:
-        if(this.dontPrescription()){
-          return this.openPopUpPrescription()
+        if(this.state.commande.pharmaceuticals.length === 0){
+          this.setState({
+            ...this.state,
+            openSnack: true,
+            messageSnack: `Veuillez ajouter un médicament`,
+            typeOfSnack: 'warning',
+          })
         }
         else{
-          return this.handleNext()
+          if(this.dontPrescription()){
+            return this.openPopUpPrescription()
+          }
+          else{
+            return this.handleNext()
+          }
         }
+      break;
 
       default:
         return this.handleNext()
@@ -297,14 +304,27 @@ class InputsOrders extends Component {
   };
 
   continueWithoutPrescription = () => {
-    this.handleNext();
+
+    const step_validate = this.state.validated_steps;
+    const next_step = this.state.activePage.activeStep + 1
+
+    step_validate.push(next_step);
+
     this.setState ({
       ...this.state,
       openPopUpPrescription : false,
+      validated_steps: step_validate,
+
+      activePage: {
+        activeStep: next_step
+      },
+
       commande:{
         ...this.state.commande,
+
         orderInformation:{
           ...this.state.commande.orderInformation,
+
           prescription: false,
         }
       }
@@ -320,6 +340,7 @@ class InputsOrders extends Component {
     this.setState({
       ...this.state,
       validated_steps: step_validate,
+
       activePage: {
         activeStep: next_step
       }
@@ -387,10 +408,8 @@ class InputsOrders extends Component {
 
   submitClient = event => {
     event.preventDefault();
-    console.log('submitClient')
 
     const dataToPost = this.state.commande.clientAdress;
-    console.log('data new Client: ', dataToPost)
   
     axios
       .post(
@@ -398,16 +417,15 @@ class InputsOrders extends Component {
         { ...dataToPost }
       )
       .then(res =>{
-
-        console.log('Res POST: ', res)
-        
         this.setState({
           ...this.state,
+
           openSnack: true,
           messageSnack: `${res.data.message}`,
           typeOfSnack: 'success',
 
-          client_added: true,
+          is_edit_client: false,
+
           commande:{
             ...this.state.commande,
 
@@ -425,9 +443,10 @@ class InputsOrders extends Component {
         console.error('Sql_error: ', error.response.data.sql_error)
         this.setState({
           ...this.state,
+
           openSnack: true,
           messageSnack: `${error.response.data.error_message}`,
-          typeOfSnack: 'error',
+          typeOfSnack: 'error'
         })
       })
       
@@ -444,29 +463,44 @@ class InputsOrders extends Component {
         { ...dataToPost }
       )
       .then(res =>{
-        console.log('Response: ', res.data.message)
-        console.log('Sql_result: ', res.data.sql_result)
-
         this.setState({
           ...this.state,
+
+          openSnack: true,
+          messageSnack: `${res.data.message}`,
+          typeOfSnack: 'success',
+
+          is_edit_client: false,
+
           secondary_adress_validate: true
         })
       })
       
       .catch(error => {
-        console.error('Error_message: ', error.response.data.error_message)
-        console.error('Id_client: ', error.response.data.id_client)
         console.error('Sql_error: ', error.response.data.sql_error)
+        this.setState({
+          ...this.state,
+
+          openSnack: true,
+          messageSnack: `${error.response.data.error_message}`,
+          typeOfSnack: 'error'
+        })
       })
   }
 
   updateFormClient = event => {
     event.preventDefault();
     this.setState({
+      ...this.state,
+
+      is_edit_client: true,
+
       commande: {
         ...this.state.commande,
+
         clientAdress: {
           ...this.state.commande.clientAdress,
+
           [event.target.id]: event.target.value
         }
       }
@@ -476,12 +510,19 @@ class InputsOrders extends Component {
   updateAdressFormClient = event => {
     event.preventDefault();
     this.setState({
+      ...this.state,
+
+      is_edit_client: true,
+
       commande: {
         ...this.state.commande,
+
         clientAdress: {
           ...this.state.commande.clientAdress,
+
           primary_adress: {
             ...this.state.commande.clientAdress.primary_adress,
+
             [event.target.id]: event.target.value
           }
         }
@@ -492,6 +533,10 @@ class InputsOrders extends Component {
   updateSecondaryAdressFormClient = event => {
     event.preventDefault();
     this.setState({
+      ...this.state,
+
+      is_edit_livraison_adress: true,
+
       commande: {
         ...this.state.commande,
         clientAdress: {
@@ -526,6 +571,8 @@ class InputsOrders extends Component {
               ...this.state,
               is_other_adress:true,
               secondary_adress_validate: true,
+              client_selected: true,
+              is_edit_client:false,
 
               commande: {
                 ...this.state.commande,
@@ -560,6 +607,9 @@ class InputsOrders extends Component {
         else{
           this.setState({
             ...this.state,
+            client_selected: true,
+            is_edit_client:false,
+
             commande: {
               ...this.state.commande,
               
@@ -591,6 +641,44 @@ class InputsOrders extends Component {
         }
       })
     }
+  }
+
+  deselectClient = (event) => {
+    this.setState({
+      ...this.state,
+      client_selected: false,
+      is_other_adress: false,
+      is_edit_client: false,
+
+      commande: {
+        ...this.state.commande,
+        
+        clientAdress: {
+          ...this.state.commande.clientAdress,
+
+          id_client: '',
+          lastname: '',
+          firstname: '',
+          mail: '',
+          GSM: '',
+          national_registration_number: '',
+
+          primary_adress: {
+            adress: '',
+            street_number: '',
+            zip_code: '',
+            city: '',
+          },
+
+          secondary_adress: {
+            adress: '',
+            street_number: '',
+            zip_code: '',
+            city: '',
+          }
+        }
+      }
+    });
   }
 
 
@@ -786,53 +874,58 @@ class InputsOrders extends Component {
     const propsClientInputs = {
       currentClient: this.state.commande.clientAdress,
       is_other_adress: this.state.is_other_adress,
-      secondary_adress_validate: this.state.secondary_adress_validate,
+      client_selected: this.state.client_selected,
+      is_edit_client:this.state.is_edit_client,
+      is_edit_livraison_adress: this.state.is_edit_livraison_adress,
+      client_update_state: this.state.client_update_state,
+
       updateFormClient: event => this.updateFormClient(event),
       updateAdressFormClient: event => this.updateAdressFormClient(event),
       updateSecondaryAdressFormClient: event => this.updateSecondaryAdressFormClient(event),
+
       checkboxChange: () => this.checkboxChange(),
+
       selectClient: (event, value) => this.selectClient(event, value),
+      deselectClient: (event) => this.deselectClient(event),
+
       submitClient: (event) => this.submitClient(event),
       submitLivraisonAdressClient: (event) => this.submitLivraisonAdressClient(event),
     }
 
     //props step 2 - medicaments
-    const propsFormulaireMedicament = {
-      inputSubmitMed: event => this.inputSubmitMed(event),
-      deleteMedicament: id => this.deleteMedicament(id),
+    const propsInputsMedication = {
+      listeMedicament: this.state.commande.pharmaceuticals,
+      medicament: this.state.medicament,
+
       updateFormMedicament: event => this.updateFormMedicament(event),
       handleChangeCheckboxMed: () => this.handleChangeCheckboxMed(),
+
+      inputSubmitMed: event => this.inputSubmitMed(event),
       editMedicament: id => this.editMedicament(id),
+      deleteMedicament: id => this.deleteMedicament(id),
       clearMedoc: () => this.clearMedoc(),
-      listeMedicament: this.state.commande.pharmaceuticals,
-      medicament: this.state.medicament
     }
 
     //props step 3 - adresse pharmacien
-    const propsFormulairePharmacien = {
+    const propsInputsPharmacist = {
       currentPharmacist: this.state.commande.pharmacistAdress,
+
       updateFormPharmacist: event => this.updateFormPharmacist(event),
       updateAdressFormPharmacist: event => this.updateAdressFormPharmacist(event)
     }
 
     //props step 4 - autres informations
-    const propsFormulaireAutre = {
+    const propsInputsOtherInformations = {
+      currentOtherInfos: this.state.commande.orderInformation,
+
       updateFormAutre: event => this.updateFormAutre(event),
       alertFalseButton: event => this.alertFalseButton(event),
-      currentOtherInfos: this.state.commande.orderInformation
     }
-
-    
-    //console.log('STATE commande : ', this.state.commande)
-    
-    //console.log('STATE id_client : ', this.state.commande.clientAdress.id_client)
-
-    console.log('STATE prescription : ', this.state.commande.orderInformation.prescription)
-    
-    //this.saveNewOrder();
+   
+    //console.log('STATE : ', this.state)
 
     return (
-      <div className="f">
+      <div>
         
         <Stepper
           style={{ backgroundColor:'rgb(250,250,250)' }} activeStep={this.state.activePage.activeStep} alternativeLabel >
@@ -857,7 +950,7 @@ class InputsOrders extends Component {
           ) : (
             <div>
 
-              <Typography>{this.getStepContent(this.state.activePage.activeStep, match)}</Typography>
+              {this.getStepContent(this.state.activePage.activeStep, match)}
 
               <Switch>
 
@@ -873,34 +966,34 @@ class InputsOrders extends Component {
                 <Route 
                   path={`${match.path}/${this.steps[1].path}`}
                   render={props => 
-                    <FormulaireMedicament 
+                    <InputsMedication 
                       {...props} 
-                      PFM={propsFormulaireMedicament} 
+                      propsInputsMedication={propsInputsMedication} 
                     />}
                 />
 
                 <Route 
                   path={`${match.path}/${this.steps[2].path}`}
                   render={props => 
-                    <FormulairePharmacien 
+                    <InputsPharmacist 
                       {...props} 
-                      PFP={propsFormulairePharmacien} 
+                      propsInputsPharmacist={propsInputsPharmacist} 
                     />}
                 />
 
                 <Route 
                   path={`${match.path}/${this.steps[3].path}`}
                   render={props => 
-                    <FormulaireSupplementaire 
+                    <InputsOtherInformations 
                       {...props} 
-                      PFO={propsFormulaireAutre} 
+                      propsInputsOtherInformations={propsInputsOtherInformations} 
                     />}
                 />
 
                 <Route 
                   path={`${match.path}/${this.steps[4].path}`}
                   render={props => 
-                    <FormulaireRecap 
+                    <DisplayOrderInformation 
                       {...props} 
                       recap={this.state.commande} 
                       displayNewOrder={this.state.displayNewOrder} 
@@ -919,14 +1012,13 @@ class InputsOrders extends Component {
                 >
                   Précédent
                 </Button>
-
                 
                   {this.state.activePage.activeStep === 4 
                   ? null 
                   :<Button 
                     variant="contained" 
                     color="primary" 
-                    onClick={(event, step) => this.gestionDuSuivant(event, this.state.activePage.activeStep)}
+                    onClick={(event, step) => this.nextManagement(event, this.state.activePage.activeStep)}
                   >
                       Suivant
                   </Button> 
@@ -976,7 +1068,7 @@ class InputsOrders extends Component {
         }
         </div>
 
-        <Snackbar open={this.state.openSnack} autoHideDuration={6000} onClose={this.handleCloseSnack}>
+        <Snackbar open={this.state.openSnack} autoHideDuration={4000} onClose={this.handleCloseSnack}>
           <MuiAlert elevation={6} variant="filled" onClose={this.handleCloseSnack} severity={this.state.typeOfSnack} >
             {this.state.messageSnack}
           </MuiAlert>

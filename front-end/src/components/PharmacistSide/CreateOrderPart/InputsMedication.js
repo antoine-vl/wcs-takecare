@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
-import './formulairePage.css';
+import './MedicationComponents.css';
 
 // MATERIAL UI
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { 
+    Grid, 
+    Typography 
+} from '@material-ui/core';
 
 // COMPONENTS
-import InputsMedicament from './InputsMedicament';
-import FormulaireResumeMedicament from './FormulaireResumeMedicaments';
+import MedicationForm from './MedicationForm';
+import DisplayMedicationList from './DisplayMedicationList';
 
 
 
@@ -15,32 +17,35 @@ import FormulaireResumeMedicament from './FormulaireResumeMedicaments';
 
 
 
-class FormulaireMedicament extends Component {
+class InputsMedication extends Component {
     constructor(props) {
         super(props);
         this.state = {}
     }
 
-    /*editMedicament = (id) => {
-        let newArrayEdit = this.state.medicaments.filter ((medoc, index) => index !== id ? false : true);
-        this.setState({
-
-        })
-    }*/
-    
 
     render() { 
-        const { PFM: {inputSubmitMed, deleteMedicament, updateFormMedicament, listeMedicament, medicament, handleChangeCheckboxMed, editMedicament, clearMedoc } } = this.props
+        const { 
+            propsInputsMedication: {
+                inputSubmitMed, 
+                deleteMedicament, 
+                updateFormMedicament, 
+                listeMedicament, 
+                medicament, 
+                handleChangeCheckboxMed, 
+                editMedicament, 
+                clearMedoc 
+            } 
+        } = this.props
 
         return ( 
             <>
-    
                 <Typography variant="h5" align="left" >Liste des médicaments</Typography>
                 <Typography align="left" gutterBottom >Veuillez entrer la liste des médicaments de la commande</Typography>
                 
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={5}>
-                        < InputsMedicament
+                        < MedicationForm
                             medicament={medicament}
                             inputSubmit={inputSubmitMed}
                             updateFormMedicament={updateFormMedicament}
@@ -49,7 +54,7 @@ class FormulaireMedicament extends Component {
                         />
                     </Grid>
                     <Grid item xs={12} sm={7}>
-                        < FormulaireResumeMedicament 
+                        < DisplayMedicationList 
                             medicaments={listeMedicament}
                             deleteMedicament={deleteMedicament}
                             editMedicament={editMedicament}
@@ -61,4 +66,4 @@ class FormulaireMedicament extends Component {
     }
 }
  
-export default FormulaireMedicament;
+export default InputsMedication;

@@ -1,32 +1,35 @@
 import React from 'react';
-import './headerUserPage.css';
+import './Dashboard.css';
 
 // ROUTER
-import { Link, NavLink, Switch, Route } from 'react-router-dom';
+import { 
+  Link, 
+  Switch, 
+  Route 
+} from 'react-router-dom';
 
 // MATERIAL UI
+import { makeStyles } from '@material-ui/core/styles';
 import PeopleIcon from '@material-ui/icons/People';
 import DescriptionIcon from '@material-ui/icons/Description';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
+import { 
+  Drawer,
+  CssBaseline,
+  AppBar,
+  Toolbar,
+  List,
+  Typography,
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Avatar
+} from '@material-ui/core';
 
 // COMPONENTS
-import InputsOrders from './OrderPart/InputsOrders';
+import InputsOrders from './CreateOrderPart/InputsOrders';
 import ClientPart from './ClientPart/ClientPart';
 import OrderPart from './OrderPart/OrderPart';
-import DisplayCurrentStatus from './OrderPart/DisplayCurrentStatus';
-import DisplayMarkerStatus from './OrderPart/DisplayMarkerStatus';
-import SearchBarClients from './ClientPart/SearchBarClients';
 
 
 
@@ -46,8 +49,6 @@ const useStyles = makeStyles(theme => ({
     marginLeft: drawerWidth,
     backgroundColor: '#0dae8e',
     justifyContent:'center',
-    
-
   },
   drawer: {
     width: drawerWidth,
@@ -76,22 +77,21 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Dashboard(props) {
+export default function Dashboard({ match }) {
   const classes = useStyles();
-  const { match } = props;
 
   return (
     <div className={classes.root}>
       <CssBaseline />
+
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar >
           <Typography variant="h4" align="center">
             Take-Care
           </Typography>
         </Toolbar> 
-        
-
       </AppBar>
+
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -143,6 +143,7 @@ export default function Dashboard(props) {
       </Drawer>
       
       <div className={classes.content}>
+
         <Switch>
           <Route 
             path={`${match.path}`}

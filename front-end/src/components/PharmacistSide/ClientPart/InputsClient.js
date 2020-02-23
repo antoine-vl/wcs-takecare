@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import './InputsClient.css'
 
 // MATERIAL UI
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
-import { Button, Fade } from '@material-ui/core';
+import { 
+  Button, 
+  Fade, 
+  FormControlLabel,
+  TextField,
+  Grid,
+  Checkbox,
+  Typography
+} from '@material-ui/core';
 
 // COMPONENT
 import SearchBarClient from './SearchBarClients.js';
@@ -44,14 +48,16 @@ class InputsClient extends Component {
           selectClient,
           checkboxChange,
           submitClient,
-          client_added,
           submitLivraisonAdressClient,
-          secondary_adress_validate,
+          client_selected,
+          deselectClient,
+          is_edit_client,
+          is_edit_livraison_adress,
+          client_update_state,
         } = this.props.propsClientInputs;
 
         return (    
           <>
-            
             <Grid 
               container 
               justify="space-between"
@@ -67,20 +73,27 @@ class InputsClient extends Component {
                   container
                   alignItems="center"
                 >
-                  <SearchBarClient selectClient={selectClient}/>
+                  <SearchBarClient 
+                    selectClient={selectClient}
+                    client_selected={client_selected} 
+                  />
 
-                  <Button
-                    disabled = {false ? true : false }
-                    variant="contained" 
-                    style={{
-                        backgroundColor: 'rgb(32,173,143)', 
-                        color:'#fff',
-                        marginLeft: '20px',
-                        visibility: 'hidden'
-                    }} 
+                  <Fade 
+                    in={client_selected}
+                    timeout={300}
                   >
-                    Déselectionner
-                  </Button>
+                    <Button
+                      variant="contained" 
+                      style={{
+                          backgroundColor: 'rgb(32,173,143)', 
+                          color:'#fff',
+                          marginLeft: '20px',
+                      }} 
+                      onClick={(event) => deselectClient(event)}
+                    >
+                      Déselectionner
+                    </Button>
+                  </Fade>
                 </Grid>
                 
               </Grid>
@@ -100,7 +113,6 @@ class InputsClient extends Component {
                     id="lastname"
                     label="Nom"
                     fullWidth
-                    required
                     inputProps={{
                       style: { textAlign: "left", paddingLeft: "3px" }
                     }}
@@ -115,7 +127,6 @@ class InputsClient extends Component {
                     id="firstname"
                     label="Prénom"
                     fullWidth
-                    required
                     inputProps={{
                       style: { textAlign: "left", paddingLeft: "3px" }
                     }}
@@ -131,7 +142,6 @@ class InputsClient extends Component {
                     label="Email"
                     fullWidth
                     type="email"
-                    required
                     inputProps={{
                       style: { textAlign: "left", paddingLeft: "3px" }
                     }}
@@ -146,7 +156,6 @@ class InputsClient extends Component {
                     id="GSM"
                     label="GSM"
                     fullWidth
-                    required
                     inputProps={{
                       style: { textAlign: "left", paddingLeft: "3px" }
                     }}
@@ -161,7 +170,6 @@ class InputsClient extends Component {
                     id="national_registration_number"
                     label="Numéro de registre national"
                     fullWidth
-                    required
                     inputProps={{
                       style: { textAlign: "left", paddingLeft: "3px" }
                     }}
@@ -176,7 +184,6 @@ class InputsClient extends Component {
                     id="adress"
                     label="Adresse"
                     fullWidth
-                    required
                     inputProps={{
                       style: { textAlign: "left", paddingLeft: "3px" }
                     }}
@@ -192,7 +199,6 @@ class InputsClient extends Component {
                     label="Numéro"
                     fullWidth
                     type="tel"
-                    required
                     inputProps={{
                       style: { textAlign: "left", paddingLeft: "3px" }
                     }}
@@ -207,7 +213,6 @@ class InputsClient extends Component {
                     id="zip_code"
                     label="Code postal"
                     fullWidth
-                    required
                     inputProps={{
                       style: { textAlign: "left", paddingLeft: "3px" }
                     }}
@@ -222,7 +227,6 @@ class InputsClient extends Component {
                     id="city"
                     label="Ville"
                     fullWidth
-                    required
                     inputProps={{
                       style: { textAlign: "left", paddingLeft: "3px" }
                     }}
@@ -231,14 +235,18 @@ class InputsClient extends Component {
 
                 <Grid item xs={12} sm={6} >
                   <div className="checkbox">
-                    <Checkbox 
-                      color="secondary" 
-                      checked={is_other_adress} 
-                      name="saveAddress" 
-                      onChange={(e) => checkboxChange(e)} 
-                      disabled = {id_client ? false : true }
-                    /> 
-                    Cocher uniquement si adresse de livraison différente
+                    <FormControlLabel
+                      control={
+                        <Checkbox 
+                          color="secondary" 
+                          checked={is_other_adress} 
+                          name="saveAddress" 
+                          onChange={(e) => checkboxChange(e)} 
+                          disabled = {id_client ? false : true }
+                        /> 
+                      }
+                      label="Cocher uniquement si adresse de livraison différente"
+                      />
                   </div>
                 </Grid>
 
@@ -248,22 +256,23 @@ class InputsClient extends Component {
                     justify="flex-end"
                     alignItems="center"
                   >
-                    <Typography style={{
-                      color: 'green',
-                      marginRight: 20}} >
-                        {client_added ? 'Client ajouté !' : '' }
-                    </Typography>
-                    <Button
-                      disabled = {id_client ? true : false }
-                      variant="contained" 
-                      type="submit"
-                      style={{
-                          backgroundColor: id_client ? 'rgb(200,200,200)': 'rgb(32,173,143)', 
-                          color:'#fff',
-                      }} 
+                    
+
+                    <Fade 
+                      in={is_edit_client}
+                      timeout={300}
                     >
-                      Sauvegarder le nouveau client
-                    </Button>
+                      <Button
+                        variant="contained" 
+                        type="submit"
+                        style={{
+                            backgroundColor: 'rgb(32,173,143)', 
+                            color:'#fff',
+                        }} 
+                      >
+                        {client_update_state ? 'Editer' : 'Sauvegarder le nouveau client'}
+                      </Button>
+                    </Fade>
                   </Grid>
                 </Grid>
               </Grid>
@@ -286,7 +295,6 @@ class InputsClient extends Component {
                       id="adress"
                       label="Adresse"
                       fullWidth
-                      required
                       inputProps={{
                         style: { textAlign: "left", paddingLeft: "3px" }
                       }}
@@ -301,7 +309,6 @@ class InputsClient extends Component {
                       id="street_number"
                       label="Numéro"
                       fullWidth
-                      required
                       inputProps={{
                         style: { textAlign: "left", paddingLeft: "3px" }
                       }}
@@ -318,7 +325,6 @@ class InputsClient extends Component {
                       id="zip_code"
                       label="Code postal"
                       fullWidth
-                      required
                       inputProps={{
                         style: { textAlign: "left", paddingLeft: "3px" }
                       }}
@@ -333,7 +339,6 @@ class InputsClient extends Component {
                       id="city"
                       label="Ville"
                       fullWidth
-                      required
                       inputProps={{
                         style: { textAlign: "left", paddingLeft: "3px" }
                       }}
@@ -346,22 +351,22 @@ class InputsClient extends Component {
                       justify="flex-end"
                       alignItems="center"
                     >
-                      <Typography style={{
-                        color: 'green',
-                        marginRight: 20}} >
-                          {secondary_adress_validate ? 'Adresse ajouté !' : '' }
-                      </Typography>
-                      <Button 
-                        variant="contained" 
-                        color="primary" 
-                        type="submit"
-                        style={{
-                          backgroundColor: 'rgb(32,173,143)', 
-                          color:'#fff',
-                        }} 
+                      <Fade 
+                        in={is_edit_livraison_adress}
+                        timeout={300}
                       >
-                          Ajouter une adresse de livraison
-                      </Button> 
+                        <Button 
+                          variant="contained" 
+                          color="primary" 
+                          type="submit"
+                          style={{
+                            backgroundColor: 'rgb(32,173,143)', 
+                            color:'#fff',
+                          }} 
+                        >
+                          {client_update_state ? "Editer l'adresse de livraison" : 'Ajouter une adresse de livraison'}
+                        </Button> 
+                      </Fade>
                     </Grid>
                   </Grid>
                 </Grid>

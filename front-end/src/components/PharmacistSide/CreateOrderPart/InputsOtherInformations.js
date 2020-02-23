@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 
 // MATERIAL UI
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-//import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/styles';
+import { 
+    Grid,
+    TextField,
+    Typography,
+    Button
+} from '@material-ui/core';
 
 
 
@@ -14,45 +14,28 @@ import { withStyles } from '@material-ui/styles';
 
 
 
-const styles = theme => ({
-    section1: {
-    marginBottom: "20px"
-    }
-});
-
-export class FormulaireSupplementaire extends Component {
+export class InputsOtherInformations extends Component {
     constructor(props) {
         super(props)
-    
-        this.state = {
-            messageLivraison : '',
-        }
-
+        this.state = {   }
     }
 
-    updateForm = (event) => {
-        event.preventDefault();
-        this.setState({[event.target.id]: event.target.value})
-    };
-
-      alertFalseButton = (event) => {
-        event.preventDefault();
-        alert('Il est impossible d\'uploader une image pour le moment')        
-      }
 
     render() { 
-        const { classes } = this.props;
-        const { updateFormAutre, alertFalseButton, currentOtherInfos } = this.props.PFO;
+        const { 
+            updateFormAutre, 
+            alertFalseButton, 
+            currentOtherInfos 
+        } = this.props.propsInputsOtherInformations;
 
         return ( 
-           
             <form>
-                <div className={classes.section1} >
+                <div style={{marginBottom: "20px"}} >
                     <Typography variant="h5" align="left" >Autres informations</Typography>
                     <Typography align="left" gutterBottom >Vous pouvez ajouter des informations complémentaires pour la livraison et ajouter la facture.</Typography>
                 </div>
                 
-                <div className={classes.section1} >
+                <div style={{marginBottom: "20px"}} >
                     <Grid container spacing={3}>
                         <Grid item xs={12} >
                             <Button
@@ -90,4 +73,4 @@ export class FormulaireSupplementaire extends Component {
     }
 }
 
-export default withStyles(styles)(FormulaireSupplementaire);
+export default InputsOtherInformations;

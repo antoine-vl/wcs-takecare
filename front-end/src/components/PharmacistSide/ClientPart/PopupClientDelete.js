@@ -1,46 +1,57 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+
+// AXIOS
 import axios from 'axios';
 
-export default function AlertDialog(props) {
+// MATERIAL UI
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle
+} from '@material-ui/core';
+
+
+
+/* ============================== */
+
+
+
+export default function PopupClientDelete({ client, succesDeleteClient }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
-};
+  };
+
   const deleteClient = () => {
-      
     axios
-    .delete(`http://localhost:5000/dashboard/client${props.client}`)
+    .delete(`http://localhost:5000/dashboard/clients/${client}`)
     .then(response => {
-      console.log(response.data)
+      succesDeleteClient(response.data);
     })
     setOpen(false);
   };
 
   return (
     <div>
-        <Button 
+      <Button 
         variant="contained" 
         onClick={handleClickOpen} 
         style={{
-            backgroundColor: 'rgba(32,173,143,0.900)', 
-            color:'#fff',
-            marginRight:'5px',
-            width:"67px"
-            
-            
+          backgroundColor: 'rgba(32,173,143,0.900)', 
+          color:'#fff',
+          marginRight:'5px',
+          width:"67px"
         }} 
-        >
+      >
         < DeleteOutlineIcon />
-        </Button>  
+      </Button>  
         
       <Dialog
         open={open}
@@ -48,15 +59,18 @@ export default function AlertDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Etes-vous sûr de votre choix ? "}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{`Voulez-vous supprimer le client: ${client} ? `}</DialogTitle>
+
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Refuser
           </Button>
+
           <Button onClick={deleteClient}  color="primary" autoFocus>
             Accepter
           </Button>
         </DialogActions>
+
       </Dialog>
     </div>
   );

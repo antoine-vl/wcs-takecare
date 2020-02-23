@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import './formulairePage.css'; 
+import './MedicationComponents.css'; 
 
 // MATERIAL UI
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CreateIcon from '@material-ui/icons/Create';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import { Typography } from '@material-ui/core';
+import { 
+    Typography,
+    Grid,
+    Button
+} from '@material-ui/core';
 
 
 
@@ -14,7 +16,7 @@ import { Typography } from '@material-ui/core';
 
 
 
-class FormulaireResumeMedicaments extends Component {
+class DisplayMedicationList extends Component {
     constructor(props) {
         super(props);
         this.state = {  }
@@ -22,7 +24,12 @@ class FormulaireResumeMedicaments extends Component {
 
 
     render() {
-        const { deleteMedicament , medicaments , editMedicament, readRecap} = this.props;
+        const { 
+            deleteMedicament, 
+            medicaments, 
+            editMedicament, 
+            readRecap
+        } = this.props;
 
         return ( 
             <Typography variant="h3">
@@ -54,9 +61,8 @@ class FormulaireResumeMedicaments extends Component {
                     <Grid
                         item xs={12}                 
                     >
-
                         {medicaments.map((item,id) =>
-                            <div key={id} className={id%2 == 0 ? "resumeMedicament" : "resumeMedicamentbis"}>
+                            <div key={id} className={id%2 === 0 ? "resumeMedicament" : "resumeMedicamentbis"}>
                                 <Grid item xs={1} sm={3}>
                                     <div className="resumeMedicamentName">{item.name}</div>
                                 </Grid>
@@ -88,4 +94,4 @@ class FormulaireResumeMedicaments extends Component {
          );
     }
 }
-export default FormulaireResumeMedicaments;
+export default DisplayMedicationList;

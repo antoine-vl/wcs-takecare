@@ -1,20 +1,26 @@
 import React, { Component } from 'react'
+
+// AXIOS
 import axios from 'axios';
-import ViewClient from './ViewClient'
 
 // MATERIAL-UI
+import MuiAlert from '@material-ui/lab/Alert';
 import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import { Button } from '@material-ui/core';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import { 
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  TablePagination,
+  TableSortLabel,
+  Snackbar
+} from '@material-ui/core';
+
+// COMPONENTS
 import PopupClientDelete from './PopupClientDelete';
 
 
@@ -45,10 +51,15 @@ const styles = theme => ({
 });
 
 
-class AfficheClients extends Component {
+
+class DisplayClients extends Component {
     constructor(props) {
         super(props);
         this.state = { 
+            openSnack: false,
+            messageSnack: '',
+            typeOfSnack: '',
+
             headTitle: [],
             rows: [],
             rowsPerPage: 10,
@@ -69,7 +80,6 @@ class AfficheClients extends Component {
           'Code postal',
           'Ville'
         ]
-
     }
 
     componentDidMount = () => {
@@ -77,21 +87,16 @@ class AfficheClients extends Component {
 
       axios
         .get(urlCpt)
-
         .then(res => {
           const cpt = res.data[0].cpt;
           
-
           const paramsQuery= Object.keys(this.state.param)
           const url = `http://localhost:5000/dashboard/clients/?${paramsQuery[0]}=${this.state.param.orderby}&${paramsQuery[1]}=${this.state.param.order}&${paramsQuery[2]}=${this.state.param.limit}&${paramsQuery[3]}=${this.state.param.offset}`;
           
-
           axios
             .get(url)
-
             .then(res => {
-              
-              
+
               const nameColumnWithoutId = Object.keys(res.data[0])
               nameColumnWithoutId.pop();
 
@@ -99,12 +104,11 @@ class AfficheClients extends Component {
                 return {title: this.columnName[index], sqlTitle: serverTitle}
               })
 
-              
-
               const rows = res.data
 
               this.setState({
                 ...this.state,
+
                 headTitle: headTitle,
                 rows: rows,
                 totRows: cpt
@@ -115,26 +119,37 @@ class AfficheClients extends Component {
 
     componentDidUpdate = (prevProps, prevState) => {
       if(this.state.param !== prevState.param){
-
-        const paramsQuery= Object.keys(this.state.param)
-        const url = `http://localhost:5000/dashboard/clients/?${paramsQuery[0]}=${this.state.param.orderby}&${paramsQuery[1]}=${this.state.param.order}&${paramsQuery[2]}=${this.state.param.limit}&${paramsQuery[3]}=${this.state.param.offset}`;
+        const urlCpt = `http://localhost:5000/dashboard/clients/count`;
 
         axios
-          .get(url)
-
+          .get(urlCpt)
           .then(res => {
-            
-            const headTitle = Object.keys(res.data[0]).map((serverTitle, index) => {
-              return {title: this.columnName[index], sqlTitle: serverTitle}
-            })
+            const cpt = res.data[0].cpt;
 
-            const rows = res.data
+            const paramsQuery= Object.keys(this.state.param)
+            const url = `http://localhost:5000/dashboard/clients/?${paramsQuery[0]}=${this.state.param.orderby}&${paramsQuery[1]}=${this.state.param.order}&${paramsQuery[2]}=${this.state.param.limit}&${paramsQuery[3]}=${this.state.param.offset}`;
 
-            this.setState({
-              ...this.state,
-              headTitle: headTitle,
-              rows: rows,
-            })
+            axios
+              .get(url)
+              .then(res => {
+
+                const nameColumnWithoutId = Object.keys(res.data[0])
+                nameColumnWithoutId.pop();
+                
+                const headTitle = nameColumnWithoutId.map((serverTitle, index) => {
+                  return {title: this.columnName[index], sqlTitle: serverTitle}
+                })
+
+                const rows = res.data
+
+                this.setState({
+                  ...this.state,
+
+                  headTitle: headTitle,
+                  rows: rows,
+                  totRows: cpt
+                })
+              })
           })
       }
     }
@@ -142,9 +157,11 @@ class AfficheClients extends Component {
     handleChangePage = (event, newPage) => {
       this.setState({
         ...this.state,
+
         page: newPage,
         param: {
           ...this.state.param,
+
           offset: this.state.param.limit * newPage
         }
       });
@@ -154,10 +171,12 @@ class AfficheClients extends Component {
       const newRowsPerPage = parseInt(event.target.value, 10);
       this.setState({
         ...this.state,
+
         rowsPerPage: newRowsPerPage,
         page: 0,
         param: {
           ...this.state.param,
+
           limit: newRowsPerPage,
           offset: 0
         }
@@ -169,25 +188,42 @@ class AfficheClients extends Component {
 
       this.setState({
         ...this.state,
+
         param: {
           ...this.state.param,
+
           orderby: titleSort,
           order: isAsc ? 'desc' : 'asc'
         }
       })
     }
-    //  deleteClient = (event, client) => {
-      
-    //    axios
-    //           .delete(`http://localhost:5000/dashboard/client${client}`)
-    //           .then(response => {
-    //             console.log(response.data)
-    //             this.setState({
-    //               ...this.state
-    //             })
-    //           })
-    //  }
 
+    handleCloseSnack = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      this.setState({
+        ...this.state,
+        openSnack: false
+      })
+    };
+
+    succesDeleteClient = (message) => {
+      this.setState({
+        ...this.state,
+  
+        openSnack: true,
+        messageSnack: `client num ${message} suprimée`,
+        typeOfSnack: 'success',
+  
+        param:{
+          ...this.state.param
+        }
+      })
+    }
+
+    
     render() { 
         const { classes, handleLook } = this.props;
         const { 
@@ -201,8 +237,6 @@ class AfficheClients extends Component {
             order,
           }
         } = this.state;
-
-        
 
         return ( 
           <>
@@ -251,12 +285,14 @@ class AfficheClients extends Component {
                             marginBottom:'5px'
                         }} 
                         onClick={(e) => handleLook(e, row['id'])}
-                        
                       >
                         Voir
                       </Button>
                       
-                      <PopupClientDelete client = {row['id']}/>
+                      <PopupClientDelete 
+                        client = {row['id']} 
+                        succesDeleteClient={this.succesDeleteClient} 
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -274,9 +310,15 @@ class AfficheClients extends Component {
               onChangePage={this.handleChangePage}
               onChangeRowsPerPage={this.handleChangeRowsPerPage}
             />
+
+            <Snackbar open={this.state.openSnack} autoHideDuration={4000} onClose={this.handleCloseSnack}>
+              <MuiAlert elevation={6} variant="filled" onClose={this.handleCloseSnack} severity={this.state.typeOfSnack} >
+                {this.state.messageSnack}
+              </MuiAlert>
+            </Snackbar>
           </>
         );
     }
 }
 
-export default withStyles(styles)(AfficheClients)
+export default withStyles(styles)(DisplayClients);

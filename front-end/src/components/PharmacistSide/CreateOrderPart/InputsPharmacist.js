@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
 // MATERIAL UI
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { 
+  TextField, 
+  Grid, 
+  Typography
+} from '@material-ui/core';
 
 
 
@@ -11,14 +13,14 @@ import Typography from '@material-ui/core/Typography';
 
 
 
-class FormulairePharmacien extends Component {
+class InputsPharmacist extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {  }
     } 
 
-    render() { 
 
+    render() { 
       const {
         currentPharmacist: {
           lastname, 
@@ -34,7 +36,7 @@ class FormulairePharmacien extends Component {
         },
         updateFormPharmacist,
         updateAdressFormPharmacist        
-      } = this.props.PFP;
+      } = this.props.propsInputsPharmacist;
 
 
 
@@ -161,4 +163,4 @@ class FormulairePharmacien extends Component {
     }
 }
 
-export default FormulairePharmacien;
+export default InputsPharmacist;

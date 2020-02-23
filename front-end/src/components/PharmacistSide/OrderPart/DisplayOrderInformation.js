@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
+
+// AXIOS
 import axios from 'axios';
 
 // MATERIAL UI
-//import { makeStyles } from '@material-ui/core/styles';
-//import Paper from '@material-ui/core/Paper';
-//import List from '@material-ui/core/List';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import Popover from '@material-ui/core/Popover';
-import { makeStyles } from '@material-ui/core/styles';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import Snackbar from '@material-ui/core/Snackbar';
+import { 
+    Button,
+    Grid,
+    Typography,
+    FormGroup,
+    FormControlLabel,
+    Switch,
+    Snackbar
+} from '@material-ui/core';
 
-import { Button } from '@material-ui/core';
+// ROUTER
 import { NavLink } from 'react-router-dom';
+
 // COMPONENTS
-import FormulaireResumeMedicaments from './FormulaireResumeMedicaments'
+import DisplayMedicationList from '../CreateOrderPart/DisplayMedicationList'
 import DisplayMarkerStatus from "./DisplayMarkerStatus"
-import OrderPart from './OrderPart';
 
 
 
@@ -28,13 +28,12 @@ import OrderPart from './OrderPart';
 
 
 
-class FormulaireRecap extends Component {
+class DisplayOrderInformation extends Component {
     constructor(props) {
         super(props);
 
         this.state = {  
             count: 0,
-            anchorEl: null,
             popUpHelpPriceOpen: false,
 
             orderData: {
@@ -82,18 +81,8 @@ class FormulaireRecap extends Component {
             pharmaceuticals: []
         }
 
-        //this.order='123456789';
         this.order=this.props.match.params.id_order
-
-        this.open = Boolean(this.state.anchorEl)
     }
-
-    // handleChange = event => {
-    //     this.setState({ 
-    //         ...this.state.orderData.orderInformation, 
-    //         paid: false ? false : true
-    //     });
-    //   };
 
     popUpHelpPriceOpen = () => {
         this.setState({
@@ -108,20 +97,6 @@ class FormulaireRecap extends Component {
             popUpHelpPriceOpen: false
         })
     }
-
-    handlePopoverOpen = event => {
-        this.setState({
-            ...this.state, 
-            anchorEl: event.currentTarget
-        })
-      };
-    
-    handlePopoverClose = () => {
-        this.setState({
-            ...this.state, 
-            anchorEl: null
-        })
-      };
     
     countPharmaceuticals = (details) => {
         let result= 0;
@@ -144,48 +119,6 @@ class FormulaireRecap extends Component {
                 .then(res => {
                     const pharmaceuticals = res.data;
 
-                    /*
-                    axios
-                    .get(`http://localhost:5000/dashboard/orders/${this.order}/status`)
-                    .then(res => {
-
-                        const status = res.data.map((item, index) => {
-                            switch(item.status){
-                                case 'New_order':
-                                    return {...this.status[0], id: item.status, date:item.date_status };
-                            
-
-                                case 'Paid':
-                                    return {...this.status[1], id: item.status, date:item.date_status };
-                                
-
-                                case 'Order_prepared':
-                                    return {...this.status[2], id: item.status, date:item.date_status };
-                                
-
-                                case 'Order_picked_up_by_Couriier':
-                                    return {...this.status[3], id: item.status, date:item.date_status };
-                                
-
-                                case 'Delivered':
-                                    return {...this.status[4], id: item.status, date:item.date_status };
-                                
-
-                                case 'Returned_prescription':
-                                    return {...this.status[5], id: item.status, date:item.date_status };
-                                
-
-                                default:
-                                    return {...this.status[6], id:item.status, date:item.date_status };
-                            }
-                        })
-                    })
-                    */
-
-                    console.log('orderInformation :', orderData)
-                    console.log('pharmaceuticals :', pharmaceuticals)
-
-                    
                     this.setState({
                         ...this.state,
                         orderData: orderData,
@@ -193,7 +126,6 @@ class FormulaireRecap extends Component {
                         count: this.countPharmaceuticals(pharmaceuticals)
                     })
 
-                    
                 })
             })
         }
@@ -207,6 +139,7 @@ class FormulaireRecap extends Component {
         }
     }
 
+
     render() { 
         const {clientAdress} = this.state.orderData;
         const {pharmacistAdress} = this.state.orderData;
@@ -214,11 +147,9 @@ class FormulaireRecap extends Component {
 
         const {pharmaceuticals} = this.state;
 
-        const deliveryAdress = clientAdress.secondary_adress 
+        const deliveryAdress = clientAdress.secondary_adress === null
         ?clientAdress.secondary_adress 
         :clientAdress.primary_adress
-            
-        // console.log('STATE :', this.state)
 
         return (
       
@@ -247,7 +178,8 @@ class FormulaireRecap extends Component {
                         <NavLink
                             to="/dashboard/orders"
                             activeClassName="selectedLink"
-                            style={{textDecoration: 'none',color:'#fff'}}>
+                            style={{textDecoration: 'none',color:'#fff'}}
+                        >
                             Retour
                         </NavLink> 
                     </Button>
@@ -319,7 +251,7 @@ class FormulaireRecap extends Component {
                     <Grid item xs={12} sm={4}>
                         <div className="containerFormRecap" style={{height:"29vh", overflowY: "auto",}}>
                             <Typography align="left" className="titleResumeCommande" variant="h6" style={{fontWeight:"bold"}}>Médicaments</Typography>
-                            <FormulaireResumeMedicaments className="adressResume height" medicaments={pharmaceuticals} readRecap={true}  />
+                            <DisplayMedicationList className="adressResume height" medicaments={pharmaceuticals} readRecap={true}  />
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={4}>
@@ -343,40 +275,15 @@ class FormulaireRecap extends Component {
                             <Grid className="height" style={{fontSize:'0.9rem'}} container spacing={3}>
                                 <Grid item xs={12} sm={9} align="right" className="titlePrixResume">
                                     <p>Sous-total : </p>
-                                    <p onMouseOut={this.popUpHelpPriceClose} onMouseOver={this.popUpHelpPriceOpen} >Livraison < HelpOutlineIcon />:</p>
+                                    <p onMouseOut={this.popUpHelpPriceClose} onMouseOver={this.popUpHelpPriceOpen} >
+                                        Livraison < HelpOutlineIcon />:
+                                    </p>
+
                                     <Snackbar
                                         anchorOrigin={{ vertical:'bottom', horizontal:'right'}}
                                         open={this.state.popUpHelpPriceOpen}
                                         message="Livraison gratuite dès 35,00€"
                                     />
-                                    {/* <Typography
-                                        aria-owns={this.open ? 'mouse-over-popover' : undefined}
-                                        aria-haspopup="true"
-                                        onMouseEnter={this.handlePopoverOpen}
-                                        onMouseLeave={this.handlePopoverClose}
-                                    >
-                                        Livraison< HelpOutlineIcon />
-                                    </Typography>
-                                    <Popover
-                                        style={{
-                                            pointerEvents: 'none',
-                                        }}
-                                        id="mouse-over-popover"
-                                        open={true}
-                                        anchorEl={this.state.anchorEl}
-                                        anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'left',
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'left',
-                                        }}
-                                        onClose={this.handlePopoverClose}
-                                        disableRestoreFocus
-                                    >
-                                        <Typography>I use Popover.</Typography>
-                                    </Popover> */}
                                     
                                     <p>Réduction livraison : </p>
                                     <br/>
@@ -413,4 +320,4 @@ class FormulaireRecap extends Component {
     }
 }
 
-export default FormulaireRecap;
+export default DisplayOrderInformation;

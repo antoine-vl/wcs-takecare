@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 
 // MATERIAL-UI
-import { Grow } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
+import { 
+    Grow,
+    Typography,
+    Grid
+} from '@material-ui/core';
 
 // AXIOS
 import axios from 'axios';
@@ -135,9 +137,6 @@ class DisplayCurrentStatus extends Component {
             
             const filteredStatus = updateStatus.filter(item => item.bddName === res.data[0].status)
 
-            console.log('updateStatus: ', updateStatus);
-            console.log('updateStatus: ', filteredStatus);
-
             this.setState({
                 animation: true,
                 status: filteredStatus
@@ -160,8 +159,6 @@ class DisplayCurrentStatus extends Component {
                     style={{
                         color: 'rgb(53, 53, 52)',
                         textShadow: '1px 0.5px 1px rgba(255,255,255,0.8)',
-                        // `${status[0].colorStatus}`
-                        // backgroundColor: `${status[0].colorStatus}`,
                         background: `linear-gradient(100deg, #fff 80%, ${status[0].colorStatus} 60%)`,
                         width: 150,
                         padding: 10,

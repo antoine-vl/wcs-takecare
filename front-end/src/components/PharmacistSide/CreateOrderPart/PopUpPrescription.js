@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { Link, NavLink, Switch, Route } from 'react-router-dom';
+
+// MATERIAL UI
+import { 
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle
+} from '@material-ui/core';
+
+
+
+/* ============================== */
+
+
 
 class PopUpPrescription extends Component {
     constructor(props) {
         super(props);
         this.state = {  }
     }
+
 
     render() { 
         return ( 
@@ -28,7 +38,6 @@ class PopUpPrescription extends Component {
                             Aucun de vos médicaments n'a besoin d'une prescription,
                             le livreur ne vous retournera pas de prescription.<br/><br/>
                             Êtes-vous sûr(e) ?
-
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -41,7 +50,6 @@ class PopUpPrescription extends Component {
                     </DialogActions>
                 </Dialog>
             </div>
-
         );
     }
 }

@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 
 // ROUTER
-import { Switch, Route } from 'react-router-dom';
+import { 
+    Switch, 
+    Route 
+} from 'react-router-dom';
 
 // MATERIAL UI
 import { Typography } from '@material-ui/core';
 
 // COMPONENTS
-import AfficheClients from './AfficheClients';
-import ViewClient from './ViewClient';
+import DisplayClients from './DisplayClients';
+import DisplayClientInformation from './DisplayClientInformation';
 
 
 
@@ -18,16 +21,12 @@ import ViewClient from './ViewClient';
 class ClientPart extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
-
-    }
+    this.state = {   }
   }
 
   handleLook = (e, selectedClient) => {
     this.props.history.push(`${this.props.match.url}/${selectedClient}`);
   }
-
-
 
 
   render() {
@@ -51,19 +50,17 @@ class ClientPart extends Component {
                     <Route 
                         path={`${match.path}`}
                         exact
-                        render={props => <AfficheClients {...props} handleLook={this.handleLook} />}
+                        render={props => <DisplayClients {...props} handleLook={this.handleLook} />}
                     />
                     <Route 
                         path={`${match.path}/:id_order`}
-                        render={props => <ViewClient {...props} />}
+                        render={props => <DisplayClientInformation {...props} />}
                     />
                 </Switch>
             </div>
         </>
     );
   }
-
 }
 
-
-export default (ClientPart);
+export default ClientPart;
